@@ -8,7 +8,7 @@ import java.util.*
 @Service
 class MemberService(var memberRepository: MemberRepository) {
 
-    fun findById(memberId: Int): Optional<Member>? {
+    fun getMember(memberId: Int): Optional<Member>? {
         return memberRepository.findById(memberId)
     }
 

@@ -11,7 +11,7 @@ class MemberController(var memberService: MemberService) {
 
     @GetMapping("/{memberId}")
     fun getMember(@PathVariable("memberId") memberId: Int): Optional<Member>? {
-        return memberService.findById(memberId)
+        return memberService.getMember(memberId)
     }
 
     @PostMapping
