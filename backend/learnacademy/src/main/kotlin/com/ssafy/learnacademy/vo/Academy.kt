@@ -1,7 +1,5 @@
 package com.ssafy.learnacademy.vo
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import javax.persistence.*
 
 @Entity
@@ -14,5 +12,8 @@ class Academy (
         var address: String? = null,
         var phone: String? = null,
         var category: String? = null,
-        var imageUrl: String? = null
+        var imageUrl: String? = null,
+
+        @OneToOne(mappedBy = "academy")
+        var member: Member? = null
 )

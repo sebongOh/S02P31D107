@@ -14,6 +14,8 @@ class MemberController(var memberService: MemberService) {
         return memberService.getMember(memberId)
     }
 
+    // 학원 아이디로 연결된 학원 계정 조회
+    
     @PostMapping
     fun insertMember(@RequestBody member: Member): Member? {
         return memberService.insertMember(member)

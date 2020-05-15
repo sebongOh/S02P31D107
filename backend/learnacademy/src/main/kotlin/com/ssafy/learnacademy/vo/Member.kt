@@ -15,5 +15,9 @@ class Member (
     var phone: String? = null,
     var age: Int? = null,
     var gender: Byte? = null,
-    var childId: Int? = null
+    var childId: Int? = null,
+
+    @OneToOne
+    @JoinColumn(name = "academy_id")
+    var academy: Academy? = null
 )
