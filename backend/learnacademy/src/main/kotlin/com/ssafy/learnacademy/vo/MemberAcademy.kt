@@ -1,7 +1,5 @@
 package com.ssafy.learnacademy.vo
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import javax.persistence.*
 
 @Entity
@@ -14,9 +12,9 @@ class MemberAcademy (
 
         @ManyToOne
         @JoinColumn(name="member_id")
-        var member: Member,
+        var member: Member?,
 
         @ManyToOne
         @JoinColumn(name="academy_id")
-        var academy: Academy
+        var academy: Academy?
 )
