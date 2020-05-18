@@ -2,14 +2,17 @@ package com.ssafy.learnacademy.controller
 
 import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.vo.Member
+import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
 import java.util.*
+
 
 @RestController
 @RequestMapping("/member")
 class MemberController(var memberService: MemberService) {
 
     @GetMapping("/{memberId}")
+    @ApiOperation(value = "멤버 찾기", notes = "멤버를 검색합니다")
     fun getMember(@PathVariable("memberId") memberId: Int): Optional<Member>? {
         return memberService.findById(memberId)
     }
