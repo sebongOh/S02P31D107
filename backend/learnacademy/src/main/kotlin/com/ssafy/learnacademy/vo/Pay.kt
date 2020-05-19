@@ -15,9 +15,9 @@ class Pay (
 
         @ManyToOne
         @JoinColumn(name="member_id")
-        var member: Member,
+        var member: Member? = null,
 
         @ManyToOne
         @JoinColumn(name="academy_schedule_id")
-        var academySchedule: AcademySchedule
+        var academySchedule: AcademySchedule? = null
 ) : BaseEntity()
