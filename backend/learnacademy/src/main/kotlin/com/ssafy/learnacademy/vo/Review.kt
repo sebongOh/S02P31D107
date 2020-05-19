@@ -22,5 +22,5 @@ class Review (
 
         @ManyToOne
         @JoinColumn(name="academy_id")
-        var academy : Academy
+        var academy : Academy? = null
 ) : BaseEntity()

@@ -19,9 +19,9 @@ class FreeBoard (
 
     @ManyToOne
     @JoinColumn(name="member_id")
-    var member: Member,
+    var member: Member? = null,
 
     @ManyToOne
     @JoinColumn(name="academy_id")
-    var academy: Academy
+    var academy: Academy? = null
 ) : BaseEntity()
