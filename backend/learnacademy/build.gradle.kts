@@ -28,8 +28,11 @@ repositories {
 }
 
 dependencies {
+	compile ("io.springfox:springfox-swagger2:2.9.2")
+	compile ("io.springfox:springfox-swagger-ui:2.9.2")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -56,3 +59,5 @@ allOpen {
 	annotation("javax.persistence.MappedSuperclass")
 	annotation("javax.persistence.Embeddable")
 }
+
+
