@@ -10,7 +10,7 @@ import javax.persistence.*
 class Academy (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var academyId: Int? = null,
+        var academyId: Long? = null,
 
         @Column(nullable = false)
         var name: String? = null,
@@ -25,5 +25,10 @@ class Academy (
         var category: String? = null,
 
         @Column(nullable = false)
-        var imageUrl: String? = null
+        var imageUrl: String? = null,
+
+        @ManyToOne
+        @JoinColumn(name ="member_id")
+        var member: Member? = null
+
 ) : BaseEntity()

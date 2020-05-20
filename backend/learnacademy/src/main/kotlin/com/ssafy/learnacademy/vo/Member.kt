@@ -34,9 +34,5 @@ class Member (
     @Column(nullable = false)
     var gender: Byte? = null,
 
-    var childId: Int? = null,
-
-    @OneToOne
-    @JoinColumn(name = "academy_id")
-    var academy: Academy? = null
+    var childId: Int? = null
 ) : BaseEntity()

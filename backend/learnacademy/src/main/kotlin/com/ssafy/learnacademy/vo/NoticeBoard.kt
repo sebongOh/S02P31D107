@@ -9,7 +9,7 @@ class NoticeBoard (
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var noticeBoardId: Int? = null,
+        var noticeBoardId: Long? = null,
 
         @Column(nullable = false)
         var title : String? = null,

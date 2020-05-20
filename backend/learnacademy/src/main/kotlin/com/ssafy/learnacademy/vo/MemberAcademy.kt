@@ -11,7 +11,7 @@ class MemberAcademy     (
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var memberAcademyId: Int? = null,
+        var memberAcademyId: Long? = null,
 
         @ManyToOne
         @JoinColumn(name="member_id")
