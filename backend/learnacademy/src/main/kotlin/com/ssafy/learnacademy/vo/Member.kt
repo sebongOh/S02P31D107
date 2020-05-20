@@ -11,7 +11,7 @@ import javax.persistence.*
 class Member (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var memberId: Int? = null,
+    var id: Long? = null,
 
     @Column(nullable = false)
     var name: String? = null,
