@@ -9,7 +9,7 @@ class FreeBoard (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var freeBoardId: Int? = null,
+    var freeBoardId: Long? = null,
 
     @Column(nullable = false)
     var title : String? = null,

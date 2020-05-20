@@ -8,7 +8,7 @@ import javax.persistence.*
 class Attendance (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var attendanceId: Int? = null,
+        var attendanceId: Long? = null,
 
         @Column(nullable = false)
         var date : String? = null,

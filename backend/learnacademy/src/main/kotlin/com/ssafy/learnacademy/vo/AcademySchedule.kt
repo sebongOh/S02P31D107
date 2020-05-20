@@ -9,7 +9,7 @@ import javax.persistence.*
 class AcademySchedule (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var academyScheduleId: Int? = null,
+        var academyScheduleId: Long? = null,
 
         @Column(nullable = false)
         var name : String? = null,

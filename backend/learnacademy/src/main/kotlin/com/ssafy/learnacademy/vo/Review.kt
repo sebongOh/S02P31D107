@@ -9,7 +9,7 @@ class Review (
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var reviewId: Int? = null,
+        var reviewId: Long? = null,
 
         @Column(nullable = false)
         var title : String? = null,
