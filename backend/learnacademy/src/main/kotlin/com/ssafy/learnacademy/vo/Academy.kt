@@ -1,11 +1,7 @@
 package com.ssafy.learnacademy.vo
 
-<<<<<<< HEAD
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import com.ssafy.learnacademy.common.BaseEntity
-=======
->>>>>>> f3c05686b0e82c4b9b9b175af51ee78ea2776782
+import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
 
 @Entity
@@ -29,6 +25,9 @@ class Academy (
 
         @Column(nullable = false)
         var imageUrl: String? = null,
+
+        @Transient
+        var imageFile: MultipartFile? = null,
 
         @ManyToOne
         @JoinColumn(name ="member_id")

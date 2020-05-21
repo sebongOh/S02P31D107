@@ -1,6 +1,7 @@
 package com.ssafy.learnacademy.vo
 
 import com.ssafy.learnacademy.common.BaseEntity
+import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
 
 @Entity
@@ -31,7 +32,11 @@ class Member (
     @Column(nullable = false)
     var gender: Byte? = null,
 
+    @Column(nullable = false)
     var profileUrl: String? = null,
+
+    @Transient
+    var profileFile: MultipartFile? = null,
 
     var childId: Int? = null
 ) : BaseEntity()
