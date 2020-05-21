@@ -8,7 +8,7 @@ import javax.persistence.*
 class Member (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var memberId: Int? = null,
+    var id: Long? = null,
 
     @Column(nullable = false)
     var name: String? = null,
@@ -31,9 +31,7 @@ class Member (
     @Column(nullable = false)
     var gender: Byte? = null,
 
-    var childId: Int? = null,
+    var profileUrl: String? = null,
 
-    @OneToOne
-    @JoinColumn(name = "academy_id")
-    var academy: Academy? = null
+    var childId: Int? = null
 ) : BaseEntity()
