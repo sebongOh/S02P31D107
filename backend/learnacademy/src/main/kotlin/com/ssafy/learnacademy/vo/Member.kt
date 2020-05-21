@@ -34,5 +34,7 @@ class Member (
     @Column(nullable = false)
     var gender: Byte? = null,
 
+    var profileUrl: String? = null,
+
     var childId: Int? = null
 ) : BaseEntity()
