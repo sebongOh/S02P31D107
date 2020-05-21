@@ -3,6 +3,7 @@ package com.ssafy.learnacademy.vo
 import com.fasterxml.jackson.annotation.JsonIdentityInfo
 import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import com.ssafy.learnacademy.common.BaseEntity
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 import javax.persistence.*
 
@@ -33,6 +34,12 @@ class Member (
 
     @Column(nullable = false)
     var gender: Byte? = null,
+
+    @Column(nullable = false)
+    var profileUrl: String? = null,
+
+    @Transient
+    var profileFile: MultipartFile? = null,
 
     var childId: Int? = null
 ) : BaseEntity()
