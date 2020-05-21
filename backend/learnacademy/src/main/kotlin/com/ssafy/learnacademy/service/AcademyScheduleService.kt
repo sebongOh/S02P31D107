@@ -12,7 +12,7 @@ class AcademyScheduleService (var academyScheduleRepository: AcademyScheduleRepo
         return academyScheduleRepository.findAll()
     }
 
-    fun findById(academyScheduleId : Int): Optional<AcademySchedule>?{
+    fun findById(academyScheduleId : Long): Optional<AcademySchedule>?{
         return academyScheduleRepository.findById(academyScheduleId)
     }
 
@@ -24,7 +24,7 @@ class AcademyScheduleService (var academyScheduleRepository: AcademyScheduleRepo
         return academyScheduleRepository.save(academySchedule)
     }
 
-    fun deleteAcademySchedule(academyScheduleId : Int){
+    fun deleteAcademySchedule(academyScheduleId : Long){
         return academyScheduleRepository.deleteById(academyScheduleId)
     }
 

@@ -12,7 +12,7 @@ class FreeBoardService(var freeBoardRepository: FreeBoardRepository){
         return freeBoardRepository.findAll()
     }
 
-    fun findById(freeBoardId : Int) : Optional<FreeBoard>? {
+    fun findById(freeBoardId : Long) : Optional<FreeBoard>? {
         return freeBoardRepository.findById(freeBoardId)
     }
 
@@ -24,7 +24,7 @@ class FreeBoardService(var freeBoardRepository: FreeBoardRepository){
         return freeBoardRepository.save(freeBoard)
     }
 
-    fun deleteFreeBoard(freeBoardId : Int){
+    fun deleteFreeBoard(freeBoardId : Long){
         return freeBoardRepository.deleteById(freeBoardId)
     }
 }

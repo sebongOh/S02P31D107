@@ -12,7 +12,7 @@ class NoticeBoardService(var noticeBoardRepository: NoticeBoardRepository) {
         return noticeBoardRepository.findAll()
     }
 
-    fun findById(noticeBoardId : Int) : Optional<NoticeBoard>?{
+    fun findById(noticeBoardId : Long) : Optional<NoticeBoard>?{
         return noticeBoardRepository.findById(noticeBoardId)
     }
 
@@ -24,7 +24,7 @@ class NoticeBoardService(var noticeBoardRepository: NoticeBoardRepository) {
         return noticeBoardRepository.save(noticeBoard)
     }
 
-    fun deleteNoticeBoard(noticeBoardId: Int){
+    fun deleteNoticeBoard(noticeBoardId: Long){
         return noticeBoardRepository.deleteById(noticeBoardId)
     }
 }

@@ -16,7 +16,7 @@ class FreeBoardController(var freeBoardService:FreeBoardService){
 
     @GetMapping("/{freeBoardId}")
     @ApiOperation(value = "자유게시판 검색", notes = "자유게시판을 검색합니다")
-    fun getFreeBoard(@PathVariable("freeBoardId") freeBoardId : Int) : Optional<FreeBoard>?{
+    fun getFreeBoard(@PathVariable("freeBoardId") freeBoardId : Long) : Optional<FreeBoard>?{
         return freeBoardService.findById(freeBoardId)
     }
 
@@ -34,7 +34,7 @@ class FreeBoardController(var freeBoardService:FreeBoardService){
 
     @DeleteMapping("/{freeBoardId}")
     @ApiOperation(value = "자유게시판 삭제",notes = "자유게시판을 삭제합니다")
-    fun deleteFreeBoard(@PathVariable("freeBoardId") freeBoardId : Int){
+    fun deleteFreeBoard(@PathVariable("freeBoardId") freeBoardId : Long){
         return freeBoardService.deleteFreeBoard(freeBoardId)
     }
 }
