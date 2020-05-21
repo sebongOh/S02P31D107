@@ -13,6 +13,7 @@
     "babel-eslint": "^10.0.3",
     "babel-preset-env": "^1.7.0",
     "core-js": "^3.4.3",
+    "element-ui": "^2.13.2",
     "email-validator": "^2.0.4",
     "local-lib": "^0.1.0",
     "node-sass": "^4.13.0",
