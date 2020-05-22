@@ -2,6 +2,8 @@ package com.ssafy.learnacademy.vo
 
 import javax.persistence.*
 
+@Entity
+@Table(name = "member_role")
 class MemberRole (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
