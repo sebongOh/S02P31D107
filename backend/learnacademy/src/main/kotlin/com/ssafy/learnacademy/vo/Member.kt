@@ -1,9 +1,7 @@
 package com.ssafy.learnacademy.vo
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import com.ssafy.learnacademy.common.BaseEntity
-import java.util.*
+import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
 
 @Entity
@@ -11,7 +9,7 @@ import javax.persistence.*
 class Member (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var memberId: Int? = null,
+    var memberId: Long? = null,
 
     @Column(nullable = false)
     var name: String? = null,
@@ -34,9 +32,11 @@ class Member (
     @Column(nullable = false)
     var gender: Byte? = null,
 
-    var childId: Int? = null,
+    @Column(nullable = false)
+    var profileUrl: String? = null,
 
-    @OneToOne
-    @JoinColumn(name = "academy_id")
-    var academy: Academy? = null
+    @Transient
+    var profileFile: MultipartFile? = null,
+
+    var childId: Int? = null
 ) : BaseEntity()
