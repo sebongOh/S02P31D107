@@ -4,8 +4,6 @@ import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.vo.Member
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
-import java.util.*
-
 
 @RestController
 @RequestMapping("/member")
@@ -13,7 +11,7 @@ class MemberController(var memberService: MemberService) {
 
     @GetMapping("/{memberId}")
     @ApiOperation(value = "멤버 찾기", notes = "멤버를 검색합니다")
-    fun getMember(@PathVariable("memberId") memberId: Int): Optional<Member>? {
+    fun getMember(@PathVariable("memberId") memberId: Long): Member? {
         return memberService.getMember(memberId)
     }
 
@@ -30,7 +28,7 @@ class MemberController(var memberService: MemberService) {
     }
 
     @DeleteMapping("/{memberId}")
-    fun deleteMember(@PathVariable("memberId") memberId: Int) {
+    fun deleteMember(@PathVariable("memberId") memberId: Long) {
         return memberService.deleteMember(memberId)
     }
 
