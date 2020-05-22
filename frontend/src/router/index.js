@@ -10,9 +10,9 @@ export default [
         name: 'login',
     },
     {
-        path: '/register',
-        component: () => import('@/views/register'),
-        name: 'register',
+        path: '/join',
+        component: () => import('@/views/join'),
+        name: 'join',
     },
     {
         path: '/admin-main',
