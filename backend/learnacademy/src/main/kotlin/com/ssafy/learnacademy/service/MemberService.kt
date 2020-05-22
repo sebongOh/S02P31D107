@@ -2,14 +2,18 @@ package com.ssafy.learnacademy.service
 
 import com.ssafy.learnacademy.repository.MemberRepository
 import com.ssafy.learnacademy.vo.Member
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class MemberService(var memberRepository: MemberRepository) {
 
-    fun findById(memberId: Int): Optional<Member>? {
-        return memberRepository.findById(memberId)
+    fun getMember(memberId: Long): Member? {
+        return memberRepository.findByIdOrNull(memberId)
+    }
+
+    fun getMemberByEmail(email: String): Member? {
+        return memberRepository.findByEmail(email)
     }
 
     fun insertMember(member: Member): Member? {
@@ -20,7 +24,8 @@ class MemberService(var memberRepository: MemberRepository) {
         return memberRepository.save(member)
     }
 
-    fun deleteMember(memberId: Int) {
+    fun deleteMember(memberId: Long) {
         return memberRepository.deleteById(memberId)
     }
+
 }
