@@ -1,0 +1,12 @@
+<template>
+  <div class="register">
+    <h1>여기는 회원가입</h1>
+  </div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style>
+</style>
