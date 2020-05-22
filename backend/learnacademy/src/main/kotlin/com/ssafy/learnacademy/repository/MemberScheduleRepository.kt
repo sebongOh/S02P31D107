@@ -5,4 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface MemberScheduleRepository : CrudRepository<MemberSchedule,Int>
+interface MemberScheduleRepository : CrudRepository<MemberSchedule,Long>

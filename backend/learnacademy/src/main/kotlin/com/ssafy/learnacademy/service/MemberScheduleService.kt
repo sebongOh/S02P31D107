@@ -9,7 +9,11 @@ import java.util.*
 @Service
 class MemberScheduleService(var memberScheduleRepository: MemberScheduleRepository) {
 
-    fun findById(memberScheduleId : Int) : Optional<MemberSchedule>?{
+    fun findAll() : Iterable<MemberSchedule>?{
+        return memberScheduleRepository.findAll()
+    }
+
+    fun findById(memberScheduleId : Long) : Optional<MemberSchedule>?{
         return memberScheduleRepository.findById(memberScheduleId)
     }
 
@@ -21,7 +25,7 @@ class MemberScheduleService(var memberScheduleRepository: MemberScheduleReposito
         return memberScheduleRepository.save(memberSchedule)
     }
 
-    fun deleteMemberSchedule(memberScheduleId : Int){
+    fun deleteMemberSchedule(memberScheduleId : Long){
         return memberScheduleRepository.deleteById(memberScheduleId)
     }
 }

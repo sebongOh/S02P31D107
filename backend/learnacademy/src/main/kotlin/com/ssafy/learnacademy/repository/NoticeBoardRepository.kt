@@ -5,4 +5,4 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface NoticeBoardRepository : CrudRepository<NoticeBoard,Int>
+interface NoticeBoardRepository : CrudRepository<NoticeBoard,Long>

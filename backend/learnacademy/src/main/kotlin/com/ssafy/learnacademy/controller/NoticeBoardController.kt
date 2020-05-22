@@ -17,7 +17,7 @@ class NoticeBoardController(var noticeBoardService: NoticeBoardService){
 
     @GetMapping("/{noticeBoardId}")
     @ApiOperation(value = "공지사항 검색", notes = "공지사항을 검색합니다")
-    fun getNoticeBoard(@PathVariable("noticeBoardId") noticeBoardId : Int) : Optional<NoticeBoard>?{
+    fun getNoticeBoard(@PathVariable("noticeBoardId") noticeBoardId : Long) : Optional<NoticeBoard>?{
         return noticeBoardService.findById(noticeBoardId)
     }
 
@@ -35,7 +35,7 @@ class NoticeBoardController(var noticeBoardService: NoticeBoardService){
 
     @DeleteMapping("/{noticeBoardId}")
     @ApiOperation(value = "공지사항 삭제",notes = "공지사항을 삭제합니다")
-    fun deleteNoticeBoard(@PathVariable("noticeBoardId") noticeBoardId : Int){
+    fun deleteNoticeBoard(@PathVariable("noticeBoardId") noticeBoardId : Long){
         return noticeBoardService.deleteNoticeBoard(noticeBoardId)
     }
 }
