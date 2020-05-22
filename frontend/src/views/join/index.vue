@@ -1,11 +1,6 @@
 <template>
   <div>
-    <el-steps
-      :active="active"
-      finish-status="success"
-      simple
-      style="margin-top: 20px"
-    >
+    <el-steps :active="active" finish-status="success" simple style="margin-top: 20px">
       <el-step title="Step 1"></el-step>
       <el-step title="Step 2"></el-step>
       <el-step title="Step 3"></el-step>
@@ -23,12 +18,7 @@
       <!--------------------------------- 회원선택 폼--------------------------------------->
 
       <!--------------------------------- 회원가입 폼--------------------------------------->
-      <el-row
-        class="demo-autocomplete"
-        v-if="active === 1"
-        id="memberjoin"
-        style="max-width:50%"
-      >
+      <el-row class="demo-autocomplete" v-if="active === 1" id="memberjoin" style="max-width:50%">
         <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
           <el-form
             id="formData"
@@ -42,7 +32,7 @@
               <el-upload
                 action="https://jsonplaceholder.typicode.com/posts/"
                 list-type="picture-card"
-                accept="image/jpeg,image/png"
+                accept="image/jpeg, image/png"
                 :on-preview="handlePictureCardPreview"
                 :on-change="onUploadChange"
                 :on-remove="handleRemove"
@@ -51,7 +41,7 @@
                 <i class="el-icon-plus"></i>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="" />
+                <img width="100%" :src="dialogImageUrl" alt />
               </el-dialog>
             </el-form-item>
 
@@ -64,9 +54,7 @@
                   warning: pageInfo.isOverlapId,
                 }"
                 @click="idOverlap"
-              >
-                {{ ux.overlapText[pageInfo.isOverlapId ? 1 : 0] }}
-              </el-button>
+              >{{ ux.overlapText[pageInfo.isOverlapId ? 1 : 0] }}</el-button>
               <el-form-item label="아이디" required>
                 <el-input v-model="member.id" name="id"></el-input>
               </el-form-item>
@@ -89,17 +77,13 @@
                   v-model="member.passwordConfirm"
                   show-password
                 ></el-input>
-                <label v-show="!pageInfo.equalsToPassword" style="color:red"
-                  >비밀번호를 확인해주세요.</label
-                >
+                <label v-show="!pageInfo.equalsToPassword" style="color:red">비밀번호를 확인해주세요.</label>
               </el-form-item>
               <span class="error">{{ error.password }}</span>
             </p>
 
             <p :class="ux.isAuthEmail" style="text-align:right">
-              <span v-if="isIng.email" class="w3-right w3-text-blue"
-                >Sending</span
-              >
+              <span v-if="isIng.email" class="w3-right w3-text-blue">Sending</span>
               <el-button
                 size="mini"
                 v-if="!isIng.email"
@@ -109,9 +93,7 @@
                   warning: pageInfo.isRequestEmail,
                 }"
                 @click="requestEmail"
-              >
-                {{ ux.sendEmailText[pageInfo.isRequestEmail ? 1 : 0] }}
-              </el-button>
+              >{{ ux.sendEmailText[pageInfo.isRequestEmail ? 1 : 0] }}</el-button>
               <el-form-item
                 prop="email"
                 label="Email"
@@ -145,8 +127,7 @@
                     'w3-border-red': !pageInfo.isAuthEmail,
                     'w3-border-blue': pageInfo.isAuthEmail,
                   }"
-                  >{{ ux.authEmailText[pageInfo.isAuthEmail ? 1 : 0] }}</span
-                >
+                >{{ ux.authEmailText[pageInfo.isAuthEmail ? 1 : 0] }}</span>
                 <el-input
                   class="w3-input w3-border w3-hover-indigo"
                   name="email"
@@ -159,26 +140,15 @@
             </p>
 
             <el-form-item label="이름" required>
-              <el-input
-                placeholder="Please input name"
-                v-model="member.name"
-                name="name"
-              ></el-input>
+              <el-input placeholder="Please input name" v-model="member.name" name="name"></el-input>
             </el-form-item>
             <el-form-item label="핸드폰" required>
-              <el-input
-                placeholder="-없이 입력해주세요"
-                v-model="member.phone"
-                name="phone"
-              ></el-input>
+              <el-input placeholder="-없이 입력해주세요" v-model="member.phone" name="phone"></el-input>
             </el-form-item>
 
             <p>
               <el-form-item label="주소" required>
-                <span
-                  @click="pageInfo.showFindAddress = !pageInfo.showFindAddress"
-                  >Find</span
-                >
+                <span @click="pageInfo.showFindAddress = !pageInfo.showFindAddress">Find</span>
                 <el-input
                   name="address"
                   type="text"
@@ -206,11 +176,7 @@
               </el-form-item>
             </p>
 
-            <el-form
-              label-position="top"
-              inline="true"
-              class="demo-form-inline"
-            >
+            <el-form label-position="top" inline="true" class="demo-form-inline">
               <el-form-item label="성별" required>
                 <el-select
                   v-model="member.gender"
@@ -223,11 +189,7 @@
               </el-form-item>
 
               <el-form-item label="Age" required>
-                <el-input
-                  v-model="member.age"
-                  name="age"
-                  placeholder="나이를 입력하시오"
-                ></el-input>
+                <el-input v-model="member.age" name="age" placeholder="나이를 입력하시오"></el-input>
               </el-form-item>
             </el-form>
           </el-form>
@@ -243,14 +205,9 @@
 
       <!--------------------------------- 버튼--------------------------------------->
       <div style="text-align:center">
-        <el-button v-if="active === 0" style="margin-top: 12px;" @click="next"
-          >Next step</el-button
-        >
-        <el-button v-if="active === 1" style="margin-top: 12px;" @click="next"
-          >Submit</el-button
-        ><el-button v-if="active === 2" style="margin-top: 12px;" @click="go"
-          >OK</el-button
-        >
+        <el-button v-if="active === 0" style="margin-top: 12px;" @click="next">Next step</el-button>
+        <el-button v-if="active === 1" style="margin-top: 12px;" @click="next">Submit</el-button>
+        <el-button v-if="active === 2" style="margin-top: 12px;" @click="go">OK</el-button>
       </div>
       <!--------------------------------- 버튼--------------------------------------->
     </div>
@@ -261,7 +218,7 @@
 import { VueDaumPostcode } from "vue-daum-postcode";
 export default {
   components: {
-    VueDaumPostcode,
+    VueDaumPostcode
   },
   data: () => {
     return {
@@ -275,21 +232,21 @@ export default {
         authEmailText: ["Auth", "Okay!!"],
         isAuthEmail: {},
         name: {},
-        password: {},
+        password: {}
       },
       error: {
         id: "",
         code: "",
         email: "",
         name: "",
-        password: "",
+        password: ""
       },
       pageInfo: {
         isOverlapId: false,
         isAuthEmail: false,
         equalsToPassword: false,
         showFindAddress: false,
-        isRequestEmail: false,
+        isRequestEmail: false
       },
       active: 0,
       member: {
@@ -304,13 +261,13 @@ export default {
         addressObj: "",
         detailAddress: "",
         address: "",
-        phone: "",
+        phone: ""
       },
       passwordConfirm: "",
       isIng: {
         id: false,
-        email: false,
-      },
+        email: false
+      }
     };
   },
   methods: {
@@ -354,14 +311,14 @@ export default {
         console.log(this.result); //base64 data for pictures
         this.imageData = this.result;
       };
-    },
+    }
   },
   watch: {
     "member.passwordConfirm"() {
       this.pageInfo.equalsToPassword =
         this.member.password === this.member.passwordConfirm ? true : false;
-    },
-  },
+    }
+  }
 };
 </script>
 
