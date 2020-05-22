@@ -5,7 +5,13 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+export default {
+  mounted() {},
+  computed: {
+    ...mapGetters(["name"])
+  }
+};
 </script>
 
 <style>
