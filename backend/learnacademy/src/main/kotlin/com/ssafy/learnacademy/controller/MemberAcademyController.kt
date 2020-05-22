@@ -11,7 +11,7 @@ import java.util.*
 class MemberAcademyController (var memberAcademyService: MemberAcademyService) {
 
     @GetMapping("/{memberAcademyId}")
-    fun getMemberAcademy(@PathVariable("memberAcademyId") memberAcademyId: Int): Optional<MemberAcademy>? {
+    fun getMemberAcademy(@PathVariable("memberAcademyId") memberAcademyId: Long): Optional<MemberAcademy>? {
         return memberAcademyService.getMemberAcademy(memberAcademyId)
     }
 
@@ -25,7 +25,7 @@ class MemberAcademyController (var memberAcademyService: MemberAcademyService) {
     }
 
     @DeleteMapping("/{memberAcademyId}")
-    fun deleteMemberAcademy(@PathVariable("memberAcademyId") memberAcademyId: Int) {
+    fun deleteMemberAcademy(@PathVariable("memberAcademyId") memberAcademyId: Long) {
         return memberAcademyService.deleteMemberAcademy(memberAcademyId)
     }
 }

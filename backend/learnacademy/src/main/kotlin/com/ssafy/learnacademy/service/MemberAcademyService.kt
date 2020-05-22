@@ -17,19 +17,19 @@ class MemberAcademyService(
         var academyRepository: AcademyRepository
 ) {
 
-    fun getMemberAcademy(memberAcademyId: Int): Optional<MemberAcademy>? {
+    fun getMemberAcademy(memberAcademyId: Long): Optional<MemberAcademy>? {
         return memberAcademyRepository.findById(memberAcademyId)
     }
 
     fun insertMemberAcademy(memberAcademy: MemberAcademy): MemberAcademy? {
-        var memberId: Int = memberAcademy.member?.memberId ?: 0
-        var academyId: Int = memberAcademy.academy?.academyId ?: 0
+        var memberId: Long = memberAcademy.member?.memberId ?: 0
+        var academyId: Long = memberAcademy.academy?.academyId ?: 0
         memberAcademy.member = memberRepository.findByIdOrNull(memberId)
         memberAcademy.academy = academyRepository.findByIdOrNull(academyId)
         return memberAcademyRepository.save(memberAcademy)
     }
 
-    fun deleteMemberAcademy(memberAcademyId: Int) {
+    fun deleteMemberAcademy(memberAcademyId: Long) {
         return memberAcademyRepository.deleteById(memberAcademyId)
     }
 }

@@ -10,7 +10,7 @@ import java.util.*
 @RequestMapping("/academy")
 class AcademyController(var academyService: AcademyService) {
     @GetMapping("/{academyId}")
-    fun getAcademy(@PathVariable("academyId") academyId: Int): Optional<Academy>? {
+    fun getAcademy(@PathVariable("academyId") academyId: Long): Optional<Academy>? {
         return academyService.getAcademy(academyId)
     }
 
@@ -27,7 +27,7 @@ class AcademyController(var academyService: AcademyService) {
     }
 
     @DeleteMapping("/{academyId}")
-    fun deleteAcademy(@PathVariable("academyId") academyId: Int) {
+    fun deleteAcademy(@PathVariable("academyId") academyId: Long) {
         return academyService.deleteAcademy(academyId)
     }
 }

@@ -8,7 +8,7 @@ import java.util.*
 @Service
 class AcademyService(var academyRepository: AcademyRepository) {
 
-    fun getAcademy(academyId: Int): Optional<Academy>? {
+    fun getAcademy(academyId: Long): Optional<Academy>? {
         return academyRepository.findById(academyId)
     }
 
@@ -20,7 +20,7 @@ class AcademyService(var academyRepository: AcademyRepository) {
         return academyRepository.save(academy)
     }
 
-    fun deleteAcademy(academyId: Int) {
+    fun deleteAcademy(academyId: Long) {
         return academyRepository.deleteById(academyId)
     }
 }
