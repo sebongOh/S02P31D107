@@ -3,8 +3,11 @@ package com.ssafy.learnacademy.controller
 import com.ssafy.learnacademy.service.AcademyScheduleService
 import com.ssafy.learnacademy.vo.AcademySchedule
 import io.swagger.annotations.ApiOperation
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import javax.xml.ws.Response
 
 @RestController
 @RequestMapping("/academySchedule")
@@ -12,12 +15,14 @@ class AcademyScheduleController (var academyScheduleService: AcademyScheduleServ
 
     @GetMapping
     @ApiOperation(value="학원 스케쥴 전체검색", notes = "학원 스케쥴을 전부검색합니다")
-    fun getAllAcademySchedule() = academyScheduleService.findAll()
+    fun getAllAcademySchedule() : List<AcademySchedule>? = academyScheduleService.findAll()
 
     @GetMapping("/{academyScheduleId}")
     @ApiOperation(value = "학원 스케쥴 검색", notes = "학원 스케쥴을 검색합니다")
-    fun getAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId : Long) : Optional<AcademySchedule>?{
-        return academyScheduleService.findById(academyScheduleId)
+    fun getAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId : Long) : ResponseEntity<AcademySchedule>?{
+        return academyScheduleService.findById(academyScheduleId)?.map { academySchedule ->
+            ResponseEntity.ok(academySchedule)
+        }?.orElse(ResponseEntity.notFound().build())
     }
 
     @PostMapping
@@ -32,9 +37,12 @@ class AcademyScheduleController (var academyScheduleService: AcademyScheduleServ
         return academyScheduleService.updateAcademySchedule(academySchedule)
     }
 
-    @DeleteMapping("/{academyScheduleId")
+    @DeleteMapping("/{academyScheduleId}")
     @ApiOperation(value = "학원 스케쥴 삭제", notes = "학원 스케쥴을 삭제합니다")
-    fun deleteAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId: Long){
-        return academyScheduleService.deleteAcademySchedule(academyScheduleId)
+    fun deleteAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId: Long) : ResponseEntity<Void>? {
+        return academyScheduleService.findById(academyScheduleId)?.map{ academySchedule ->
+            academyScheduleService.deleteAcademySchedule(academySchedule)
+            ResponseEntity<Void>(HttpStatus.OK)
+        }?.orElse(ResponseEntity.notFound().build())
     }
 }

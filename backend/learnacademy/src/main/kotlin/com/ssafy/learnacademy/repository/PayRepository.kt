@@ -1,6 +1,8 @@
 package com.ssafy.learnacademy.repository
 
 import com.ssafy.learnacademy.vo.Pay
-import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-interface PayRepository : CrudRepository<Pay,Long>
+@Repository
+interface PayRepository : JpaRepository<Pay, Long>

@@ -8,7 +8,7 @@ import java.util.*
 @Service
 class AcademyScheduleService (var academyScheduleRepository: AcademyScheduleRepository){
 
-    fun findAll() : Iterable<AcademySchedule>?{
+    fun findAll() : List<AcademySchedule>?{
         return academyScheduleRepository.findAll()
     }
 
@@ -24,8 +24,8 @@ class AcademyScheduleService (var academyScheduleRepository: AcademyScheduleRepo
         return academyScheduleRepository.save(academySchedule)
     }
 
-    fun deleteAcademySchedule(academyScheduleId : Long){
-        return academyScheduleRepository.deleteById(academyScheduleId)
+    fun deleteAcademySchedule(academySchedule : AcademySchedule){
+        return academyScheduleRepository.delete(academySchedule)
     }
 
 }

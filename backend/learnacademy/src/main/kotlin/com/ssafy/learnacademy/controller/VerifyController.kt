@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/verify")
-class verifyController(var verifyService: VerifyService, var memberService: MemberService) {
+class VerifyController(var verifyService: VerifyService, var memberService: MemberService) {
 
     @PostMapping
     fun sendEmail(@RequestBody verify: Verify) : ResponseEntity<Unit> {
