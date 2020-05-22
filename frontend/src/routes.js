@@ -1,25 +1,11 @@
+import Vue from 'vue';
+import Router from 'vue-router';
 
-
-import Login from './views/user/Login.vue'
-import Join from './views/user/Join.vue'
-import Components from './views/Components.vue'
+Vue.use(Router);
 
 export default [
-
-
     {
-        path : '/',
-        name : 'Login',
-        component : Login
+        path: '/',
+        component: () => import('@/views/student/index'),
     },
-    {
-        path : '/user/join',
-        name : 'Join',
-        component : Join
-    },
-    {
-        path : '/components',
-        name : 'Components',
-        component : Components
-    }
-]
+];
