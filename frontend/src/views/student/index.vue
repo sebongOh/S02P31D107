@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>여기는 학생 페이지</h1>
-    <el-button type="primary">Primary</el-button>
+    <Header />
     <Footer />
   </div>
 </template>
@@ -10,10 +9,12 @@
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
 
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 export default {
   components: {
+    Header,
     Footer
   },
   mounted() {

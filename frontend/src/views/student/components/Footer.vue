@@ -1,6 +1,25 @@
 <template>
   <div class="footer">
-    <h1>이거슨 학생페이지 푸터</h1>
+    <div class="icon">
+      <span>
+        <i class="fas fa-user"></i>
+      </span>
+    </div>
+    <div class="icon">
+      <span>
+        <i class="fas fa-home"></i>
+      </span>
+    </div>
+    <div class="icon">
+      <span>
+        <i class="fas fa-search"></i>
+      </span>
+    </div>
+    <div class="icon">
+      <span>
+        <i class="fas fa-ellipsis-h"></i>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -10,9 +29,17 @@ export default {};
 
 <style lang="scss">
 .footer {
-  background-color: red;
+  background-color: #c99d4e;
   position: fixed;
   bottom: 0;
   width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  .icon span {
+    font-size: 1.2em;
+  }
 }
 </style>
