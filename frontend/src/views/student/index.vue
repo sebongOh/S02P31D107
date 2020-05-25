@@ -10,7 +10,7 @@
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
 
-import Footer from "@/components/footer/StudentFooter";
+import Footer from "./components/Footer";
 
 export default {
   components: {
