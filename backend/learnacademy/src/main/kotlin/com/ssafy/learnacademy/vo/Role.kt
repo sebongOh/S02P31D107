@@ -10,5 +10,13 @@ class Role (
     var roleId : Long? = null,
 
     @Column(nullable = false)
-    var role: String? = null
+    var role: String? = null,
+
+    @ManyToOne
+    @JoinColumn(name="member_id")
+    var member: Member? = null,
+
+    @ManyToOne
+    @JoinColumn(name="academy_id")
+    var academy: Academy? = null
 )

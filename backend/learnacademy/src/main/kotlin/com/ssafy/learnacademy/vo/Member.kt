@@ -35,6 +35,9 @@ class Member (
     @Column(nullable = false)
     var profileUrl: String? = null,
 
+    @OneToMany(mappedBy = "member")
+    var roles: MutableSet<Role> = mutableSetOf(),
+
     @Transient
     var profileFile: MultipartFile? = null,
 
