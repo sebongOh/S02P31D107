@@ -8,7 +8,7 @@ import java.util.*
 @Service
 class NoticeBoardService(var noticeBoardRepository: NoticeBoardRepository) {
 
-    fun findAll() : Iterable<NoticeBoard>?{
+    fun findAll() : List<NoticeBoard>?{
         return noticeBoardRepository.findAll()
     }
 
@@ -24,7 +24,7 @@ class NoticeBoardService(var noticeBoardRepository: NoticeBoardRepository) {
         return noticeBoardRepository.save(noticeBoard)
     }
 
-    fun deleteNoticeBoard(noticeBoardId: Long){
-        return noticeBoardRepository.deleteById(noticeBoardId)
+    fun deleteNoticeBoard(noticeBoard: NoticeBoard){
+        return noticeBoardRepository.delete(noticeBoard)
     }
 }

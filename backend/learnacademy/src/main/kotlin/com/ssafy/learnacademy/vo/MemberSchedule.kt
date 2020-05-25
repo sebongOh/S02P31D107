@@ -8,7 +8,7 @@ import javax.persistence.*
 class MemberSchedule (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var memberScheduleId: Long? = null,
+        var memberScheduleId: Long,
 
         @Column(nullable = false)
         var startDate : String?=null,

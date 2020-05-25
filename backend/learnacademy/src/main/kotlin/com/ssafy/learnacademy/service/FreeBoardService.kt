@@ -8,7 +8,7 @@ import java.util.*
 @Service
 class FreeBoardService(var freeBoardRepository: FreeBoardRepository){
 
-    fun findAll() : Iterable<FreeBoard>?{
+    fun findAll() : List<FreeBoard>?{
         return freeBoardRepository.findAll()
     }
 
@@ -24,7 +24,7 @@ class FreeBoardService(var freeBoardRepository: FreeBoardRepository){
         return freeBoardRepository.save(freeBoard)
     }
 
-    fun deleteFreeBoard(freeBoardId : Long){
-        return freeBoardRepository.deleteById(freeBoardId)
+    fun deleteFreeBoard(freeBoard: FreeBoard){
+        return freeBoardRepository.delete(freeBoard)
     }
 }
