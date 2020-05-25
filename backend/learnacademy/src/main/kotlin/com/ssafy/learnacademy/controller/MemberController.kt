@@ -1,48 +1,73 @@
 package com.ssafy.learnacademy.controller
 
+import com.fasterxml.jackson.databind.util.JSONPObject
 import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.vo.Member
+import com.ssafy.learnacademy.vo.MemberRequest
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import springfox.documentation.spring.web.json.Json
 import java.lang.Exception
 
 @RestController
 @RequestMapping("/member")
-class MemberController(var memberService: MemberService) {
-
-//    @GetMapping("/{memberId}")
-//    @ApiOperation(value = "멤버 찾기", notes = "멤버를 검색합니다")
-//    fun getMember(@PathVariable("memberId") memberId: Long): Member? {
-//        return memberService.getMember(memberId)
-//    }
+class MemberController(val memberService: MemberService) {
 
     @GetMapping("/{memberId}")
     @ApiOperation(value = "멤버 찾기", notes = "멤버를 검색합니다")
     fun getMember(@PathVariable("memberId") memberId: Long): ResponseEntity<Member> {
-        var member: Member? = memberService.getMember(memberId) ?: return ResponseEntity.noContent().build()
+        val member: Member? = memberService.findById(memberId) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(member)
     }
 
-    // 학원 아이디로 연결된 학원 계정 조회
-    
-    @PostMapping
-    fun insertMember(@RequestBody member: Member): Member? {
+      // 학원 아이디로 연결된 학원 계정 조회
+//    @GetMapping("/{memberId}")
+//    @ApiOperation(value = "학원 아이디로 ", notes = "멤버를 검색합니다")
+//    fun getMemberByAcademyId(@PathVariable("memberId") memberId: Long): ResponseEntity<Member> {
+//        val member: Member? = memberService.findById(memberId) ?: return ResponseEntity.noContent().build()
+//        return ResponseEntity.ok().body(member)
+//    }
+
+    @PostMapping("/signup")
+    @ApiOperation(value = "회원 가입", notes = "회원 정보를 등록합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요.")
+    fun insertMember(member: Member): Member? {
         return memberService.insertMember(member)
     }
 
     @PutMapping
+    @ApiOperation(value = "회원 수정", notes = "회원 정보를 수정합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요. " +
+            "\n비밀번호는 정부 수정 시 재입력해서 수정폼에 들어오도록 해주세요.")
     fun updateMember(@RequestBody member: Member): Member? {
         return memberService.updateMember(member)
     }
 
     @DeleteMapping("/{memberId}")
+    @ApiOperation(value = "회원 정보 삭제(탈퇴)", notes = "회원 정보를 삭제합니다.")
     fun deleteMember(@PathVariable("memberId") memberId: Long): ResponseEntity<Unit> {
         try {
             memberService.deleteMember(memberId)
         } catch (e: Exception) {
             return ResponseEntity.notFound().build()
         }
+        return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/signin")
+    @ApiOperation(value = "로그인", notes = "이메일, 비밀번호를 받고 정보 일치 시 token을 발급합니다.")
+    fun signIn(@RequestBody member: MemberRequest): ResponseEntity<MutableMap<String, String>>? {
+        val loginMember: Member = memberService.findByEmail(member.email ?:"")
+                ?: return ResponseEntity.notFound().build()
+        val requestObject: MutableMap<String, String> = mutableMapOf()
+        requestObject.put("access_token", memberService.signIn(loginMember, member.password ?: ""))
+        return ResponseEntity.ok().body(requestObject)
+    }
+
+    @PostMapping("/checkPassword")
+    @ApiOperation(value = "비밀번호 확인", notes = "비밀번호가 맞는지 확인합니다. 이때 이메일과 비밀번호를 json 형식으로 날려주세요.")
+    fun checkPassword(@RequestBody member: MemberRequest): ResponseEntity<Unit>? {
+        var findMember: Member = memberService.findByEmail(member.email ?:"")
+                ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok().build()
     }
 
