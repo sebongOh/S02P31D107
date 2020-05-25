@@ -12,11 +12,11 @@ import kotlin.math.pow
 @Service
 class VerifyService(var verifyRepository: VerifyRepository, var mailSender: JavaMailSender) {
 
-    fun getVerify(verifyId: Long): Verify? {
+    fun findById(verifyId: Long): Verify? {
         return verifyRepository.findByIdOrNull(verifyId)
     }
 
-    fun getVerifyByEmail(email: String): Verify? {
+    fun findByEmail(email: String): Verify? {
         return verifyRepository.findByEmail(email)
     }
 
