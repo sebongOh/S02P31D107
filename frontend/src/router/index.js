@@ -32,4 +32,9 @@ export default [
         name: 'academyMain',
         children: [],
     },
+    {
+        path: '/student-profile',
+        component: () => import('@/views/profile'),
+        name: 'studentProfile'
+    },
 ];
