@@ -9,19 +9,10 @@ import javax.persistence.*
 class AcademySchedule (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var academyScheduleId: Long? = null,
+        var academyScheduleId: Long,
 
         @Column(nullable = false)
         var name : String? = null,
-
-        @Column(nullable = false)
-        var startTime : String? = null,
-
-        @Column(nullable = false)
-        var endTime : String? = null,
-
-        @Column(nullable = false)
-        var dayOfTheWeek : String? = null,
 
         @Column(nullable = false)
         var price : Int? = null,

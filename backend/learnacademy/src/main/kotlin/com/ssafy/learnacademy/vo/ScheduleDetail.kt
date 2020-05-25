@@ -1,26 +1,26 @@
 package com.ssafy.learnacademy.vo
 
 import com.ssafy.learnacademy.common.BaseEntity
+import java.sql.Time
 import javax.persistence.*
 
 @Entity
-@Table(name = "member_schedule")
-class MemberSchedule (
+@Table(name = "schedule_detail")
+class ScheduleDetail (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var memberScheduleId: Long,
+        var scheduleDetailId: Long,
 
         @Column(nullable = false)
-        var startDate : String?=null,
+        var startTime : String? = null,
 
         @Column(nullable = false)
-        var endDate : String? = null,
+        var endTime : String? = null,
+
+        @Column(nullable = false)
+        var dayOfTheWeek : String? = null,
 
         @ManyToOne
-        @JoinColumn(name="member_id")
-        var member: Member? = null,
-
-        @ManyToOne
-        @JoinColumn(name="academy_schedule_id")
+        @JoinColumn(name="academy_id")
         var academySchedule: AcademySchedule? = null
 ) : BaseEntity()

@@ -8,7 +8,7 @@ import javax.persistence.*
 class Pay (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var payId : Long? = null,
+        var payId : Long,
 
         @Column(nullable = false)
         var cancel : Byte? = null,

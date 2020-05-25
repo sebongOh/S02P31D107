@@ -22,7 +22,7 @@ class AcademyScheduleController (var academyScheduleService: AcademyScheduleServ
     fun getAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId : Long) : ResponseEntity<AcademySchedule>?{
         return academyScheduleService.findById(academyScheduleId)?.map { academySchedule ->
             ResponseEntity.ok(academySchedule)
-        }?.orElse(ResponseEntity.notFound().build())
+        }?.orElse(ResponseEntity.noContent().build())
     }
 
     @PostMapping
@@ -33,8 +33,11 @@ class AcademyScheduleController (var academyScheduleService: AcademyScheduleServ
 
     @PutMapping
     @ApiOperation(value="학원 스케쥴 수정",notes = "학원 스케쥴을 수정합니다")
-    fun updateAcademySchedule(@RequestBody academySchedule: AcademySchedule) : AcademySchedule?{
-        return academyScheduleService.updateAcademySchedule(academySchedule)
+    fun updateAcademySchedule(@RequestBody academySchedule: AcademySchedule) : ResponseEntity<AcademySchedule>?{
+        return academyScheduleService.findById(academySchedule.academyScheduleId)?.map {
+            academyScheduleService.updateAcademySchedule(academySchedule)
+            ResponseEntity<AcademySchedule>(HttpStatus.OK)
+        }?.orElse(ResponseEntity.noContent().build())
     }
 
     @DeleteMapping("/{academyScheduleId}")
@@ -43,6 +46,6 @@ class AcademyScheduleController (var academyScheduleService: AcademyScheduleServ
         return academyScheduleService.findById(academyScheduleId)?.map{ academySchedule ->
             academyScheduleService.deleteAcademySchedule(academySchedule)
             ResponseEntity<Void>(HttpStatus.OK)
-        }?.orElse(ResponseEntity.notFound().build())
+        }?.orElse(ResponseEntity.noContent().build())
     }
 }
