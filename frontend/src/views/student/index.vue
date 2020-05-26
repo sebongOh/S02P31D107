@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <Header />
-    <MyPage v-if="page==1" />
-    <Home v-if="page==2" />
+    <Home v-if="page==1" />
+    <MyPage v-if="page==2" />
     <Search v-if="page==3" />
     <More v-if="page==4" />
     <Footer @changePage="changePage" />
