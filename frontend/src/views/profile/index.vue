@@ -3,6 +3,16 @@
             <div class="profile-div" v-if="!retirement">
             <h2>내 정보 수정</h2>
             <table class="profile-table">
+            <tr><th>프로필 사진</th></tr>
+            <tr><td><el-upload
+              class="avatar-uploader"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload></td></tr>
             <tr><th>이름</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="nameInput"></td></tr>
             <tr><th>이메일</th></tr>
@@ -57,7 +67,8 @@ export default {
       ageInput: 0,
       genderInput: 0,
       currentPassword: "",
-      retirement: false
+      retirement: false,
+      imageUrl: "" //나중에 imgUrl 을 받아서 getInputData 에서 넣어준다
     }
   },
   methods: {
@@ -71,16 +82,46 @@ export default {
     },
     modify(){
       console.log("수정");
-      //근데 우리 수정할 때 password 안 보내면 그냥 비번 빼고 수정해주나? 아니면 비번 비어있을 경우 current 값 넣어줘야하나
-      //currentPassword 를 확인하고 알맞을 경우 수정 - member/checkPassword
-      //비밀번호가 입력되어 있을 경우 확인이랑 같지 않으면 수정X
-      //그리고 수정 성공하면 입력된 부분을 state 변경
+      if(this.currentPassword == ""){
+        alert("현재 비밀번호는 반드시 입력해야 합니다!");
+        return;
+      }else{
+        //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
+      }
+      if(this.password == ""){
+        this.password = this.currentPassword;
+        this.passwordConfirm = this.currentPassword;
+      }else if(this.password != this.passwordConfirm){
+        alert("비밀번호와 비밀번호확인이 다릅니다!");
+        return;
+      }
+      //수정 성공하면 입력(Input)된 내용으로 state 변경
     },
     retire(){
       console.log("탈퇴");
-      //탈퇴누르면 다이어로그로 보이고 진짜 탈퇴할지 한번 더 묻고 ok 누르면 이 함수로
-      //currentPassword 를 확인하고 알맞을 경우 탈퇴 - member/checkPassword
-    }
+      if(this.currentPassword == ""){
+        alert("현재 비밀번호는 반드시 입력해야 합니다!");
+        return;
+      }else{
+        //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
+      }
+      //탈퇴하기
+    },
+    handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('Avatar picture must be JPG format!');
+        }
+        if (!isLt2M) {
+          this.$message.error('Avatar picture size can not exceed 2MB!');
+        }
+        return isJPG && isLt2M;
+      }
   }
 }
 </script>
@@ -149,4 +190,28 @@ th, td{
   background-color: coral;
   border: solid 3px chocolate;
 }
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+}
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+}
+.avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+}
+
 </style>
