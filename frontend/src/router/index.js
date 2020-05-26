@@ -37,4 +37,9 @@ export default [
         component: () => import('@/views/profile'),
         name: 'studentProfile'
     },
+    {
+        path: '*',
+        component: () => import('@/views/error'),
+        name: 'error404'
+    }
 ];
