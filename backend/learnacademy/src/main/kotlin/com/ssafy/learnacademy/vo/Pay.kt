@@ -11,7 +11,7 @@ class Pay (
         var payId : Long,
 
         @Column(nullable = false)
-        var cancel : Byte? = null,
+        var type : Byte? = null,
 
         @ManyToOne
         @JoinColumn(name="member_id")
