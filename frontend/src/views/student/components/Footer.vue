@@ -3,15 +3,21 @@
     <div class="icon" @click="click(1)">
       <div class="icon--box">
         <span>
-          <i class="fas fa-user"></i>
+          <i class="fas fa-home"></i>
         </span>
+      </div>
+      <div class="icon--name">
+        <span>홈</span>
       </div>
     </div>
     <div class="icon" @click="click(2)">
       <div class="icon--box">
         <span>
-          <i class="fas fa-home"></i>
+          <i class="fas fa-user"></i>
         </span>
+      </div>
+      <div class="icon--name">
+        <span>My 학원</span>
       </div>
     </div>
     <div class="icon" @click="click(3)">
@@ -20,12 +26,18 @@
           <i class="fas fa-search"></i>
         </span>
       </div>
+      <div class="icon--name">
+        <span>학원 검색</span>
+      </div>
     </div>
     <div class="icon" @click="click(4)">
       <div class="icon--box">
         <span>
           <i class="fas fa-ellipsis-h"></i>
         </span>
+      </div>
+      <div class="icon--name">
+        <span>더보기</span>
       </div>
     </div>
   </div>
@@ -59,7 +71,10 @@ export default {
     font-size: 1.2em;
     cursor: pointer;
     .icon--box {
-      margin-top: 15px;
+      margin-top: 7px;
+    }
+    .icon--name {
+      font-size: 15px;
     }
   }
 }
