@@ -8,9 +8,10 @@ import java.util.*
 
 @RestController
 @RequestMapping("/academy")
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 class AcademyController(var academyService: AcademyService) {
     @GetMapping("/{academyId}")
-    fun getAcademy(@PathVariable("academyId") academyId: Long): Optional<Academy>? {
+    fun getAcademy(@PathVariable("academyId") academyId: Long): Academy? {
         return academyService.getAcademy(academyId)
     }
 
