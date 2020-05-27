@@ -1,18 +1,28 @@
 package com.ssafy.learnacademy.controller
 
-import com.fasterxml.jackson.databind.util.JSONPObject
+import com.ssafy.learnacademy.service.AcademyService
 import com.ssafy.learnacademy.service.MemberService
+import com.ssafy.learnacademy.service.S3UploadService
+import com.ssafy.learnacademy.vo.AcademyCertification
+import com.ssafy.learnacademy.vo.AcademyCertificationRequest
 import com.ssafy.learnacademy.vo.Member
 import com.ssafy.learnacademy.vo.MemberRequest
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import springfox.documentation.spring.web.json.Json
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.lang.Exception
+import javax.mail.Multipart
 
 @RestController
 @RequestMapping("/member")
-class MemberController(val memberService: MemberService) {
+@CrossOrigin(origins = ["*"], maxAge = 3600)
+class MemberController(
+        val memberService: MemberService,
+        val academyService: AcademyService,
+        val s3UploadService: S3UploadService
+) {
 
     @GetMapping("/{memberId}")
     @ApiOperation(value = "멤버 찾기", notes = "멤버를 검색합니다")
@@ -31,15 +41,59 @@ class MemberController(val memberService: MemberService) {
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입", notes = "회원 정보를 등록합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요.")
-    fun insertMember(member: Member): Member? {
-        return memberService.insertMember(member)
+    fun insertMember(member: Member): ResponseEntity<Member> {
+        if (member.profileFile == null) {
+            member.profileUrl = s3UploadService.uploadFile(member.profileFile, "profile/")
+        } else {
+            member.profileUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/profile/default.png"
+        }
+        val insertMember :Member? = memberService.insertMember(member)
+        return ResponseEntity.ok().body(insertMember)
+    }
+
+    @PostMapping("/academySignup")
+    @ApiOperation(value = "학원 회원 가입", notes = "학원 회원 정보를 등록합니다. 회원 가입 데이터 + academyId, imageFile 추가하여 보내주세요.")
+    fun insertAcademyMember(academyCertificationRequest: AcademyCertificationRequest): ResponseEntity<Member> {
+        val member: Member = Member()
+        member.email = academyCertificationRequest.email
+        member.password = academyCertificationRequest.password
+        member.name = academyCertificationRequest.name
+        member.address = academyCertificationRequest.address
+        member.age = academyCertificationRequest.age
+        member.gender = academyCertificationRequest.gender
+        member.profileFile = academyCertificationRequest.profileFile
+        member.roles = academyCertificationRequest.roles
+        member.childId = academyCertificationRequest.childId
+        if (academyCertificationRequest.profileFile != null) {
+            member.profileUrl = s3UploadService.uploadFile(academyCertificationRequest.profileFile, "profile/")
+        } else {
+            member.profileUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/profile/default.png"
+        }
+        val insertMember: Member? = memberService.insertMember(member)
+
+        val academyCertification: AcademyCertification = AcademyCertification()
+        academyCertification.member = insertMember
+        academyCertification.academy = academyService.getAcademy(academyCertificationRequest.academyId ?: 0)
+        if (academyCertificationRequest.imageFile != null) {
+            academyCertification.imageUrl = s3UploadService.uploadFile(academyCertificationRequest.imageFile, "cert/")
+        } else {
+            academyCertification.imageUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/cert/default.jpg"
+        }
+        // academyCertuficationRepository 에 추가하는 코드 구현
+        return ResponseEntity.ok().body(insertMember)
     }
 
     @PutMapping
     @ApiOperation(value = "회원 수정", notes = "회원 정보를 수정합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요. " +
             "\n비밀번호는 정부 수정 시 재입력해서 수정폼에 들어오도록 해주세요.")
-    fun updateMember(@RequestBody member: Member): Member? {
-        return memberService.updateMember(member)
+    fun updateMember(@RequestBody member: Member): ResponseEntity<Member> {
+        if (member.profileFile == null) {
+            member.profileUrl = s3UploadService.uploadFile(member.profileFile, "profile/")
+        } else {
+            member.profileUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/profile/default.png"
+        }
+        val insertMember :Member? = memberService.updateMember(member)
+        return ResponseEntity.ok().body(insertMember)
     }
 
     @DeleteMapping("/{memberId}")
@@ -68,6 +122,19 @@ class MemberController(val memberService: MemberService) {
     fun checkPassword(@RequestBody member: MemberRequest): ResponseEntity<Unit>? {
         var findMember: Member = memberService.findByEmail(member.email ?:"")
                 ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/findPassword")
+    @ApiOperation(value = "비밀번호 찾기", notes = "비밀번호를 찾습니다. email과 name을 json 형식으로 날려주세요.")
+    fun findPassword(@RequestBody member: Member): ResponseEntity<Unit>? {
+        var findMember: Member = memberService.findByEmail(member.email ?:"")
+                ?: return ResponseEntity.notFound().build()
+        if (!findMember.name.equals(member.name)) return ResponseEntity.notFound().build()
+        val tempPassword = memberService.randomPassword()
+        findMember.password = tempPassword
+        memberService.updateMember(findMember)
+        memberService.sendTempPassword(member.email ?: "", tempPassword)
         return ResponseEntity.ok().build()
     }
 

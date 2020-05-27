@@ -8,8 +8,8 @@ import java.util.*
 @Service
 class AcademyService(var academyRepository: AcademyRepository) {
 
-    fun getAcademy(academyId: Long): Optional<Academy>? {
-        return academyRepository.findById(academyId)
+    fun getAcademy(academyId: Long): Academy {
+        return academyRepository.findById(academyId).get()
     }
 
     fun insertAcademy(academy: Academy): Academy? {
