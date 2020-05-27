@@ -8,10 +8,7 @@ import javax.persistence.*
 class Pay (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var payId : Long,
-
-        @Column(nullable = false)
-        var type : Byte? = null,
+        var payId : Long? =null,
 
         @ManyToOne
         @JoinColumn(name="member_id")
@@ -19,5 +16,15 @@ class Pay (
 
         @ManyToOne
         @JoinColumn(name="academy_schedule_id")
-        var academySchedule: AcademySchedule? = null
-) : BaseEntity()
+        var academySchedule: AcademySchedule? = null,
+
+        var tid : String? =null,
+
+        var itemName : String? =null,
+
+        var price : Int? =null,
+
+        var payMethodType : String? =null,
+
+        var approvedAt : String? =null
+)

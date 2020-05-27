@@ -1,6 +1,7 @@
 package com.ssafy.learnacademy.service
 
 import com.ssafy.learnacademy.repository.PayRepository
+import com.ssafy.learnacademy.vo.Member
 import com.ssafy.learnacademy.vo.Pay
 import org.springframework.stereotype.Service
 import java.util.*
@@ -25,5 +26,9 @@ class PayService (var payRepository: PayRepository){
 
     fun deletePay(payId : Long){
         return payRepository.deleteById(payId)
+    }
+
+    fun findByMember(member : Member?) : List<Pay>?{
+        return payRepository.findByMember(member)
     }
 }
