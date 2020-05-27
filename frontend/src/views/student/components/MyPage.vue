@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h1>My Page</h1>
+    <div class="my-academy">내 학원 가기</div>
+    <div class="notice">새로운 공지사항</div>
   </div>
 </template>
 
