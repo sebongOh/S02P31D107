@@ -30,7 +30,7 @@ class SecurityConfiguration(val jwtTokenProvider: JwtTokenProvider) : WebSecurit
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests() //다음 리퀘스트에 대한 사용권한체크
-                .antMatchers("/**", "/*/signin", "/*/signup", "/*/check/**", "/*/userTrainGender/**").permitAll() //앤트매처 로그인시
+                .antMatchers("/**", "/*/signin", "/*/signup", "/*/sendEmail", "/*/checkCode", "/*/findPassword").permitAll() //앤트매처 로그인시
                 .antMatchers(HttpMethod.GET, "api/**").permitAll() //get요청 열기
                 .antMatchers(HttpMethod.OPTIONS, "api/**").permitAll() //get요청 열기
                 .anyRequest().authenticated().and().cors() //그외 유저롤만 접근
@@ -48,7 +48,9 @@ class SecurityConfiguration(val jwtTokenProvider: JwtTokenProvider) : WebSecurit
                 "/swagger-ui.html",
                 "/webjars/**",
                 "/member",
-                "/member/**"
+                "/member/**",
+                "/verify/**",
+                "/verify"
                 )
     }
 }
