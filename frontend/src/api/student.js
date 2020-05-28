@@ -9,9 +9,9 @@ export const login = (data) => {
 };
 
 export const join = (data) => {
-  // for (var value of data.values()) {
-  //   console.log(value);
-  // }
+  for (var value of data.values()) {
+    console.log(value);
+  }
   return request({
     url: "member/signup",
     method: "post",
