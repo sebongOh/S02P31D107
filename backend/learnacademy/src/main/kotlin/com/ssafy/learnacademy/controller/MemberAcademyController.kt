@@ -8,6 +8,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/memberacademy")
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 class MemberAcademyController (var memberAcademyService: MemberAcademyService) {
 
     @GetMapping("/{memberAcademyId}")

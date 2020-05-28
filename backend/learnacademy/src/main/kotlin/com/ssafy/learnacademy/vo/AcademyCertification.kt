@@ -1,16 +1,19 @@
 package com.ssafy.learnacademy.vo
 
+import com.ssafy.learnacademy.common.BaseEntity
+import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
 
 @Entity
-@Table(name="role")
-class Role (
+@Table(name="academy_certification")
+class AcademyCertification(
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var roleId : Long? = null,
+    var academyCertificationId: Long? = null,
 
     @Column(nullable = false)
-    var role: String? = null,
+    var imageUrl: String? = null,
 
     @ManyToOne
     @JoinColumn(name="member_id")
@@ -19,4 +22,4 @@ class Role (
     @ManyToOne
     @JoinColumn(name="academy_id")
     var academy: Academy? = null
-)
+) :BaseEntity()

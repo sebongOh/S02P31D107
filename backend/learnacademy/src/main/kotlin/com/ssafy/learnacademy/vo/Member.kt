@@ -1,5 +1,6 @@
 package com.ssafy.learnacademy.vo
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.ssafy.learnacademy.common.BaseEntity
 import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
@@ -35,7 +36,11 @@ class Member (
     @Column(nullable = false)
     var profileUrl: String? = null,
 
+    @OneToMany(mappedBy = "member")
+    var roles: MutableSet<Role> = mutableSetOf(),
+
     @Transient
+    @JsonIgnore
     var profileFile: MultipartFile? = null,
 
     var childId: Int? = null

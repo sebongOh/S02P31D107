@@ -2,7 +2,6 @@ package com.ssafy.learnacademy.service
 
 import com.ssafy.learnacademy.repository.VerifyRepository
 import com.ssafy.learnacademy.vo.Verify
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
@@ -10,13 +9,13 @@ import java.util.*
 import kotlin.math.pow
 
 @Service
-class VerifyService(var verifyRepository: VerifyRepository, var mailSender: JavaMailSender) {
+class VerifyService(val verifyRepository: VerifyRepository, val mailSender: JavaMailSender) {
 
-    fun getVerify(verifyId: Long): Verify? {
-        return verifyRepository.findByIdOrNull(verifyId)
+    fun findById(verifyId: Long): Verify? {
+        return verifyRepository.findById(verifyId).get()
     }
 
-    fun getVerifyByEmail(email: String): Verify? {
+    fun findByEmail(email: String): Verify? {
         return verifyRepository.findByEmail(email)
     }
 
