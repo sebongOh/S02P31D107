@@ -41,7 +41,5 @@ class Member (
 
     @Transient
     @JsonIgnore
-    var profileFile: MultipartFile? = null,
-
-    var childId: Int? = null
+    var profileFile: MultipartFile? = null
 ) : BaseEntity()

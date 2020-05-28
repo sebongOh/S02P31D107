@@ -27,10 +27,6 @@ class Academy (
         var imageUrl: String? = null,
 
         @Transient
-        var imageFile: MultipartFile? = null,
-
-        @ManyToOne
-        @JoinColumn(name ="member_id")
-        var member: Member? = null
+        var imageFile: MultipartFile? = null
 
 ) : BaseEntity()

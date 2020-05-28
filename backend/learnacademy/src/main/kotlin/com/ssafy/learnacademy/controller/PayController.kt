@@ -87,7 +87,7 @@ class PayController(var payService: PayService, var memberService: MemberService
     fun createPay(kakaoPayApproval: KakaoPayApproval?, academyScheduleId: Long, memberId: Long) : Pay{
 
         val pay = Pay()
-        pay.member = memberService.getMember(memberId)
+        pay.member = memberService.findById(memberId)
         pay.academySchedule = academyScheduleService.findById(academyScheduleId)?.get()
         pay.itemName = kakaoPayApproval?.item_name
         pay.price = kakaoPayApproval?.amount?.total
@@ -104,7 +104,7 @@ class PayController(var payService: PayService, var memberService: MemberService
     @GetMapping("/find/{memberId}")
     @ApiOperation(value = "멤버로 검색", notes = "멤버로 검색합니다")
     fun findByMember(memberId : Long) : List<ResponseEntity<Pay>>?{
-        var member : Member? = memberService.getMember(memberId)
+        var member : Member? = memberService.findById(memberId)
         return payService.findByMember(member)?.map { pay ->
             ResponseEntity.ok(pay)
         }

@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name="free_board")
-class FreeBoard (
+class Board (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +16,9 @@ class FreeBoard (
 
     @Column(nullable = false)
     var contents : String? = null,
+
+    @Column(nullable = false)
+    var type : Byte,
 
     @ManyToOne
     @JoinColumn(name="member_id")

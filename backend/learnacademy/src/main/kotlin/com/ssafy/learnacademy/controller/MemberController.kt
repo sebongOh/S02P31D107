@@ -63,7 +63,6 @@ class MemberController(
         member.gender = academyCertificationRequest.gender
         member.profileFile = academyCertificationRequest.profileFile
         member.roles = academyCertificationRequest.roles
-        member.childId = academyCertificationRequest.childId
         if (academyCertificationRequest.profileFile != null) {
             member.profileUrl = s3UploadService.uploadFile(academyCertificationRequest.profileFile, "profile/")
         } else {
