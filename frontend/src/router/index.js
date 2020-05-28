@@ -38,6 +38,11 @@ export default [
         name: 'studentProfile'
     },
     {
+        path: '/academy-management',
+        component: () => import('@/views/academyManagement'),
+        name: 'academyManagement'
+    },
+    {
         path: '*',
         component: () => import('@/views/error'),
         name: 'error404'

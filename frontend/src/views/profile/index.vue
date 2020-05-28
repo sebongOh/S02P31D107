@@ -41,15 +41,20 @@
               <tr><td class="btn2"><button class="ok-btn" @click="retire()"><b>네</b></button></td>
               <td><button class="ok-btn" @click="retirement = false"><b>취소</b></button></td></tr>
             </table>
+     <Footer />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
+import Footer from "@/components/footer/StudentFooter";
 
 export default {
   name: 'Profile',
+  components: {
+    Footer
+  },
   computed: {
     ...mapGetters(["name", "email", "address", "phone", "age", "gender"])
   },
@@ -135,7 +140,7 @@ export default {
   margin: 5%;
   height: auto;
   text-align: left;
-  background-color: antiquewhite;
+  background-color: #F2F6FC;
   padding: 10px;
 }
 th, td{
