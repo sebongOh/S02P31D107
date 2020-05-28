@@ -1,6 +1,8 @@
 package com.ssafy.learnacademy.controller
 
 import com.ssafy.learnacademy.service.AcademyScheduleService
+import com.ssafy.learnacademy.service.AcademyService
+import com.ssafy.learnacademy.vo.Academy
 import com.ssafy.learnacademy.vo.AcademySchedule
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
@@ -11,41 +13,43 @@ import javax.xml.ws.Response
 
 @RestController
 @RequestMapping("/academySchedule")
-class AcademyScheduleController (var academyScheduleService: AcademyScheduleService){
+class AcademyScheduleController (var academyScheduleService: AcademyScheduleService, var academyService: AcademyService){
 
-    @GetMapping
+    @GetMapping("/")
     @ApiOperation(value="학원 스케쥴 전체검색", notes = "학원 스케쥴을 전부검색합니다")
-    fun getAllAcademySchedule() : List<AcademySchedule>? = academyScheduleService.findAll()
+    fun getAllAcademySchedule() : ResponseEntity<List<AcademySchedule>>?{
+        val academySchedule : List<AcademySchedule>? = academyScheduleService.findAll() ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(academySchedule)
+    }
 
     @GetMapping("/{academyScheduleId}")
     @ApiOperation(value = "학원 스케쥴 검색", notes = "학원 스케쥴을 검색합니다")
     fun getAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId : Long) : ResponseEntity<AcademySchedule>?{
-        return academyScheduleService.findById(academyScheduleId)?.map { academySchedule ->
-            ResponseEntity.ok(academySchedule)
-        }?.orElse(ResponseEntity.noContent().build())
+       val academySchedule : AcademySchedule? = academyScheduleService.findById(academyScheduleId) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(academySchedule)
     }
 
     @PostMapping
     @ApiOperation(value="학원 스케쥴 등록", notes = "학원스케쥴을 등록합니다")
-    fun insertAcademySchedule(@RequestBody academySchedule: AcademySchedule) : AcademySchedule?{
-        return academyScheduleService.insertAcademySchedule(academySchedule)
+    fun insertAcademySchedule(@RequestBody academySchedule: AcademySchedule) : ResponseEntity<AcademySchedule>?{
+        val academy : Academy? = academyService.getAcademy(academySchedule.academy?.academyId!!) ?: return ResponseEntity.noContent().build()
+        val insertAcademySchedule : AcademySchedule? = academyScheduleService.insertAcademySchedule(academySchedule) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(insertAcademySchedule)
     }
 
     @PutMapping
     @ApiOperation(value="학원 스케쥴 수정",notes = "학원 스케쥴을 수정합니다")
     fun updateAcademySchedule(@RequestBody academySchedule: AcademySchedule) : ResponseEntity<AcademySchedule>?{
-        return academyScheduleService.findById(academySchedule.academyScheduleId)?.map {
-            academyScheduleService.updateAcademySchedule(academySchedule)
-            ResponseEntity<AcademySchedule>(HttpStatus.OK)
-        }?.orElse(ResponseEntity.noContent().build())
+        academyScheduleService.findById(academySchedule.academyScheduleId!!) ?: return ResponseEntity.noContent().build()
+        academyScheduleService.updateAcademySchedule(academySchedule)
+        return ResponseEntity.ok().body(academySchedule)
     }
 
     @DeleteMapping("/{academyScheduleId}")
     @ApiOperation(value = "학원 스케쥴 삭제", notes = "학원 스케쥴을 삭제합니다")
-    fun deleteAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId: Long) : ResponseEntity<Void>? {
-        return academyScheduleService.findById(academyScheduleId)?.map{ academySchedule ->
-            academyScheduleService.deleteAcademySchedule(academySchedule)
-            ResponseEntity<Void>(HttpStatus.OK)
-        }?.orElse(ResponseEntity.noContent().build())
+    fun deleteAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId: Long) : ResponseEntity<Unit>? {
+        val academySchedule : AcademySchedule? = academyScheduleService.findById(academyScheduleId) ?: return ResponseEntity.noContent().build()
+        academyScheduleService.deleteAcademySchedule(academySchedule!!)
+        return ResponseEntity.ok().build()
     }
 }

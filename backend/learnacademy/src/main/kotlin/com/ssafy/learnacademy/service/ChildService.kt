@@ -24,7 +24,7 @@ class ChildService (var childRepository: ChildRepository){
         return childRepository.save(child)
     }
 
-    fun update(child: Child) : Child?{
+    fun updateChild(child: Child) : Child?{
         return childRepository.save(child)
     }
 

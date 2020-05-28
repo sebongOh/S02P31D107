@@ -21,6 +21,6 @@ class ScheduleDetail (
         var dayOfTheWeek : String? = null,
 
         @ManyToOne
-        @JoinColumn(name="academy_id")
+        @JoinColumn(name="academy_schedule_id")
         var academySchedule: AcademySchedule? = null
 ) : BaseEntity()

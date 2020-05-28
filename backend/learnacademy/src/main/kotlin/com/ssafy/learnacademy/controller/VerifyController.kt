@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/verify")
 @CrossOrigin(origins = ["*"], maxAge = 3600)
-class verifyController(val verifyService: VerifyService, val memberService: MemberService) {
+class VerifyController(val verifyService: VerifyService, val memberService: MemberService) {
 
     @PostMapping("/sendEmail")
     @ApiOperation(value = "인증 코드 이메일로 발송", notes = "인증 코드를 입력한 이메일로 발송합니다.")

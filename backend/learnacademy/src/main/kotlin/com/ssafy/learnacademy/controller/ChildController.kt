@@ -42,19 +42,16 @@ class ChildController (val childService: ChildService){
     @PutMapping
     @ApiOperation(value="자식정보 수정", notes = "자식정보를 수정합니다")
     fun updateChild(@RequestBody child : Child) : ResponseEntity<Child>?{
-        val child : Child? = childService.update(child) ?: return ResponseEntity.noContent().build()
+        childService.findById(child.childId!!) ?: return ResponseEntity.noContent().build()
+        childService.updateChild(child)
         return ResponseEntity.ok().body(child)
     }
 
     @DeleteMapping("/{childId}")
     @ApiOperation(value="자식정보 삭제", notes="자식정보를 삭제합니다")
     fun deleteChild(@PathVariable("childId") childId: Long) : ResponseEntity<Unit>?{
-        val child : Child? = childService.findById(childId)
-        if(child == null){
-            return ResponseEntity.notFound().build()
-        }else {
-            childService.deleteChild(child)
-            return ResponseEntity.ok().build()
-        }
+        val child : Child? = childService.findById(childId) ?: return ResponseEntity.notFound().build()
+        childService.deleteChild(child!!)
+        return ResponseEntity.ok().build()
     }
 }

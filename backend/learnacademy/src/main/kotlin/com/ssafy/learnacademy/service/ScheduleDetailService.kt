@@ -12,8 +12,8 @@ class ScheduleDetailService(var scheduleDetailRepository: ScheduleDetailReposito
         return scheduleDetailRepository.findAll()
     }
 
-    fun findById(scheduleDetailId : Long) : Optional<ScheduleDetail>?{
-        return scheduleDetailRepository.findById(scheduleDetailId)
+    fun findById(scheduleDetailId : Long) : ScheduleDetail?{
+        return scheduleDetailRepository.findById(scheduleDetailId).get()
     }
 
     fun insertScheduleDetail(scheduleDetail: ScheduleDetail) : ScheduleDetail? {

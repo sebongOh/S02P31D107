@@ -27,26 +27,23 @@ class BoardController(var boardService:BoardService){
     @PostMapping
     @ApiOperation(value = "자유게시판 등록", notes = "자유게시판을 등록합니다")
     fun insertBoard(@RequestBody board : Board) : ResponseEntity<Board>?{
-        val board : Board? = boardService.insertBoard(board) ?: return ResponseEntity.noContent().build()
-        return ResponseEntity.ok().body(board)
+        val insertBoard : Board? = boardService.insertBoard(board) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(insertBoard)
     }
 
     @PutMapping
     @ApiOperation(value = "자유게시판 수정", notes = "자유게시판을 수정합니다")
     fun updateBoard(@RequestBody board : Board) : ResponseEntity<Board>?{
-        val board : Board? = boardService.updateBoard(board) ?: return ResponseEntity.noContent().build()
+        boardService.findById(board.boardId!!) ?: return ResponseEntity.noContent().build()
+        boardService.updateBoard(board)
         return ResponseEntity.ok().body(board)
     }
 
     @DeleteMapping("/{boardId}")
     @ApiOperation(value = "자유게시판 삭제",notes = "자유게시판을 삭제합니다")
     fun deleteBoard(@PathVariable("boardId") boardId : Long):ResponseEntity<Unit>? {
-        val board : Board? = boardService.findById(boardId)
-        if(board == null){
-            return ResponseEntity.notFound().build()
-        }else {
-            boardService.deleteBoard(board)
-            return ResponseEntity.ok().build()
-        }
+        val board : Board? = boardService.findById(boardId) ?: return ResponseEntity.notFound().build()
+        boardService.deleteBoard(board!!)
+        return ResponseEntity.ok().build()
     }
 }

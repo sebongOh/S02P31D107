@@ -8,7 +8,11 @@ import java.util.*
 @Service
 class AcademyService(var academyRepository: AcademyRepository) {
 
-    fun getAcademy(academyId: Long): Academy {
+    fun findAll() : List<Academy>? {
+        return academyRepository.findAll()
+    }
+
+    fun getAcademy(academyId: Long): Academy? {
         return academyRepository.findById(academyId).get()
     }
 
@@ -20,7 +24,7 @@ class AcademyService(var academyRepository: AcademyRepository) {
         return academyRepository.save(academy)
     }
 
-    fun deleteAcademy(academyId: Long) {
-        return academyRepository.deleteById(academyId)
+    fun deleteAcademy(academy: Academy) {
+        return academyRepository.delete(academy)
     }
 }

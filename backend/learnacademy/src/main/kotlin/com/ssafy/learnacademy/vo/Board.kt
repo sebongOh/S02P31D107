@@ -4,12 +4,12 @@ import com.ssafy.learnacademy.common.BaseEntity
 import javax.persistence.*
 
 @Entity
-@Table(name="free_board")
+@Table(name="board")
 class Board (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var freeBoardId: Long,
+    var boardId: Long,
 
     @Column(nullable = false)
     var title : String? = null,

@@ -12,8 +12,8 @@ class AcademyScheduleService (var academyScheduleRepository: AcademyScheduleRepo
         return academyScheduleRepository.findAll()
     }
 
-    fun findById(academyScheduleId : Long): Optional<AcademySchedule>?{
-        return academyScheduleRepository.findById(academyScheduleId)
+    fun findById(academyScheduleId : Long): AcademySchedule?{
+        return academyScheduleRepository.findById(academyScheduleId).get()
     }
 
     fun insertAcademySchedule(academySchedule: AcademySchedule) : AcademySchedule?{

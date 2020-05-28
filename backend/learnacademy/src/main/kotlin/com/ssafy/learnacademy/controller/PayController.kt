@@ -88,7 +88,7 @@ class PayController(var payService: PayService, var memberService: MemberService
 
         val pay = Pay()
         pay.member = memberService.findById(memberId)
-        pay.academySchedule = academyScheduleService.findById(academyScheduleId)?.get()
+        pay.academySchedule = academyScheduleService.findById(academyScheduleId)
         pay.itemName = kakaoPayApproval?.item_name
         pay.price = kakaoPayApproval?.amount?.total
         pay.payMethodType = kakaoPayApproval?.payment_method_type
@@ -97,25 +97,17 @@ class PayController(var payService: PayService, var memberService: MemberService
         return pay
     }
 
-    fun insertPay(pay : Pay) : Pay?{
-        return payService.insertPay(pay)
+
+    fun insertPay(pay : Pay) : ResponseEntity<Pay>?{
+        val insertPay : Pay? = payService.insertPay(pay) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(insertPay)
     }
 
     @GetMapping("/find/{memberId}")
     @ApiOperation(value = "멤버로 검색", notes = "멤버로 검색합니다")
-    fun findByMember(memberId : Long) : List<ResponseEntity<Pay>>?{
-        var member : Member? = memberService.findById(memberId)
-        return payService.findByMember(member)?.map { pay ->
-            ResponseEntity.ok(pay)
-        }
+    fun findByMember(@PathVariable memberId : Long) : ResponseEntity<List<Pay>>?{
+        val member : Member? = memberService.findById(memberId)
+        val pay : List<Pay>? = payService.findByMember(member) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(pay)
     }
-
-            @GetMapping("/{academyScheduleId}")
-            @ApiOperation(value = "학원 스케쥴 검색", notes = "학원 스케쥴을 검색합니다")
-    fun getAcademySchedule(@PathVariable("academyScheduleId") academyScheduleId : Long) : ResponseEntity<AcademySchedule>?{
-        return academyScheduleService.findById(academyScheduleId)?.map { academySchedule ->
-            ResponseEntity.ok(academySchedule)
-        }?.orElse(ResponseEntity.noContent().build())
-    }
-
 }

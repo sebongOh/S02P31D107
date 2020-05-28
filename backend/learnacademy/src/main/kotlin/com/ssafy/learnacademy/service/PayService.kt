@@ -8,12 +8,12 @@ import java.util.*
 
 @Service
 class PayService (var payRepository: PayRepository){
-    fun findAll() : Iterable<Pay>?{
+    fun findAll() : List<Pay>?{
         return payRepository.findAll()
     }
 
-    fun findById(payId : Long) : Optional<Pay>?{
-        return payRepository.findById(payId)
+    fun findById(payId : Long) : Pay?{
+        return payRepository.findById(payId).get()
     }
 
     fun insertPay(pay: Pay) : Pay?{
