@@ -16,6 +16,14 @@ export const join = (data) => {
   });
 };
 
+export const acajoin = (data) => {
+  return request({
+    url: "member/academySignup",
+    method: "post",
+    data,
+  });
+};
+
 export const requestEmail = (data) => {
   return request({
     url: "verify/sendEmail",

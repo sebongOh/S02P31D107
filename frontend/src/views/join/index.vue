@@ -262,7 +262,7 @@
 
       <!--------------------------------- 회원가입 완료--------------------------------------->
       <el-form v-if="active === 2">
-        <div>{{ this.member.name }}가입을 축하합니다</div>
+        <div>{{ this.member.name }}님 가입을 축하합니다</div>
       </el-form>
       <!--------------------------------- 회원가입 완료--------------------------------------->
 
@@ -362,22 +362,36 @@ export default {
       this.member.address =
         this.member.addressObj.address + this.member.detailAddress;
       let formData = new FormData(document.getElementById("form"));
-      this.$store
-        .dispatch("student/join", formData)
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
+      formData.delete("address");
+      formData.delete("detailAddress");
+      formData.append("email", this.member.email);
+      formData.append("address", this.member.address);
+      if (this.normaluser) {
+        this.$store
+          .dispatch("student/join", formData)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.$store
+          .dispatch("student/acajoin", formData)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
       alert("join ok!");
-      // for (var key of formData.keys()) {
-      //   console.log(key);
-      // }
-      // for (var value of formData.values()) {
-      //   console.log(value);
-      // }
+      for (var key of formData.keys()) {
+        console.log(key);
+      }
+      for (var value of formData.values()) {
+        console.log(value);
+      }
       this.next();
     },
     go() {
