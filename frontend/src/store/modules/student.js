@@ -1,5 +1,5 @@
 import { getToken, setToken } from "@/utils/auth";
-import { join, login } from "@/api/student";
+import { join, login, acajoin } from "@/api/student";
 import { requestEmail } from "@/api/student";
 import { emailCheck } from "@/api/student";
 import { findPassword } from "@/api/student";
@@ -72,6 +72,19 @@ const actions = {
         });
     });
   },
+
+  acajoin({ commit }, formData) {
+    return new Promise((resolve, reject) => {
+      acajoin(formData)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+
   requestEmail({ commit }, email) {
     return new Promise((resolve, reject) => {
       requestEmail(email)

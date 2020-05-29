@@ -9,11 +9,16 @@ export const login = (data) => {
 };
 
 export const join = (data) => {
-  // for (var value of data.values()) {
-  //   console.log(value);
-  // }
   return request({
     url: "member/signup",
+    method: "post",
+    data,
+  });
+};
+
+export const acajoin = (data) => {
+  return request({
+    url: "member/academySignup",
     method: "post",
     data,
   });
