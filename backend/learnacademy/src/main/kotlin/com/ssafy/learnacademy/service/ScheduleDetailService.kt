@@ -1,6 +1,7 @@
 package com.ssafy.learnacademy.service
 
 import com.ssafy.learnacademy.repository.ScheduleDetailRepository
+import com.ssafy.learnacademy.vo.AcademySchedule
 import com.ssafy.learnacademy.vo.ScheduleDetail
 import org.springframework.stereotype.Service
 import java.util.*
@@ -14,6 +15,10 @@ class ScheduleDetailService(var scheduleDetailRepository: ScheduleDetailReposito
 
     fun findById(scheduleDetailId : Long) : ScheduleDetail?{
         return scheduleDetailRepository.findById(scheduleDetailId).get()
+    }
+
+    fun findByAcademySchedule(academySchedule: AcademySchedule) : List<ScheduleDetail>?{
+        return scheduleDetailRepository.findByAcademySchedule(academySchedule)
     }
 
     fun insertScheduleDetail(scheduleDetail: ScheduleDetail) : ScheduleDetail? {

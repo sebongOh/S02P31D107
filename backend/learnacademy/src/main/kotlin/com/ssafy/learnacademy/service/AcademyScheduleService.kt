@@ -2,6 +2,7 @@ package com.ssafy.learnacademy.service
 
 import com.ssafy.learnacademy.repository.AcademyScheduleRepository
 import com.ssafy.learnacademy.vo.AcademySchedule
+import com.ssafy.learnacademy.vo.ScheduleDetail
 import org.springframework.stereotype.Service
 import java.util.*
 
