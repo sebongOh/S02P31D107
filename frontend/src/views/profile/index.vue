@@ -41,7 +41,9 @@
               <tr><td class="btn2"><button class="ok-btn" @click="retire()"><b>네</b></button></td>
               <td><button class="ok-btn" @click="retirement = false"><b>취소</b></button></td></tr>
             </table>
+     <div class="footer-domain">
      <Footer />
+     </div>
   </div>
 </template>
 
@@ -218,5 +220,8 @@ th, td{
     height: 178px;
     display: block;
 }
-
+.footer-domain{
+  width: auto;
+  height: 80px;
+}
 </style>

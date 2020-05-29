@@ -1,21 +1,22 @@
 <template>
-  <div class="app-container">
-    <h1>학원관리 페이지</h1>
-    <el-select v-model="value" placeholder="관리할 학원 선택">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
-  </el-select>
-  <!-- 학원 추가용 + 버튼 -->
-  <button class="add-btn" @click="addAcademy()">+</button>
-  <AcademyAdd v-if="isAdd & value==''" />
-  <!-- 학원이 선택되어 있다면 해당 학원 안에 수정/삭제 기능 -->
-  <AcademyModify v-if="value!=''" :academyId="value" />
-  <Footer />
-  </div>
+    <div class="app-container">
+        <h1>학원관리 페이지</h1>
+        <el-select v-model="value" placeholder="관리할 학원 선택">
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"></el-option>
+        </el-select>
+        <!-- 학원 추가용 + 버튼 -->
+        <button class="add-btn" @click="addAcademy()">+</button>
+        <AcademyAdd v-if="isAdd & value==''"/>
+        <!-- 학원이 선택되어 있다면 해당 학원 안에 수정/삭제 기능 -->
+        <AcademyModify v-if="value!=''" :academyId="value"/>
+        <div class="footer-domain">
+            <Footer/>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -70,5 +71,9 @@ export default {
 }
 .add-btn:active{
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.42);
+}
+.footer-domain{
+  width: auto;
+  height: 80px;
 }
 </style>

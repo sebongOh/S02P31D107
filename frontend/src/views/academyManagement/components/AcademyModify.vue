@@ -1,6 +1,6 @@
 <template>
     <div class="profile-div">
-        아카데미ID로 학원 정보 받아와서 수정 및 삭제
+      <div v-if="!auth">
         <table class="profile-table">
             <tr><th>학원 사진</th></tr>
             <tr><td><el-upload
@@ -21,29 +21,35 @@
             <tr><td><input class="input1" type="text" v-model="phone"></td></tr>
             <tr><th>주소</th></tr>
             <tr><td><input class="input1" type="text" v-model="address"></td></tr>
-            <!-- 카테고리는 목록 중 선택 방식 / 복수 가능 -->
             <tr><th>카테고리</th></tr>
             <tr><td>
-            <input class="checkbox1" type="checkbox" name="category" value="어학원">어학원
-            <input class="checkbox1" type="checkbox" name="category" value="컴퓨터학원">컴퓨터학원
-            <input class="checkbox1" type="checkbox" name="category" value="무용학원">무용학원<br>
-            <input class="checkbox1" type="checkbox" name="category" value="공무원시험학원">공무원시험학원
-            <input class="checkbox1" type="checkbox" name="category" value="간호학원">간호학원<br>
-            <input class="checkbox1" type="checkbox" name="category" value="보습학원">보습학원
-            <input class="checkbox1" type="checkbox" name="category" value="음악학원">음악학원
-            <input class="checkbox1" type="checkbox" name="category" value="입시학원">입시학원<br>
-            <input class="checkbox1" type="checkbox" name="category" value="편입학원">편입학원
-            <input class="checkbox1" type="checkbox" name="category" value="미술학원">미술학원
-            <input class="checkbox1" type="checkbox" name="category" value="미용학원">미용학원<br>
-            <input class="checkbox1" type="checkbox" name="category" value="한문학원">한문학원
-            <input class="checkbox1" type="checkbox" name="category" value="수학학원">수학학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="어학원">어학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="컴퓨터학원">컴퓨터학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="무용학원">무용학원<br>
+            <input class="checkbox1" type="checkbox" v-model="category" value="공무원시험학원">공무원시험학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="간호학원">간호학원<br>
+            <input class="checkbox1" type="checkbox" v-model="category" value="보습학원">보습학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="음악학원">음악학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="입시학원">입시학원<br>
+            <input class="checkbox1" type="checkbox" v-model="category" value="편입학원">편입학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="미술학원">미술학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="미용학원">미용학원<br>
+            <input class="checkbox1" type="checkbox" v-model="category" value="한문학원">한문학원
+            <input class="checkbox1" type="checkbox" v-model="category" value="수학학원">수학학원
             </td></tr>
-            <!-- 현재 비밀번호 확인(v-if 로 빼내자) / 이게 맞아야 학원 권한 이동 가능 -->
-            <!-- 권한 이동(다른 사람한테 학원 넘겨줌) 버튼 -> 현재 비번 확인 -> 이동성공 -->
-            <tr><th>현재 비밀번호 확인<span class="red">*필수</span></th></tr>
-            <tr><td><input class="input1" type="password" v-model="password"></td></tr>
             </table>
+            <button @click="auth=true">학원 권한 변경</button>
+            <div class="btn1"><button class="retire-btn">학원 삭제</button></div>
             <button @click="clickTest()">입력된 내용 확인</button>
+      </div>
+      <table v-if="auth" class="profile-table">
+        <tr><th colspan="2">권한 넘겨줄 회원 ID</th></tr>
+        <tr><td colspan="2"><input class="input1" type="text" v-model="memberId"></td></tr>
+        <tr><th colspan="2">현재 비밀번호 확인</th></tr>
+        <tr><td colspan="2"><input class="input1" type="password" v-model="password"></td></tr>
+        <tr><td class="btn2"><button class="ok-btn" @click="passAuth()"><b>네</b></button></td>
+        <td class="btn2"><button class="ok-btn" @click="auth = false"><b>취소</b></button></td></tr>
+      </table>
     </div>
 </template>
 
@@ -52,10 +58,12 @@ export default {
     props:["academyId"],
     data() {
     return {
+      imageUrl: "",
       name: "",
       phone: "",
       address: "",
       category: [],
+      memberId: "",
       password: "",
       auth: false
     }
@@ -63,6 +71,16 @@ export default {
   methods:{
       clickTest(){
           console.log(this.category);
+      },
+      passAuth(){
+        if(this.memberId == ""){
+          alert("권한을 이동하실 회원의 ID 를 입력해주세요!");
+          return;
+        }else if(this.password == ""){
+          alert("현재 비밀번호를 입력해주세요!");
+          return;
+        }
+        console.log(this.memberId + " 님한테 " +this.academyId +" 권한이 넘어갔습니다.");
       }
   }
 }
@@ -90,10 +108,30 @@ th, td{
   height: 30px;
   margin-right: 1%;;
 }
-.red{
-  color: red;
-  font-size: 10px;
-  vertical-align: top;
+.btn1{
+  width:90%;
+  height:auto;
+  margin: 5%;
+  text-align: right;
+}
+.btn2{
+  width:50%;
+  text-align: center;
+}
+.ok-btn{
+  width:50%;
+  height: 40px;
+  border-radius: 5px;
+  background-color: coral;
+  border: solid 3px chocolate;
+}
+.retire-btn{
+  width: 80px;
+  height: 30px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  border: 3px solid brown;
 }
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
