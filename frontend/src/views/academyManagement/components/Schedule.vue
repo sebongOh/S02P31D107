@@ -7,7 +7,7 @@
         <tr><td>종료일</td><td><input class="input1" type="date" /></td></tr>
         <tr><td colspan="2">스케줄 상세정보</td></tr>
         <tr><td colspan="2"><textarea class="input2" /></td></tr>
-        <tr><td colspan="2"><button>상세 스케줄 추가</button></td></tr>
+        <!-- <tr><td colspan="2"><button>상세 스케줄 추가</button></td></tr> -->
         </table>
     </div>
 </template>
