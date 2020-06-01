@@ -22,7 +22,7 @@
 <script>
 import AcademyModify from "@/views/academyManagement/components/AcademyModify";
 import AcademyAdd from "@/views/academyManagement/components/AcademyAdd";
-import Footer from "@/components/footer/AcademyFooter";
+import Footer from "@/views/academyManagement/components/Footer";
 
 export default {
     components: { AcademyModify, AcademyAdd, Footer },

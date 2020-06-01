@@ -48,6 +48,11 @@ export default [
         name: 'academyManagement'
     },
     {
+        path: '/academy-detail',
+        component: () => import('@/views/academyDetail'),
+        name: 'academyDetail'
+    },
+    {
         path: '*',
         component: () => import('@/views/error'),
         name: 'error404'
