@@ -37,6 +37,9 @@
             <input class="checkbox1" type="checkbox" v-model="category" value="한문학원">한문학원
             <input class="checkbox1" type="checkbox" v-model="category" value="수학학원">수학학원
             </td></tr>
+            <tr><th>스케줄 추가</th></tr>
+            <tr v-for="index in count" :key="index"><td><Schedule /></td></tr>
+            <tr><td><button class="add-btn2" @click="count++">+</button></td></tr>
             </table>
             <button @click="auth=true">학원 권한 변경</button>
             <div class="btn1"><button class="retire-btn">학원 삭제</button></div>
@@ -54,7 +57,10 @@
 </template>
 
 <script>
+import Schedule from "@/views/academyManagement/components/Schedule";
+
 export default {
+    components: { Schedule },
     props:["academyId"],
     data() {
     return {
@@ -65,7 +71,8 @@ export default {
       category: [],
       memberId: "",
       password: "",
-      auth: false
+      auth: false,
+      count: 0
     }
   },
   methods:{
@@ -132,6 +139,21 @@ th, td{
   color: white;
   border-radius: 5px;
   border: 3px solid brown;
+}
+.add-btn2{
+  margin: 10px;
+  width: 50px;
+  height: 35px;
+  font-size: 25px;
+  font-weight: 100;
+  color: #909399;
+  background: white;
+  border: 1px solid #DCDFE6;
+  border-radius: 3px;
+  float: right;
+}
+.add-btn2:active{
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.42);
 }
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
