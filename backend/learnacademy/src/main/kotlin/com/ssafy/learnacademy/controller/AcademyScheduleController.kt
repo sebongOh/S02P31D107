@@ -32,7 +32,7 @@ class AcademyScheduleController (var academyScheduleService: AcademyScheduleServ
     @PostMapping
     @ApiOperation(value="학원 스케쥴 등록", notes = "학원스케쥴을 등록합니다")
     fun insertAcademySchedule(@RequestBody academySchedule: AcademySchedule) : ResponseEntity<AcademySchedule>?{
-        val academy : Academy? = academyService.getAcademy(academySchedule.academy?.academyId!!) ?: return ResponseEntity.noContent().build()
+        academyService.getAcademy(academySchedule.academy?.academyId!!) ?: return ResponseEntity.noContent().build()
         val insertAcademySchedule : AcademySchedule? = academyScheduleService.insertAcademySchedule(academySchedule) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(insertAcademySchedule)
     }
