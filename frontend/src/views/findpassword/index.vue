@@ -1,7 +1,7 @@
 <template>
   <div class="user" id="login">
     <div class="wrapC">
-      <h1>로그인<br /></h1>
+      <h1>비밀번호 찾기</h1>
 
       <div class="input-with-label">
         <input
@@ -10,7 +10,7 @@
             error: error.email,
             complete: !error.email && email.length !== 0,
           }"
-          @keyup.enter="login"
+          @keyup.enter="find"
           id="email"
           placeholder="이메일을 입력하세요."
           type="text"
@@ -23,48 +23,38 @@
 
       <div class="input-with-label">
         <input
-          v-model="password"
-          type="password"
-          v-bind:class="{
-            error: error.password,
-            complete: !error.password && password.length !== 0,
-          }"
-          id="password"
-          @keyup.enter="login"
-          placeholder="비밀번호를 입력하세요."
+          v-model="name"
+          type="text"
+          id="name"
+          @keyup.enter="find"
+          placeholder="이름을 입력해주세요"
         />
-        <label for="password">비밀번호</label>
-        <div class="error-text" v-if="error.password">
-          {{ error.password }}
-        </div>
+        <label for="password">이름</label>
       </div>
       <button
         class="btn btn--back btn--login"
-        @click="login"
+        @click="find"
         :disabled="!isSubmit"
         :class="{ disabled: !isSubmit }"
       >
-        로그인
+        비밀번호 찾기
       </button>
-
       <div class="sns-login">
         <div class="text"></div>
       </div>
       <div class="add-option">
         <div class="text">
-          <p>혹시</p>
           <div class="bar"></div>
-        </div>
-        <div class="wrap">
-          <p>비밀번호를 잊으셨나요?</p>
-          <router-link v-bind:to="{ name: 'findPassword' }" class="btn--text"
-            >비밀번호 찾기</router-link
-          >
         </div>
         <div class="wrap">
           <p>아직 회원이 아니신가요?</p>
           <router-link v-bind:to="{ name: 'join' }" class="btn--text"
             >가입하기</router-link
+          >
+        </div>
+        <div class="wrap">
+          <router-link v-bind:to="{ name: 'login' }" class="btn--text"
+            >뒤로 가기</router-link
           >
         </div>
       </div>
@@ -75,30 +65,18 @@
 <script>
 import "../../assets/css/style.scss";
 import "../../assets/css/user.scss";
-import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 
 export default {
-  created() {
-    this.component = this;
-
-    this.passwordSchema
-      .is()
-      .min(8)
-      .is()
-      .max(100)
-      .has()
-      .digits()
-      .has()
-      .letters();
-  },
-  watch: {
-    password: function(v) {
-      this.checkForm();
-    },
-    email: function(v) {
-      this.checkForm();
-    },
+  data: () => {
+    return {
+      email: "",
+      name: "",
+      error: {
+        email: false,
+      },
+      isSubmit: false,
+    };
   },
   methods: {
     checkForm() {
@@ -106,49 +84,41 @@ export default {
         this.error.email = "이메일 형식이 아닙니다.";
       else this.error.email = false;
 
-      if (
-        this.password.length >= 0 &&
-        !this.passwordSchema.validate(this.password)
-      )
-        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
-      else this.error.password = false;
       let isSubmit = true;
       Object.values(this.error).map((v) => {
         if (v) isSubmit = false;
       });
       this.isSubmit = isSubmit;
     },
-    login() {
+    find() {
       if (this.isSubmit) {
         this.isSubmit = false;
         this.$store
-          .dispatch("student/login", {
+          .dispatch("student/findPassword", {
             email: this.email,
-            password: this.password,
+            name: this.name,
           })
           .then((res) => {
-            //메인으로 넘김
+            if (res.status == 200) {
+              alert("이메일로 임시비밀번호가 전송되었습니다.");
+            } else {
+              alert("가입된 정보가 없습니다.");
+            }
             this.isSubmit = true;
           })
           .catch((err) => {
-            alert("아이디 비밀번호를 확인해주세요");
+            alert("가입된 정보가 없습니다.");
             this.isSubmit = true;
           });
       }
     },
   },
-  data: () => {
-    return {
-      email: "",
-      password: "",
-      passwordSchema: new PV(),
-      error: {
-        email: false,
-        passowrd: false,
-      },
-      isSubmit: false,
-      component: this,
-    };
+  watch: {
+    email: function(v) {
+      this.checkForm();
+    },
   },
 };
 </script>
+
+<style></style>

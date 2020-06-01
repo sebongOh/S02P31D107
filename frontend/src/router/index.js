@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from "vue";
+import Router from "vue-router";
 
 Vue.use(Router);
 
@@ -31,6 +31,11 @@ export default [
         component: () => import('@/views/academy'),
         name: 'academyMain',
         children: [],
+    },
+    {
+        path: "/findPassword",
+        component: () => import("@/views/findpassword"),
+        name: "findPassword",
     },
     {
         path: '/student-profile',

@@ -1,8 +1,11 @@
 <template>
   <div class="app-container">
-    <h1>여기는 학생 페이지</h1>
-    <el-button type="primary">Primary</el-button>
-    <Footer />
+    <Header />
+    <Home v-if="page==1" />
+    <MyPage v-if="page==2" />
+    <Search v-if="page==3" />
+    <More v-if="page==4" />
+    <Footer @changePage="changePage" />
   </div>
 </template>
 
@@ -10,11 +13,26 @@
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
 
-import Footer from "@/components/footer/StudentFooter";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import More from "./components/More";
+import MyPage from "./components/MyPage";
+import Search from "./components/Search";
 
 export default {
   components: {
-    Footer
+    Header,
+    Footer,
+    Home,
+    More,
+    MyPage,
+    Search
+  },
+  data() {
+    return {
+      page: 1
+    };
   },
   mounted() {
     // console.log(getToken());
@@ -22,8 +40,17 @@ export default {
   },
   computed: {
     ...mapGetters(["name", "token"])
+  },
+  methods: {
+    changePage(num) {
+      this.page = num;
+    }
   }
 };
 </script>
 
-<style></style>
+<style>
+.app-container {
+  padding: 60px 0;
+}
+</style>
