@@ -50,7 +50,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
-import Footer from "@/components/footer/StudentFooter";
+import Footer from "@/views/profile/components/Footer";
 
 export default {
   name: 'Profile',
