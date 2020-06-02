@@ -15,11 +15,6 @@ export default [
     name: "join",
   },
   {
-    path: "/findPassword",
-    component: () => import("@/views/findpassword"),
-    name: "findPassword",
-  },
-  {
     path: "/admin-main",
     component: () => import("@/views/admin"),
     name: "adminMain",
@@ -36,6 +31,31 @@ export default [
     component: () => import("@/views/academy"),
     name: "academyMain",
     children: [],
+  },
+  {
+    path: "/findPassword",
+    component: () => import("@/views/findpassword"),
+    name: "findPassword",
+  },
+  {
+    path: "/student-profile",
+    component: () => import("@/views/profile"),
+    name: "studentProfile",
+  },
+  {
+    path: "/academy-management",
+    component: () => import("@/views/academyManagement"),
+    name: "academyManagement",
+  },
+  {
+    path: "/academy-detail",
+    component: () => import("@/views/academyDetail"),
+    name: "academyDetail",
+  },
+  {
+    path: "*",
+    component: () => import("@/views/error"),
+    name: "error404",
   },
   {
     path: "/payment",
