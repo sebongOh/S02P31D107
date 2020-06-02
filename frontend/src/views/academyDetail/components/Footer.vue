@@ -48,8 +48,8 @@ export default {
   methods: {
     click(num) {
       this.$emit("changePage", num);
-    }
-  }
+    },
+  },
 };
 </script>
 
