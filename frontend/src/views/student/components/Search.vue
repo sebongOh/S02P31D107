@@ -11,6 +11,7 @@ let infowindow;
 let map;
 let ps;
 export default {
+  props: ["options"],
   data() {
     return {
       mapOptions: {
@@ -28,8 +29,10 @@ export default {
           // latitude: 35.231592,
           // longitude: 129.084163,
           // 노량진
-          latitude: 37.513545,
-          longitude: 126.940996
+          //   latitude: 37.513545,
+          //   longitude: 126.940996,
+          latitude: 0,
+          longitude: 0
         },
         radius: 1000,
         level: 5,
@@ -37,10 +40,16 @@ export default {
       },
       datas: [],
       page: 0,
-      maxPage: 45
+      maxPage: 1
     };
   },
   mounted() {
+    console.log("여기는 Search");
+    console.log(this.options.options.radius);
+    this.mapOptions.location.latitude = this.options.place.x;
+    this.mapOptions.location.longitude = this.options.place.y;
+    this.mapOptions.radius = this.options.options.radius;
+
     window.kakao && window.kakao.maps
       ? this.initMap()
       : this.addKakaoMapScript();
@@ -54,7 +63,8 @@ export default {
       document.head.appendChild(script);
     },
     initMap() {
-      console.log("initMap 호출");
+      //   console.log("initMap 호출");
+      //   console.log(this.mapOptions);
       infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
       let container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
       let options = {
@@ -69,11 +79,11 @@ export default {
       // 장소 검색 객체를 생성합니다
       ps = new kakao.maps.services.Places();
       for (let i = 1; i <= this.maxPage; ++i) {
-        // 카테고리로 은행을 검색합니다
+        // 카테고리로 학원을 검색합니다
         ps.categorySearch("AC5", this.placesSearchCB, {
-          location: options.center,
+          x: this.mapOptions.location.latitude,
+          y: this.mapOptions.location.longitude,
           radius: this.mapOptions.radius,
-          size: this.mapOptions.size,
           page: i
         });
       }
@@ -88,6 +98,7 @@ export default {
         if (this.page == this.maxPage) {
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
           // LatLngBounds 객체에 좌표를 추가합니다
+          console.log(this.datas);
           let bounds = new kakao.maps.LatLngBounds();
           const set = new Set();
           for (let i = 0; i < this.datas.length; ++i) {
@@ -96,7 +107,7 @@ export default {
             this.displayMarker(data);
             bounds.extend(new kakao.maps.LatLng(data.y, data.x));
           }
-          console.log(set);
+          //   console.log(set);
           // // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
           map.setBounds(bounds);
         }

@@ -28,6 +28,7 @@ let infowindow;
 let map;
 let ps;
 export default {
+  props: ["options"],
   data() {
     return {
       mapOptions: {
@@ -183,8 +184,10 @@ export default {
 
       el.innerHTML = itemStr;
       el.className = "item";
-      //   el.onclick = () => console.log(places);
-      el.onclick = () => {};
+      el.onclick = () => {
+        // console.log(places);
+        this.$emit("setLocation", places);
+      };
 
       return el;
     },
