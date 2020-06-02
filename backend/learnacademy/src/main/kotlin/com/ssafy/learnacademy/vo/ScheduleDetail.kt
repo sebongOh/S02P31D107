@@ -1,5 +1,6 @@
 package com.ssafy.learnacademy.vo
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.ssafy.learnacademy.common.BaseEntity
 import java.sql.Time
 import javax.persistence.*
@@ -21,6 +22,6 @@ class ScheduleDetail (
         var dayOfTheWeek : String? = null,
 
         @ManyToOne
-        @JoinColumn(name="academy_schedule_id")
+        @JoinColumn(name = "academy_schedule_id")
         var academySchedule: AcademySchedule? = null
 ) : BaseEntity()

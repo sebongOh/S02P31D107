@@ -42,7 +42,7 @@ class MemberController(
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입", notes = "회원 정보를 등록합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요.")
     fun insertMember(member: Member): ResponseEntity<Member> {
-        if (member.profileFile == null) {
+        if (member.profileFile != null) {
             member.profileUrl = s3UploadService.uploadFile(member.profileFile, "profile/")
         } else {
             member.profileUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/profile/default.png"

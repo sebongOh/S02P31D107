@@ -18,12 +18,12 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/pay")
 class PayController(var payService: PayService, var memberService: MemberService, var academyScheduleService: AcademyScheduleService) {
 
-    final var host : String = "https://kapi.kakao.com"
+    final var host : String = "https://kapi.kakao.com/"
     var kakaoPayApproval: KakaoPayApproval? =null
     var kakaoPayReady: KakaoPayReady? = null
 
     @PostMapping("/ready")
-    fun kakaoPayReady(@RequestBody request : HttpServletRequest, pay : Pay) : ResponseEntity<String>{
+    fun kakaoPayReady(@RequestBody pay : Pay, request : HttpServletRequest) : ResponseEntity<String>{
         var headers = HttpHeaders()
         var restTemplate = RestTemplate()
         val webUrl : String = "http://localhost:8080/"

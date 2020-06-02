@@ -19,5 +19,11 @@ class AcademySchedule (
 
         @ManyToOne
         @JoinColumn(name="academy_id")
-        var academy: Academy? = null
+        var academy: Academy? = null,
+
+        @OneToMany(mappedBy = "academySchedule",cascade = [CascadeType.ALL])
+        var scheduleDetail: MutableList<ScheduleDetail>? = null,
+
+        @OneToMany(mappedBy = "academySchedule",cascade = [CascadeType.ALL])
+        var memberSchedule: MutableList<MemberSchedule>? = null
 ) : BaseEntity()

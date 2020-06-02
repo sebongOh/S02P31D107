@@ -27,6 +27,9 @@ class Academy (
         var imageUrl: String? = null,
 
         @Transient
-        var imageFile: MultipartFile? = null
+        var imageFile: MultipartFile? = null,
+
+        @OneToMany(mappedBy = "academy", cascade = [CascadeType.ALL])
+        var academySchedule: MutableList<AcademySchedule>? = null
 
 ) : BaseEntity()
