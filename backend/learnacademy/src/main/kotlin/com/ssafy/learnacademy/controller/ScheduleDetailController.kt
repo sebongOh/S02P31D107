@@ -33,7 +33,7 @@ class ScheduleDetailController (var scheduleDetailService: ScheduleDetailService
     @GetMapping("/{academyScheduleId}/asid")
     @ApiOperation(value="상세 스케쥴 학원스케쥴로 찾기",notes = "상세 스케쥴을 학원스케쥴로 검색합니다")
     fun findByAcademyScheduleId(@PathVariable("academyScheduleId") academyScheduleId : Long) : ResponseEntity<List<ScheduleDetail>>{
-        val academySchedule : AcademySchedule? = academyScheduleService.findById(academyScheduleId)
+        val academySchedule : AcademySchedule? = academyScheduleService.findById(academyScheduleId) ?: return ResponseEntity.noContent().build()
         val scheduleDetail : List<ScheduleDetail>? = scheduleDetailService.findByAcademySchedule(academySchedule!!) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(scheduleDetail)
     }
@@ -66,8 +66,9 @@ class ScheduleDetailController (var scheduleDetailService: ScheduleDetailService
         return ResponseEntity.ok().build()
     }
 
-//    @DeleteMapping("/delete/asid/{academyScheduleId}")
-//    @ApiOperation(value="학원스케쥴로 상세스케쥴 삭제", notes = "학원스케쥴로 상세스케쥴들을 삭제합니다")
-//    fun deleteByAcademyScheduleId(@PathVariable("academyScheduleId") academyScheduleId: Long) : ResponseEntity<Unit>? {
-//    }
+    @DeleteMapping("/{academyScheduleId}/asid")
+    @ApiOperation(value="학원스케쥴로 상세스케쥴 삭제", notes = "학원스케쥴로 상세스케쥴들을 삭제합니다")
+    fun deleteByAcademyScheduleId(@PathVariable("academyScheduleId") academyScheduleId: Long) : ResponseEntity<Unit>? {
+        val
+    }
 }

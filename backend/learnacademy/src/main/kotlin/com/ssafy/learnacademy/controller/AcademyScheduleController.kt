@@ -12,7 +12,7 @@ import java.util.*
 import javax.xml.ws.Response
 
 @RestController
-@RequestMapping("/academySchedule")
+@RequestMapping("/academy-schedule")
 class AcademyScheduleController (var academyScheduleService: AcademyScheduleService, var academyService: AcademyService){
 
     @GetMapping("/")
