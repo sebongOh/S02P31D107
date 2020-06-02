@@ -3,7 +3,7 @@
     <Header />
     <Home v-if="page==1" />
     <MyPage v-if="page==2" />
-    <Search v-if="page==3" />
+    <Location v-if="page==3" />
     <More v-if="page==4" />
     <Footer @changePage="changePage" />
   </div>
@@ -18,7 +18,8 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import More from "./components/More";
 import MyPage from "./components/MyPage";
-import Search from "./components/Search";
+// import Search from "./components/Search";
+import Location from "./components/Location";
 
 export default {
   components: {
@@ -27,7 +28,8 @@ export default {
     Home,
     More,
     MyPage,
-    Search
+    // Search,
+    Location
   },
   data() {
     return {
@@ -36,7 +38,7 @@ export default {
   },
   mounted() {
     // console.log(getToken());
-    console.log(this.name);
+    // console.log(this.name);
   },
   computed: {
     ...mapGetters(["name", "token"])
@@ -44,6 +46,7 @@ export default {
   methods: {
     changePage(num) {
       this.page = num;
+      console.log("현재 페이지 ::: " + this.page);
     }
   }
 };
