@@ -1,18 +1,11 @@
 <template>
-    <div id="Profile" class="app-container">
+    <div id="Profile">
+      <div class="app-container">
             <div class="profile-div" v-if="!retirement">
             <h2>내 정보 수정</h2>
             <table class="profile-table">
             <tr><th>프로필 사진</th></tr>
-            <tr><td><el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload">
-              <img v-if="imageUrl" :src="imageUrl" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload></td></tr>
+            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imgUrl" /></td></tr>
             <tr><th>이름</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="nameInput"></td></tr>
             <tr><th>이메일</th></tr>
@@ -41,6 +34,7 @@
               <tr><td class="btn2"><button class="ok-btn" @click="retire()"><b>네</b></button></td>
               <td><button class="ok-btn" @click="retirement = false"><b>취소</b></button></td></tr>
             </table>
+      </div>
      <div class="footer-domain">
      <Footer />
      </div>
@@ -186,9 +180,11 @@ th, td{
   border: 3px solid brown;
 }
 .retirement-table{
-  width:100%;
+  width:90%;
+  margin: 5%;
   height: auto;
   text-align: center;
+  padding: 10px;
 }
 .ok-btn{
   width:50%;

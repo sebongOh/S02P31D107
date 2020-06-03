@@ -1,5 +1,6 @@
 <template>
-    <div class="app-container">
+    <div>
+      <div class="app-container">
         <h1>학원관리 페이지</h1>
         <el-select v-model="value" placeholder="관리할 학원 선택">
             <el-option
@@ -13,6 +14,7 @@
         <AcademyAdd v-if="isAdd & value==''"/>
         <!-- 학원이 선택되어 있다면 해당 학원 안에 수정/삭제 기능 -->
         <AcademyModify v-if="value!=''" :academyId="value"/>
+      </div>
         <div class="footer-domain">
             <Footer/>
         </div>
@@ -58,9 +60,12 @@ export default {
 </script>
 
 <style>
+.app-container{
+  padding: 2%;
+}
 .add-btn{
   margin: 10px;
-  width: 100px;
+  width: 90px;
   height: 35px;
   font-size: 25px;
   font-weight: 100;
