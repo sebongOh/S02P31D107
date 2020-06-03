@@ -56,6 +56,7 @@ class MemberController(
         member.setPassword(academyCertificationRequest.password)
         member.name = academyCertificationRequest.name
         member.address = academyCertificationRequest.address
+        member.phone = academyCertificationRequest.phone
         member.age = academyCertificationRequest.age
         member.gender = academyCertificationRequest.gender
         member.profileFile = academyCertificationRequest.profileFile
