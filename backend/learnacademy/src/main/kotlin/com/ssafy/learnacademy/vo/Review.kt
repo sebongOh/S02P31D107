@@ -23,4 +23,8 @@ class Review (
         @ManyToOne
         @JoinColumn(name="academy_id")
         var academy : Academy? = null
+,
+        @ManyToOne
+        @JoinColumn(name="member_id")
+        var member: Member? = null
 ) : BaseEntity()

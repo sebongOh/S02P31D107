@@ -23,7 +23,7 @@ class AcademyCertificationRequest (
 
         var profileUrl: String? = null,
 
-        var roles: MutableSet<Role> = mutableSetOf(),
+        var roles: MutableList<String> = mutableListOf(),
 
         var profileFile: MultipartFile? = null,
 

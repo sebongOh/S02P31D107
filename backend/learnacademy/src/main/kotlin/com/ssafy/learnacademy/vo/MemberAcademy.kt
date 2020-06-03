@@ -1,7 +1,5 @@
 package com.ssafy.learnacademy.vo
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import com.ssafy.learnacademy.common.BaseEntity
 import javax.persistence.*
 

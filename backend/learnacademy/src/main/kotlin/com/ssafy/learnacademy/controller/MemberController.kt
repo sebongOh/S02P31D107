@@ -3,17 +3,12 @@ package com.ssafy.learnacademy.controller
 import com.ssafy.learnacademy.service.AcademyService
 import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.service.S3UploadService
-import com.ssafy.learnacademy.vo.AcademyCertification
-import com.ssafy.learnacademy.vo.AcademyCertificationRequest
-import com.ssafy.learnacademy.vo.Member
-import com.ssafy.learnacademy.vo.MemberRequest
+import com.ssafy.learnacademy.vo.*
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
-import java.io.File
 import java.lang.Exception
-import javax.mail.Multipart
 
 @RestController
 @RequestMapping("/member")
@@ -26,6 +21,7 @@ class MemberController(
 
     @GetMapping("/{memberId}")
     @ApiOperation(value = "멤버 찾기", notes = "멤버를 검색합니다")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun getMember(@PathVariable("memberId") memberId: Long): ResponseEntity<Member> {
         val member: Member? = memberService.findById(memberId) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(member)
@@ -47,6 +43,7 @@ class MemberController(
         } else {
             member.profileUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/profile/default.png"
         }
+        member.roles.add("ROLE_USER")
         val insertMember :Member? = memberService.insertMember(member)
         return ResponseEntity.ok().body(insertMember)
     }
@@ -56,13 +53,13 @@ class MemberController(
     fun insertAcademyMember(academyCertificationRequest: AcademyCertificationRequest): ResponseEntity<Member> {
         val member: Member = Member()
         member.email = academyCertificationRequest.email
-        member.password = academyCertificationRequest.password
+        member.setPassword(academyCertificationRequest.password)
         member.name = academyCertificationRequest.name
         member.address = academyCertificationRequest.address
         member.age = academyCertificationRequest.age
         member.gender = academyCertificationRequest.gender
         member.profileFile = academyCertificationRequest.profileFile
-        member.roles = academyCertificationRequest.roles
+        member.roles.add("ROLE_ADMIN")
         if (academyCertificationRequest.profileFile != null) {
             member.profileUrl = s3UploadService.uploadFile(academyCertificationRequest.profileFile, "profile/")
         } else {
@@ -85,6 +82,7 @@ class MemberController(
     @PutMapping
     @ApiOperation(value = "회원 수정", notes = "회원 정보를 수정합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요. " +
             "\n비밀번호는 정부 수정 시 재입력해서 수정폼에 들어오도록 해주세요.")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun updateMember(@RequestBody member: Member): ResponseEntity<Member> {
         if (member.profileFile == null) {
             member.profileUrl = s3UploadService.uploadFile(member.profileFile, "profile/")
@@ -97,6 +95,7 @@ class MemberController(
 
     @DeleteMapping("/{memberId}")
     @ApiOperation(value = "회원 정보 삭제(탈퇴)", notes = "회원 정보를 삭제합니다.")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun deleteMember(@PathVariable("memberId") memberId: Long): ResponseEntity<Unit> {
         try {
             memberService.deleteMember(memberId)
@@ -118,6 +117,7 @@ class MemberController(
 
     @PostMapping("/checkPassword")
     @ApiOperation(value = "비밀번호 확인", notes = "비밀번호가 맞는지 확인합니다. 이때 이메일과 비밀번호를 json 형식으로 날려주세요.")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun checkPassword(@RequestBody member: MemberRequest): ResponseEntity<Unit>? {
         var findMember: Member = memberService.findByEmail(member.email ?:"")
                 ?: return ResponseEntity.notFound().build()

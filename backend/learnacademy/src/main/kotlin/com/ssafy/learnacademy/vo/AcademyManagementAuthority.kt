@@ -1,16 +1,15 @@
 package com.ssafy.learnacademy.vo
 
+import com.ssafy.learnacademy.common.BaseEntity
 import javax.persistence.*
 
 @Entity
-@Table(name="role")
-class Role (
+@Table(name = "academy_management_authority")
+class AcademyManagementAuthority (
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var roleId : Long? = null,
-
-    @Column(nullable = false)
-    var role: String? = null,
+    var academyManagementAuthorityId: Long,
 
     @ManyToOne
     @JoinColumn(name="member_id")
@@ -19,4 +18,4 @@ class Role (
     @ManyToOne
     @JoinColumn(name="academy_id")
     var academy: Academy? = null
-)
+) :BaseEntity()

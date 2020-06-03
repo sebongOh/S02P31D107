@@ -1,11 +1,12 @@
 package com.ssafy.learnacademy.Security
 
-import com.ssafy.learnacademy.vo.Role
+import com.ssafy.learnacademy.service.CustomUserDetailService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 import java.util.*
@@ -13,11 +14,12 @@ import javax.annotation.PostConstruct
 import javax.servlet.http.HttpServletRequest
 
 @Component
-class JwtTokenProvider {
+class JwtTokenProvider(
+        val costomUserDetailsService: CustomUserDetailService
+){
     @Value("Spring.jwt.secret")
     private var secretKey: String? = null
     private val tokenValidMilisecond = 1000L * 60 * 60 //1시간 후 만료
-    private val userDetailsService: UserDetailsService? = null
 
     @PostConstruct
     protected fun init() {
@@ -25,7 +27,7 @@ class JwtTokenProvider {
     }
 
     //토큰 생성
-    fun createToken(userPk: String?, roles: MutableSet<Role>): String {
+    fun createToken(userPk: String?, roles: MutableList<String>): String {
         val claims = Jwts.claims().setSubject(userPk)
         claims["roles"] = roles
         val now = Date()
@@ -39,7 +41,7 @@ class JwtTokenProvider {
 
     //토큰 인증 정보 조회
     fun getAuthentication(token: String?): Authentication {
-        val userDetails = userDetailsService!!.loadUserByUsername(getUserPk(token))
+        val userDetails: UserDetails = costomUserDetailsService.loadUserByUsername(getUserPk(token))
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
