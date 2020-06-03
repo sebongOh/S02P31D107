@@ -28,9 +28,9 @@ class PayController(var payService: PayService, var memberService: MemberService
         var restTemplate = RestTemplate()
         val webUrl : String = "http://localhost:8080/"
 
-        headers.add("Authorization","KakaoAK "+"1fb15dd260ae9519976f60368a0efdf8")
+        headers.add("Authorization","KakaoAK "+"b6c1c0d9dcaeedd5745508c7b9d7e133")
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
-        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8")
+        headers.add("Content-type", MediaType.APPLICATION_FORM_URLENCODED_VALUE+";charset=utf-8")
 
         var params: MultiValueMap<String, String> = LinkedMultiValueMap()
         params.add("cid","TC0ONETIME")
@@ -40,14 +40,18 @@ class PayController(var payService: PayService, var memberService: MemberService
         params.add("quantity", "1")
         params.add("total_amount", pay?.academySchedule?.price.toString())
         params.add("tax_free_amount","0")
-        params.add("approval_url", webUrl+"paySuccess?memberId="+pay.member?.name+"&academyScheduleId="+pay.academySchedule?.name)
-        params.add("cancel_url",webUrl+"home")
-        params.add("fail_url",webUrl+"404")
+        params.add("approval_url", webUrl)
+        params.add("cancel_url",webUrl)
+        params.add("fail_url",webUrl)
 
         var body : HttpEntity<MultiValueMap<String,String>> = HttpEntity<MultiValueMap<String,String>>(params,headers)
+        println("###############################################")
+        println(body.headers.toString())
+        println(body.body.toString())
+        println("###############################################")
         try {
-            kakaoPayReady = restTemplate.postForObject(URI(host + "v1/payment/ready"), body, KakaoPayReady::class.java)
-            return ResponseEntity(kakaoPayReady!!.next_redirect_pc_url, HttpStatus.OK)
+            kakaoPayReady = restTemplate.postForObject("https://kapi.kakao.com/v1/payment/ready", body, KakaoPayReady::class.java)
+            return ResponseEntity<String>(kakaoPayReady!!.next_redirect_pc_url, HttpStatus.OK)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -59,7 +63,7 @@ class PayController(var payService: PayService, var memberService: MemberService
         var restTemplate = RestTemplate()
         var headers = HttpHeaders()
 
-        headers.add("Authorization","KakaoAK "+"e49189dc92bf26fc3e7d020bf2ac50a3")
+        headers.add("Authorization","KakaoAK "+"b6c1c0d9dcaeedd5745508c7b9d7e133")
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8")
 
