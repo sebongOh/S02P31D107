@@ -35,7 +35,7 @@ class SecurityConfiguration(val jwtTokenProvider: JwtTokenProvider) : WebSecurit
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() //get요청 열기
                 .anyRequest().authenticated().and().cors() //그외 유저롤만 접근
                 .and()
-                .addFilterBefore(JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
+//                .addFilterBefore(JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
     }
 
     //swagger ignoring
@@ -49,7 +49,12 @@ class SecurityConfiguration(val jwtTokenProvider: JwtTokenProvider) : WebSecurit
                 "/webjars/**",
                 "/verify/**",
                 "/verify",
-                "/*/signin", "/*/signup", "/*/sendEmail", "/*/checkCode", "/*/findPassword"
+                "/*/signin", "/*/signup", "/*/sendEmail", "/*/checkCode", "/*/findPassword",
+                "/pay/**/**",
+                "/pay/**",
+                "/pay",
+                "/schedule-detail",
+                "/schedule-detail/**"
                 )
     }
 }

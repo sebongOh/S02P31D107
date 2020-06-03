@@ -30,6 +30,9 @@ class Academy (
         var imageFile: MultipartFile? = null,
 
         @OneToMany(mappedBy = "academy", cascade = [CascadeType.ALL])
-        var academySchedule: MutableList<AcademySchedule>? = null
+        var academySchedule: MutableList<AcademySchedule>? = null,
+
+        @OneToMany(mappedBy = "academy", cascade = [CascadeType.ALL])
+        var review : MutableList<Review>?=null
 
 ) : BaseEntity()

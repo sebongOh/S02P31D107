@@ -25,7 +25,7 @@ class SwaggerConfig(val jwtTokenProvider: JwtTokenProvider) {
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(metaInfo())
-                .globalOperationParameters(authParam()) // 추가
+//                .globalOperationParameters(authParam()) // 추가
     }
 
     private fun metaInfo(): ApiInfo {

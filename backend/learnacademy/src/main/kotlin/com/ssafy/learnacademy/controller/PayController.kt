@@ -28,7 +28,7 @@ class PayController(var payService: PayService, var memberService: MemberService
         var restTemplate = RestTemplate()
         val webUrl : String = "http://localhost:8080/"
 
-        headers.add("Authorization","KakaoAK "+"e49189dc92bf26fc3e7d020bf2ac50a3")
+        headers.add("Authorization","KakaoAK "+"1fb15dd260ae9519976f60368a0efdf8")
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8")
 
@@ -54,7 +54,7 @@ class PayController(var payService: PayService, var memberService: MemberService
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
-    @GetMapping("/success/{memberId}/{academyScheduleId}/{pg_token}")
+    @GetMapping("/paySuccess/{memberId}/{academyScheduleId}/{pg_token}")
     fun kakaoPayInfo(@PathVariable memberId : String, @PathVariable academyScheduleId : String, @PathVariable pg_token : String ) : ResponseEntity<Pay>{
         var restTemplate = RestTemplate()
         var headers = HttpHeaders()
