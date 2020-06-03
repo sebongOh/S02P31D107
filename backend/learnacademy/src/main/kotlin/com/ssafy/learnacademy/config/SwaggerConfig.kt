@@ -1,7 +1,6 @@
 package com.ssafy.learnacademy.config
 
 import com.ssafy.learnacademy.Security.JwtTokenProvider
-import com.ssafy.learnacademy.vo.Role
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import springfox.documentation.builders.ApiInfoBuilder
@@ -41,7 +40,7 @@ class SwaggerConfig(val jwtTokenProvider: JwtTokenProvider) {
                 .name("X-AUTH-TOKEN")
                 .modelRef(ModelRef("string"))
                 .parameterType("header")
-                .defaultValue(jwtTokenProvider.createToken("swagger", mutableSetOf()))
+                .defaultValue(jwtTokenProvider.createToken("swagger", mutableListOf("ROLE_USER", "ROLE_ACADEMY")))
                 .required(true)
                 .build()
         return listOf(parameter)
