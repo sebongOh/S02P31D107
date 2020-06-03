@@ -1,10 +1,12 @@
 package com.ssafy.learnacademy.controller
 
 import com.ssafy.learnacademy.service.AcademyService
+import com.ssafy.learnacademy.service.MemberAcademyService
 import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.service.ReviewService
 import com.ssafy.learnacademy.vo.Academy
 import com.ssafy.learnacademy.vo.Member
+import com.ssafy.learnacademy.vo.MemberAcademy
 import com.ssafy.learnacademy.vo.Review
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/review")
-class ReviewController (var reviewService: ReviewService, var academyService: AcademyService, var memberService: MemberService){
+class ReviewController (var reviewService: ReviewService,
+                        var academyService: AcademyService,
+                        var memberService: MemberService,
+                        var memberAcademyService: MemberAcademyService){
 
     @GetMapping("/")
     @ApiOperation(value = "전체 리뷰 검색", notes = "전체 리뷰를 검색합니다")
@@ -44,5 +49,12 @@ class ReviewController (var reviewService: ReviewService, var academyService: Ac
         return ResponseEntity.ok().body(review)
     }
 
-    @PostMapping
+//    @PostMapping
+//    @ApiOperation(value = "리뷰 등록", notes = "리뷰를 등록합니다")
+//    fun insertReview(@RequestBody review : Review) : ResponseEntity<Review>?{
+//        // 회원이 학원을 가지고 있어야함...
+//        // 회원이 학원을 등록한 상태여야함...
+//        // 멤버아카데미에서 회원으로 검색을한다음 list안에 있는지 체크필요
+//        return ResponseEntity.ok().body()
+//    }
 }
