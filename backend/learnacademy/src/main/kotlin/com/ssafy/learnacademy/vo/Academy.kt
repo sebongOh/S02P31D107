@@ -33,6 +33,9 @@ class Academy (
         var academySchedule: MutableList<AcademySchedule>? = null,
 
         @OneToMany(mappedBy = "academy", cascade = [CascadeType.ALL])
-        var review : MutableList<Review>?=null
+        var review : MutableList<Review>?=null,
+
+        @OneToMany(mappedBy = "academy", cascade = [CascadeType.ALL])
+        var memberAcademy: MutableList<MemberAcademy>?=null
 
 ) : BaseEntity()

@@ -41,6 +41,12 @@ class Member (
     @Column(nullable = false)
     var profileUrl: String? = null,
 
+    @OneToMany(mappedBy = "member", cascade = [CascadeType.ALL])
+    var memberSchedule : MutableList<MemberSchedule>? =null,
+
+    @OneToMany(mappedBy = "member", cascade = [CascadeType.ALL])
+    var memberAcademy : MutableList<MemberAcademy>? = null,
+
     @ElementCollection(fetch = FetchType.EAGER)
     var roles: MutableList<String> = mutableListOf(),
 
