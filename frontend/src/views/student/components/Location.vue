@@ -1,23 +1,34 @@
 <template>
   <div class="location">
     <div class="map_wrap">
-      <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-
-      <div id="menu_wrap" class="bg_white">
+      <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;">
         <div class="option">
-          <div>
-            <form @submit="searchPlaces">
-              위치 검색 :
-              <input type="text" v-model="keyword" size="15" />
-              <button type="submit">검색</button>
-            </form>
-          </div>
+          <form @submit="searchPlaces">
+            <input
+              type="text"
+              v-model="keyword"
+              placeholder="주변 지역 혹은 건물을 입력해 주세요."
+              @keyup.enter="initInput"
+            />
+            <!-- <button type="submit">
+              <i class="fas fa-search"></i>
+            </button>-->
+          </form>
         </div>
-        <hr />
+      </div>
+
+      <div id="menu_wrap">
         <ul id="placesList"></ul>
         <div id="pagination"></div>
       </div>
     </div>
+    <el-dialog :visible.sync="dialogVisible">
+      <strong>{{place_name}} 주변으로 검색하시겠습니까?</strong>
+      <div class="dialog-btn">
+        <el-button @click="dialogVisible = false">취소</el-button>
+        <el-button type="primary" @click="nextPage">계속</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -43,7 +54,10 @@ export default {
       datas: [],
       page: 0,
       maxPage: 45,
-      keyword: ""
+      keyword: "",
+      dialogVisible: false,
+      places: "",
+      place_name: ""
     };
   },
   mounted() {
@@ -52,6 +66,15 @@ export default {
       : this.addKakaoMapScript();
   },
   methods: {
+    noSearchResult() {
+      this.$message({
+        message: "검색 결과가 존재하지 않습니다.",
+        type: "warning"
+      });
+    },
+    searchError() {
+      this.$message.error("검색 결과 중 오류가 발생했습니다.");
+    },
     addKakaoMapScript() {
       const script = document.createElement("script");
       /* global kakao */
@@ -96,10 +119,10 @@ export default {
         // 페이지 번호를 표출합니다
         this.displayPagination(pagination);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert("검색 결과가 존재하지 않습니다.");
+        this.noSearchResult();
         return;
       } else if (status === kakao.maps.services.Status.ERROR) {
-        alert("검색 결과 중 오류가 발생했습니다.");
+        this.searchError();
         return;
       }
     },
@@ -156,6 +179,9 @@ export default {
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       map.setBounds(bounds);
     },
+    initInput() {
+      this.keyword = "";
+    },
     // 검색결과 항목을 Element로 반환하는 함수입니다
     getListItem(index, places) {
       var el = document.createElement("li"),
@@ -185,11 +211,16 @@ export default {
       el.innerHTML = itemStr;
       el.className = "item";
       el.onclick = () => {
-        // console.log(places);
-        this.$emit("setLocation", places);
+        this.place_name = places.place_name;
+        this.dialogVisible = true;
+        this.places = places;
       };
 
       return el;
+    },
+    nextPage() {
+      this.dialogVisible = false;
+      this.$emit("setLocation", this.places);
     },
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     addMarker(position, idx, title) {
@@ -272,7 +303,10 @@ export default {
 </script>
 
 
-    <style>
+<style lang="scss">
+.location {
+  background-color: rgba(0, 0, 0, 0.1);
+}
 .map_wrap,
 .map_wrap * {
   margin: 0;
@@ -289,40 +323,53 @@ export default {
 .map_wrap {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 450px;
+}
+.map_wrap #map {
+  position: fixed;
+  top: 0px;
 }
 #menu_wrap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 250px;
-  margin: 10px 0 30px 10px;
-  padding: 5px;
+  width: 100%;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.1);
   z-index: 1;
   font-size: 12px;
-  border-radius: 10px;
 }
-.bg_white {
-  background: #fff;
+.option {
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  position: absolute;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
 }
-#menu_wrap hr {
-  display: block;
-  height: 1px;
+.option form {
+  width: 100%;
+}
+.option input {
+  width: 100%;
+  height: 40px;
+  transition: width 0.5s ease-in-out, transform 0.5s ease-in-out,
+    border-radius 0.5s ease-in-out;
   border: 0;
-  border-top: 2px solid #5f5f5f;
-  margin: 3px 0;
-}
-#menu_wrap .option {
   text-align: center;
 }
-#menu_wrap .option p {
-  margin: 10px 0;
+.option input:focus {
+  width: 80%;
+  height: 40px;
+  bottom: 20px;
+  border-radius: 10px;
+  transform: translateY(-30px);
+  text-align: center;
 }
-#menu_wrap .option button {
+.option button {
   margin-left: 5px;
+  height: 25px;
+  padding: 0 10px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 #placesList li {
   list-style: none;
@@ -424,5 +471,24 @@ export default {
   font-weight: bold;
   cursor: default;
   color: #777;
+}
+.el-dialog__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .el-dialog {
+    margin: 0 !important;
+    width: 80%;
+    .dialog-btn {
+      text-align: right;
+      margin-top: 20px;
+      button {
+        padding: 8px 12px !important;
+      }
+    }
+    .el-dialog__body {
+      padding: 10px 20px 20px 20px;
+    }
+  }
 }
 </style>
