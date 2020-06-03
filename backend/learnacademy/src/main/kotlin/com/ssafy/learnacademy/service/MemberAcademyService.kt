@@ -3,6 +3,8 @@ package com.ssafy.learnacademy.service
 import com.ssafy.learnacademy.repository.AcademyRepository
 import com.ssafy.learnacademy.repository.MemberAcademyRepository
 import com.ssafy.learnacademy.repository.MemberRepository
+import com.ssafy.learnacademy.vo.Academy
+import com.ssafy.learnacademy.vo.Member
 import com.ssafy.learnacademy.vo.MemberAcademy
 import org.springframework.stereotype.Service
 import java.util.*
@@ -14,8 +16,20 @@ class MemberAcademyService(
         var academyRepository: AcademyRepository
 ) {
 
-    fun getMemberAcademy(memberAcademyId: Long): Optional<MemberAcademy>? {
-        return memberAcademyRepository.findById(memberAcademyId)
+    fun findAllMemberAcademy() : List<MemberAcademy>?{
+        return memberAcademyRepository.findAll()
+    }
+
+    fun findByMember(member : Member) : List<MemberAcademy>?{
+        return memberAcademyRepository.findByMember(member)
+    }
+
+    fun findByAcademy(academy : Academy) : List<MemberAcademy>?{
+        return memberAcademyRepository.findByAcademy(academy)
+    }
+
+    fun getMemberAcademy(memberAcademyId: Long): MemberAcademy? {
+        return memberAcademyRepository.findById(memberAcademyId).get()
     }
 
     fun insertMemberAcademy(memberAcademy: MemberAcademy): MemberAcademy? {
