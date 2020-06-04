@@ -1,7 +1,13 @@
 <template>
   <div class="user-notice" style="overflow:auto">
     <el-row style="text-align:right; padding-bottom:5px">
-      <i class="el-icon-edit" @click="insertNotice(2)" />
+      <el-button
+        type="warning"
+        size="mini"
+        round
+        icon="el-icon-edit"
+        @click="insertNotice(2)"
+      />
     </el-row>
     <div
       class="list"
@@ -17,7 +23,7 @@
         <p>{{ notice.content }}</p>
         <ul class="list-inline">
           <li>
-            <span class="link-black text-sm">
+            <span class="link-black text-sm" @click="share(notice.id)">
               <i class="el-icon-share" />
               Share
             </span>
@@ -31,8 +37,10 @@
         </ul>
       </div>
     </div>
-    <p v-if="loading">Loading...</p>
-    <p v-if="noMore">No more</p>
+    <div style="text-align:center">
+      <p v-if="loading"><i class="el-icon-loading" /> Loading...</p>
+      <p v-if="noMore">No more</p>
+    </div>
   </div>
 </template>
 
@@ -138,7 +146,20 @@ export default {
     },
   },
   methods: {
-    deleteNotice(num) {},
+    share(num) {
+      this.$message({
+        message: "테스트",
+        type: "success",
+        duration: 2 * 1000,
+      });
+    },
+    deleteNotice(num) {
+      this.$message({
+        message: "해당 공지사항을 삭제했습니다.",
+        type: "success",
+        duration: 2 * 1000,
+      });
+    },
     insertNotice(num) {
       this.$emit("changePageNum", num);
     },
@@ -147,7 +168,7 @@ export default {
       setTimeout(() => {
         this.endOffset += 1;
         this.loading = false;
-      }, 1000);
+      }, 2000);
     },
   },
 };

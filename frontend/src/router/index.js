@@ -61,6 +61,5 @@ export default [
     path: "/payment",
     component: () => import("@/views/payment"),
     name: "payment",
-    children: [],
   },
 ];
