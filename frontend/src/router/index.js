@@ -53,13 +53,13 @@ export default [
     name: "academyDetail",
   },
   {
-    path: "*",
-    component: () => import("@/views/error"),
-    name: "error404",
-  },
-  {
     path: "/payment",
     component: () => import("@/views/payment"),
     name: "payment",
+  },
+  {
+    path: "*",
+    component: () => import("@/views/error"),
+    name: "error404",
   },
 ];
