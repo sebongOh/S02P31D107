@@ -2,11 +2,18 @@
 <div>
     <div class="academy-detail">
         <h2>{{academyName}}</h2>
-        <img v-if="academyImg != ''" class="img-div" src="" />
+        <img v-if="academyImg != ''" class="img-div" :src="academyImg" />
         <div v-if="academyImg == ''" class="img-div"/>
         <div class="detail-div">{{academyDetail}}</div><br>
         <b>주소</b> : {{academyAddress}}<br>
         <b>연락처</b> : {{academyPhone}}<br>
+        <div class="review-div">
+        <el-carousel arrow="always" height="500px">
+            <el-carousel-item v-for="r in reviews" :key="r.reviewId">
+                <Review :review="r"/>
+            </el-carousel-item>
+        </el-carousel>
+        </div>
     </div>
     <div class="footer-domain">
         <Footer/>
@@ -18,8 +25,9 @@
 
 <script>
 import Footer from "@/views/academyDetail/components/Footer";
+import Review from "@/views/academyDetail/components/Review";
 export default {
-    components: { Footer },
+    components: { Footer, Review },
     props: ["academyId", "name", "address", "phone"],
     mounted(){
         this.getAcademy();
@@ -31,6 +39,7 @@ export default {
             academyImg: "",
             academyAddress: "",
             academyPhone: "",
+            reviews: {},
             isPayed: false,
             isAvailable: true
         }
@@ -44,10 +53,23 @@ export default {
                 this.academyAddress = this.address;
                 this.academyPhone = this.phone;
                 //props로 값들 받아오기
+
+                //임시 데이터 삽입
+                this.isAvailable = true;
+                this.isPayed = true;
+                this.academyDetail = "학원 상세 설명 부분"
+                this.academyName = "SSAFY학원";
+                this.academyAddress = "OO시 OO구 OO동";
+                this.academyPhone = "010-0000-1111";
+                this.academyImg = "http://edu.ssafy.com/asset/images/header-logo.jpg";
+                this.reviews = [{ reviewId:1, title:"SSAFY학원 최고! 강추강추! 꼭 와서 들어보세요!", score:5, createDate:"2020-06-04", contents: "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라s"},
+                { reviewId:2, title:"SSAFY학원 추천합니다", score:4, createDate:"2020-06-04", contents: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."},
+                { reviewId:3, title:"다시 가고 싶다...", score:5, createDate:"2020-06-04", contents: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text."}];
             }else{
                 this.isAvailable = true;
                 //academyId로 학원상세정보 받아오기
                 //등록한 회원이면 isPayed = true
+                //백엔드 통신으로 전체 리뷰 리턴되면 props로  Review 컴포넌트에 다 갖다주기
             }
         },
         goBoard(){
@@ -70,12 +92,14 @@ h2{
     padding: 3%;
     width: 100%;
     height: 100%;
-    min-height: 600px;
+    min-height: 1000px;
     background-color: #DCDFE6;
 }
 .img-div{
     width: 100%;
     height: 300px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .detail-div{
     width: 100%;
@@ -99,5 +123,13 @@ h2{
     bottom: 67px;
 	right: 27px;
     box-shadow: none;
+}
+.el-carousel{
+    z-index: 0;
+}
+.review-div{
+    width: 100%;
+    min-height: 250px;
+    height: auto;
 }
 </style>
