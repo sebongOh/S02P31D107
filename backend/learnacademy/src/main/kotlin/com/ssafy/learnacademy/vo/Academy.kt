@@ -1,5 +1,6 @@
 package com.ssafy.learnacademy.vo
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.ssafy.learnacademy.common.BaseEntity
 import org.springframework.web.multipart.MultipartFile
 import javax.persistence.*
@@ -27,6 +28,18 @@ class Academy (
         var imageUrl: String? = null,
 
         @Transient
-        var imageFile: MultipartFile? = null
+        var imageFile: MultipartFile? = null,
+
+        @OneToMany(mappedBy = "academy", cascade = [CascadeType.ALL])
+        @JsonManagedReference
+        var academySchedule: MutableList<AcademySchedule>? = null,
+
+        @OneToMany(mappedBy = "academy", cascade = [CascadeType.ALL])
+        @JsonManagedReference
+        var review : MutableList<Review>?=null,
+
+        @OneToMany(mappedBy = "academy", cascade = [CascadeType.ALL])
+        @JsonManagedReference
+        var memberAcademy: MutableList<MemberAcademy>?=null
 
 ) : BaseEntity()

@@ -1,5 +1,6 @@
 package com.ssafy.learnacademy.vo
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.ssafy.learnacademy.common.BaseEntity
 import javax.persistence.*
 
@@ -18,6 +19,7 @@ class Attendance (
 
         @ManyToOne
         @JoinColumn(name="member_schedule_id")
+        @JsonBackReference
         var memberSchedule: MemberSchedule? = null
 
 ) : BaseEntity()

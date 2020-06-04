@@ -1,5 +1,6 @@
 package com.ssafy.learnacademy.vo
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import javax.persistence.*
 
 @Entity
@@ -7,11 +8,13 @@ import javax.persistence.*
 class Child (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var childId : Long,
+    var childId : Long?=null,
 
     @ManyToOne
-    var member: Member,
+    @JoinColumn(name = "member_id")
+    @JsonBackReference
+    var member: Member?=null,
 
     @Column(nullable = false)
-    var childNum : Long
+    var childNum : Long?=null
 )

@@ -65,10 +65,4 @@ class ScheduleDetailController (var scheduleDetailService: ScheduleDetailService
         scheduleDetailService.deleteScheduleDetail(scheduleDetail!!)
         return ResponseEntity.ok().build()
     }
-
-    @DeleteMapping("/{academyScheduleId}/asid")
-    @ApiOperation(value="학원스케쥴로 상세스케쥴 삭제", notes = "학원스케쥴로 상세스케쥴들을 삭제합니다")
-    fun deleteByAcademyScheduleId(@PathVariable("academyScheduleId") academyScheduleId: Long) : ResponseEntity<Unit>? {
-        val
-    }
 }
