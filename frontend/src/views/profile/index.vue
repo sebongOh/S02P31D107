@@ -11,9 +11,11 @@
             <tr><th>이메일</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="emailInput"></td></tr>
             <tr><th>비밀번호</th></tr>
-            <tr><td><input class="input1" type="password" v-model="password"></td></tr>
+            <tr><td><input class="input1" type="password" v-model="password" @input="checkPasswordForm"></td></tr>
+            <tr v-if="error.password"><td class="red">{{error.password}}</td></tr>
             <tr><th>비밀번호 확인</th></tr>
-            <tr><td><input class="input1" type="password" v-model="passwordConfirm"></td></tr>
+            <tr><td><input class="input1" type="password" v-model="passwordConfirm" @input="checkSame"></td></tr>
+            <tr v-if="error.same"><td class="red">{{error.same}}</td></tr>
             <tr><th>주소</th></tr>
             <tr><td><input class="input1" type="text" v-model="addressInput"></td></tr>
             <tr><th>폰번호</th></tr>
@@ -45,6 +47,7 @@
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
 import Footer from "@/views/profile/components/Footer";
+import PV from "password-validator";
 
 export default {
   name: 'Profile',
@@ -53,6 +56,17 @@ export default {
   },
   computed: {
     ...mapGetters(["name", "email", "address", "phone", "age", "gender"])
+  },
+  created(){
+    this.passwordSchema
+      .is()
+      .min(8)
+      .is()
+      .max(100)
+      .has()
+      .digits()
+      .has()
+      .letters();
   },
   mounted(){
     this.getInputData()
@@ -69,7 +83,9 @@ export default {
       genderInput: 0,
       currentPassword: "",
       retirement: false,
-      imageUrl: "" //나중에 imgUrl 을 받아서 getInputData 에서 넣어준다
+      imageUrl: "",
+      error: {},
+      passwordSchema: new PV()
     }
   },
   methods: {
@@ -82,47 +98,53 @@ export default {
       this.genderInput = this.gender;
     },
     modify(){
-      console.log("수정");
       if(this.currentPassword == ""){
         alert("현재 비밀번호는 반드시 입력해야 합니다!");
         return;
-      }else{
-        //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
       }
+      //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
       if(this.password == ""){
         this.password = this.currentPassword;
         this.passwordConfirm = this.currentPassword;
-      }else if(this.password != this.passwordConfirm){
-        alert("비밀번호와 비밀번호확인이 다릅니다!");
+      }else if(this.error.password){
+        alert("비밀번호 형식이 알맞지 않습니다!");
+        return;
+      }else if(this.error.same){
+        alert("비밀번호와 비밀번호확인이 일치하지 않습니다!");
         return;
       }
       //수정 성공하면 입력(Input)된 내용으로 state 변경
+      console.log("수정");
     },
     retire(){
-      console.log("탈퇴");
       if(this.currentPassword == ""){
         alert("현재 비밀번호는 반드시 입력해야 합니다!");
         return;
-      }else{
-        //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
       }
+      //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
       //탈퇴하기
+      console.log("탈퇴");
     },
-    handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('Avatar picture must be JPG format!');
-        }
-        if (!isLt2M) {
-          this.$message.error('Avatar picture size can not exceed 2MB!');
-        }
-        return isJPG && isLt2M;
+    checkPasswordForm(e){
+      var ps = e.target.value;
+      if(ps != this.passwordConfirm){
+        this.error.same = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+      }else{
+        this.error.same = null;
       }
+      if (ps.length > 0 && !this.passwordSchema.validate(ps)){
+        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
+      }else{
+        this.error.password = false;
+      }
+    },
+    checkSame(e){
+      if(e.target.value != this.password){
+        this.error.same = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+      }else{
+        this.error.same = false;
+      }
+    }
   }
 }
 </script>

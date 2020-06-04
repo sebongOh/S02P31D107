@@ -51,10 +51,12 @@ export default {
             }
         },
         goBoard(){
-
+            var router = this.$router;
+            router.push("/");
         },
         goPay(){
-
+            var router = this.$router;
+            router.push("/");
         }
     }
 }
