@@ -66,15 +66,15 @@ export default {
       if (options.radius === 0) {
         this.mapOptions.options.radius = 1000;
       } else if (options.radius === 20) {
-        this.mapOptions.options.radius = 3000;
+        this.mapOptions.options.radius = 2000;
       } else if (options.radius === 40) {
-        this.mapOptions.options.radius = 5000;
-      } else if (options.radius === 60) {
-        this.mapOptions.options.radius = 1000;
-      } else if (options.radius === 80) {
         this.mapOptions.options.radius = 3000;
-      } else {
+      } else if (options.radius === 60) {
+        this.mapOptions.options.radius = 4000;
+      } else if (options.radius === 80) {
         this.mapOptions.options.radius = 5000;
+      } else {
+        this.mapOptions.options.radius = 6000;
       }
       this.page = 6;
     }

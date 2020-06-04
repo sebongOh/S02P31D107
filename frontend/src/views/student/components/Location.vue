@@ -101,7 +101,7 @@ export default {
     searchPlaces() {
       //   var keyword = document.getElementById("keyword").value;
       let keyword = this.keyword;
-      console.log(keyword);
+      // console.log(keyword);
       if (!keyword.replace(/^\s+|\s+$/g, "")) {
         alert("키워드를 입력해주세요!");
         return false;

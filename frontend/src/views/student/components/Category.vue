@@ -8,6 +8,50 @@
     </div>
     <div class="subject">
       <h4>분야 선택</h4>
+      <div class="subject-select">
+        <div class="subject-name">단과</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">입시</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">외국어</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">편입</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">공무원</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">컴퓨터</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">체육</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">음악</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">미술</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">독서실</div>
+        <div class="subject-kinds"></div>
+      </div>
+      <div class="subject-select">
+        <div class="subject-name">기타</div>
+        <div class="subject-kinds"></div>
+      </div>
     </div>
     <div class="student">
       <h4>수강생</h4>
@@ -29,12 +73,12 @@ export default {
         radius: 0
       },
       marks: {
-        0: "100 m",
-        20: "300 m",
-        40: "500 m",
-        60: "1km",
-        80: "3km",
-        100: "5km"
+        0: "1km",
+        20: "2km",
+        40: "3km",
+        60: "4km",
+        80: "5km",
+        100: "6km"
       }
     };
   },
