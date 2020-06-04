@@ -8,13 +8,13 @@ import javax.persistence.*
 class Child (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var childId : Long,
+    var childId : Long?=null,
 
     @ManyToOne
-    @Column(name = "member_id")
+    @JoinColumn(name = "member_id")
     @JsonBackReference
-    var member: Member,
+    var member: Member?=null,
 
     @Column(nullable = false)
-    var childNum : Long
+    var childNum : Long?=null
 )
