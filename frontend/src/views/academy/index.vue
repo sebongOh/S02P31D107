@@ -13,10 +13,15 @@
           <el-card>
             <el-tabs v-model="activeTab">
               <el-tab-pane label="공지사항" name="notice">
-                <Notice />
+                <Notice v-if="pageNum == 1" @changePageNum="pagechange" />
+                <InsertNotice v-if="pageNum == 2" @changePageNum="pagechange" />
               </el-tab-pane>
               <el-tab-pane label="자료게시판" name="databoard">
-                <Databoard />
+                <Databoard v-if="pageNum == 1" @changePageNum="pagechange" />
+                <InsertDataboard
+                  v-if="pageNum == 2"
+                  @changePageNum="pagechange"
+                />
               </el-tab-pane>
               <el-tab-pane label="1대1문의" name="qna">
                 <Qna :user="user" />
@@ -30,33 +35,42 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import UserCard from "./components/UserCard";
 import Notice from "./components/Notice";
+import InsertNotice from "./components/InsertNotice";
 import Databoard from "./components/Databoard";
+import InsertDataboard from "./components/InsertDataboard";
 import Qna from "./components/Qna";
 import Header from "@/views/student/components/Header";
 
 export default {
   name: "Profile",
-  components: { UserCard, Notice, Databoard, Qna, Header },
+  components: {
+    UserCard,
+    InsertNotice,
+    Notice,
+    Databoard,
+    InsertDataboard,
+    Qna,
+    Header,
+  },
   data() {
     return {
+      pageNum: 1,
       user: {},
       activeTab: "notice",
     };
-  },
-  computed: {
-    ...mapGetters(["name", "avatar", "roles"]),
   },
   created() {
     this.getUser();
   },
   methods: {
+    pagechange(num) {
+      this.pageNum = num;
+    },
     getUser() {
       this.user = {
         name: this.name,
-        role: this.roles.join(" | "),
         email: "admin@test.com",
         avatar: this.avatar,
       };
@@ -64,3 +78,8 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.app-container {
+  padding: 60px 0;
+}
+</style>
