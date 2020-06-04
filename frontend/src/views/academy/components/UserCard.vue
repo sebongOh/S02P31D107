@@ -1,12 +1,11 @@
 <template>
   <el-card style="margin-bottom:20px;">
-    <div slot="header" class="clearfix">
-      <span>About me</span>
-    </div>
+    <div slot="header" class="clearfix"></div>
 
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb
+        학원 이미지
+        <!-- <pan-thumb
           :image="user.avatar"
           :height="'100px'"
           :width="'100px'"
@@ -14,51 +13,39 @@
         >
           <div>Hello</div>
           {{ user.role }}
-        </pan-thumb>
+        </pan-thumb> -->
       </div>
       <div class="box-center">
-        <div class="user-name text-center">{{ user.name }}</div>
-        <div class="user-role text-center text-muted">
-          {{ user.role | uppercaseFirst }}
-        </div>
+        <div class="user-name text-center">asdasdasdasdasd</div>
       </div>
     </div>
 
     <div class="user-bio">
-      <div class="user-education user-bio-section">
-        <div class="user-bio-section-header">
-          <svg-icon icon-class="education" /><span>Education</span>
-        </div>
-        <div class="user-bio-section-body">
-          <div class="text-muted">
-            JS in Computer Science from the University of Technology
+      <el-card>
+        <div class="user-education user-bio-section">
+          <div class="user-bio-section-body">
+            <div class="text-muted">
+              <h1>싸피학원</h1>
+              <h4>#컴퓨터 #코딩</h4>
+              <h5>서울특별시 강남구 언주로 508</h5>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header">
-          <svg-icon icon-class="skill" /><span>Skills</span>
-        </div>
-        <div class="user-bio-section-body">
-          <div class="progress-item">
-            <span>Vue</span>
-            <el-progress :percentage="70" />
+        <div class="user-skills user-bio-section">
+          <div class="user-bio-section-header">
+            <i class="el-icon-s-order" /><span>Skills</span>
           </div>
-          <div class="progress-item">
-            <span>JavaScript</span>
-            <el-progress :percentage="18" />
+          <div class="user-bio-section-header">
+            <div style="float:left"><i class="el-icon-s-home" />수강과목</div>
+            <div style="float:right">컴퓨터</div>
           </div>
-          <div class="progress-item">
-            <span>Css</span>
-            <el-progress :percentage="12" />
-          </div>
-          <div class="progress-item">
-            <span>ESLint</span>
-            <el-progress :percentage="100" status="success" />
+          <div class="user-bio-section-header">
+            <div style="float:left"><i class="el-icon-s-home" />수강날짜</div>
+            <div style="float:right">월 수</div>
           </div>
         </div>
-      </div>
+      </el-card>
     </div>
   </el-card>
 </template>
@@ -88,6 +75,7 @@ export default {
 }
 
 .text-muted {
+  text-align: center;
   color: #777;
 }
 
@@ -97,7 +85,7 @@ export default {
   }
 
   .box-center {
-    padding-top: 10px;
+    padding-top: 5px;
   }
 
   .user-role {
@@ -106,12 +94,8 @@ export default {
     font-size: 14px;
   }
 
-  .box-social {
-    padding-top: 30px;
-
-    .el-table {
-      border-top: 1px solid #dfe6ec;
-    }
+  .el-table {
+    border-top: 1px solid #dfe6ec;
   }
 
   .user-follow {
@@ -129,7 +113,7 @@ export default {
 
   .user-bio-section {
     font-size: 14px;
-    padding: 15px 0;
+    padding: 5px 0;
 
     .user-bio-section-header {
       border-bottom: 1px solid #dfe6ec;
