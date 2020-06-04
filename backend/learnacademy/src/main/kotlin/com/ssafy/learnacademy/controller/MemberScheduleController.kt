@@ -11,6 +11,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/member-schedule")
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 class MemberScheduleController(var memberScheduleService: MemberScheduleService) {
 
     @GetMapping

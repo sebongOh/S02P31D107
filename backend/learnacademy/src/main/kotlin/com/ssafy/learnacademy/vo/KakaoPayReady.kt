@@ -1,10 +1,12 @@
 package com.ssafy.learnacademy.vo
 
 
+import org.joda.time.DateTime
 import java.time.LocalDateTime
+import java.util.*
 
 
-class KakaoPayReady (
+data class KakaoPayReady (
 
         var tid : String?=null,
         var next_redirect_app_url : String?=null,
@@ -12,5 +14,5 @@ class KakaoPayReady (
         var next_redirect_pc_url : String?=null,
         var android_app_scheme : String?=null,
         var ios_app_scheme : String?=null,
-        var created_at : LocalDateTime?=null
+        var created_at : Date?=null
 )
