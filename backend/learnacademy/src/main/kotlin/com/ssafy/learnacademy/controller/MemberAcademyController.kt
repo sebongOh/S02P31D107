@@ -10,7 +10,7 @@ import java.util.*
 import javax.xml.ws.Response
 
 @RestController
-@RequestMapping("/memberacademy")
+@RequestMapping("/member-academy")
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 class MemberAcademyController (val memberAcademyService: MemberAcademyService) {
 

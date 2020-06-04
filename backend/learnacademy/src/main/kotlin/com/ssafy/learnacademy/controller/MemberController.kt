@@ -21,7 +21,7 @@ class MemberController(
 
     @GetMapping("/{memberId}")
     @ApiOperation(value = "멤버 찾기", notes = "멤버를 검색합니다")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun getMember(@PathVariable("memberId") memberId: Long): ResponseEntity<Member> {
         val member: Member? = memberService.findById(memberId) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(member)

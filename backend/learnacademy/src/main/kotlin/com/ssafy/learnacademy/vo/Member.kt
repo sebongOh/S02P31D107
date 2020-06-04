@@ -43,11 +43,11 @@ class Member (
     var profileUrl: String? = null,
 
     @OneToMany(mappedBy = "member", cascade = [CascadeType.ALL])
-    @JsonManagedReference
+    @JsonIgnore
     var memberSchedule : MutableList<MemberSchedule>? =null,
 
     @OneToMany(mappedBy = "member", cascade = [CascadeType.ALL])
-    @JsonManagedReference
+    @JsonIgnore
     var memberAcademy : MutableList<MemberAcademy>? = null,
 
     @ElementCollection(fetch = FetchType.EAGER)

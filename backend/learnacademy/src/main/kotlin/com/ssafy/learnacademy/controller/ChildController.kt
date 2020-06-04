@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/child")
 class ChildController (val childService: ChildService){
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value="자식 모두 찾기", notes="자식을 모두 검색합니다")
     fun getAllChild() : ResponseEntity<List<Child>>{
         val child : List<Child> = childService.findAll() ?: return ResponseEntity.noContent().build()

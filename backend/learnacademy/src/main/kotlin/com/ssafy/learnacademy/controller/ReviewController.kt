@@ -20,7 +20,7 @@ class ReviewController (var reviewService: ReviewService,
                         var memberService: MemberService,
                         var memberAcademyService: MemberAcademyService){
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value = "전체 리뷰 검색", notes = "전체 리뷰를 검색합니다")
     fun getAllReview() : ResponseEntity<List<Review>>? {
         val review : List<Review>? = reviewService.findAll() ?: return ResponseEntity.noContent().build()

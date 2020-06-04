@@ -1,6 +1,7 @@
 package com.ssafy.learnacademy.vo
 
 import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.ssafy.learnacademy.common.BaseEntity
 import java.sql.Time
@@ -21,14 +22,13 @@ class AcademySchedule (
 
         @ManyToOne
         @JoinColumn(name="academy_id")
-        @JsonBackReference
         var academy: Academy? = null,
 
         @OneToMany(mappedBy = "academySchedule",cascade = [CascadeType.ALL])
-        @JsonManagedReference
+        @JsonIgnore
         var scheduleDetail: MutableList<ScheduleDetail>? = null,
 
         @OneToMany(mappedBy = "academySchedule",cascade = [CascadeType.ALL])
-        @JsonManagedReference
+        @JsonIgnore
         var memberSchedule: MutableList<MemberSchedule>? = null
 ) : BaseEntity()

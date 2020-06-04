@@ -30,6 +30,7 @@ class PayController(var payService: PayService, var memberService: MemberService
 
         headers.add("Authorization","KakaoAK "+"b6c1c0d9dcaeedd5745508c7b9d7e133")
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
+        headers.add("Host","kapi.kakao.com")
         headers.add("Content-type", MediaType.APPLICATION_FORM_URLENCODED_VALUE+";charset=utf-8")
 
         var params: MultiValueMap<String, String> = LinkedMultiValueMap()

@@ -19,7 +19,6 @@ class Attendance (
 
         @ManyToOne
         @JoinColumn(name="member_schedule_id")
-        @JsonBackReference
         var memberSchedule: MemberSchedule? = null
 
 ) : BaseEntity()

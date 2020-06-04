@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/board")
 class BoardController(var boardService:BoardService){
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value = "자유게시판 전체찾기", notes = "자유게시판을 전부검색합니다")
     fun getAllBoard() : ResponseEntity<List<Board>>? {
         val board : List<Board>? = boardService.findAll() ?: return ResponseEntity.noContent().build()

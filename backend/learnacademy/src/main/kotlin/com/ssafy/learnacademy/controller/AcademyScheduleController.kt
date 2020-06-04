@@ -15,7 +15,7 @@ import javax.xml.ws.Response
 @RequestMapping("/academy-schedule")
 class AcademyScheduleController (var academyScheduleService: AcademyScheduleService, var academyService: AcademyService){
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value="학원 스케쥴 전체검색", notes = "학원 스케쥴을 전부검색합니다")
     fun getAllAcademySchedule() : ResponseEntity<List<AcademySchedule>>?{
         val academySchedule : List<AcademySchedule>? = academyScheduleService.findAll() ?: return ResponseEntity.noContent().build()

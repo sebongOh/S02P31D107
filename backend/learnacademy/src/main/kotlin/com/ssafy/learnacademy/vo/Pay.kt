@@ -13,12 +13,10 @@ class Pay (
 
         @ManyToOne
         @JoinColumn(name="member_id")
-        @JsonBackReference
         var member: Member? = null,
 
         @ManyToOne
         @JoinColumn(name="academy_schedule_id")
-        @JsonBackReference
         var academySchedule: AcademySchedule? = null,
 
         var tid : String? =null,

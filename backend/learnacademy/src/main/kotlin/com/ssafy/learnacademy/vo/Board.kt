@@ -23,11 +23,9 @@ class Board (
 
     @ManyToOne
     @JoinColumn(name="member_id")
-    @JsonBackReference
     var member: Member? = null,
 
     @ManyToOne
     @JoinColumn(name="academy_id")
-    @JsonBackReference
     var academy: Academy? = null
 ) : BaseEntity()

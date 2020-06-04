@@ -11,12 +11,12 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/scheduleDetail")
+@RequestMapping("/schedule-detail")
 class ScheduleDetailController (var scheduleDetailService: ScheduleDetailService,
                                 var academyScheduleService : AcademyScheduleService,
                                 var academyService : AcademyService){
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value="학원 스케쥴 상세정보 전체검색", notes = "학원 스케쥴 상세정보를 전부검색합니다")
     fun getAllScheduleDetail() : ResponseEntity<List<ScheduleDetail>>?{
         val scheduleDetail : List<ScheduleDetail>? = scheduleDetailService.findAll() ?: return ResponseEntity.noContent().build()

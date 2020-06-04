@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/memberSchedule")
+@RequestMapping("/member-schedule")
 class MemberScheduleController(var memberScheduleService: MemberScheduleService) {
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value = "사용자 스케쥴 전체찾기", notes = "사용자 스케쥴을 전체 찾습니다")
     fun getAllMemberSchedule() : List<MemberSchedule>? = memberScheduleService.findAll()
 

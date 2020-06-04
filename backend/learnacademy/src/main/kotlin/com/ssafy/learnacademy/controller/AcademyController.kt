@@ -14,7 +14,7 @@ import java.util.*
 //@CrossOrigin(origins = ["*"], maxAge = 3600)
 class AcademyController(var academyService: AcademyService) {
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value="학원 전체 찾기", notes = "학원을 전부 검색합니다")
     fun getAllAcademy() : ResponseEntity<List<Academy>>?{
         val academy : List<Academy>? = academyService.findAll() ?: return ResponseEntity.noContent().build()

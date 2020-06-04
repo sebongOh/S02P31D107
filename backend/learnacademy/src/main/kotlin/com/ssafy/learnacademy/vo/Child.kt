@@ -12,7 +12,6 @@ class Child (
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    @JsonBackReference
     var member: Member?=null,
 
     @Column(nullable = false)
