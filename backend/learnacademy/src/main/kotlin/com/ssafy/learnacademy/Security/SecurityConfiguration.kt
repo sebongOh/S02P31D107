@@ -54,7 +54,17 @@ class SecurityConfiguration(val jwtTokenProvider: JwtTokenProvider) : WebSecurit
                 "/pay/**",
                 "/pay",
                 "/schedule-detail",
-                "/schedule-detail/**"
+                "/schedule-detail/**",
+                "/member",
+                "/member/**",
+                "/member/**/**",
+                "/memberacademy/**",
+                "/memberacademy",
+                "/academy-schedule",
+                "/academy-schedule/**",
+                "/academy-schedule/**/**",
+                "/academy",
+                "/academy/**"
                 )
     }
 }
