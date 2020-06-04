@@ -10,7 +10,7 @@ class AcademyManagementAuthority (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var academyManagementAuthorityId: Long,
+    var academyManagementAuthorityId: Long? = null,
 
     @ManyToOne
     @JoinColumn(name="member_id")

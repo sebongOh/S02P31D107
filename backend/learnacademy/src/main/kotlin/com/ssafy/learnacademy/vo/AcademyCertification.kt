@@ -16,6 +16,9 @@ class AcademyCertification(
     @Column(nullable = false)
     var imageUrl: String? = null,
 
+    @Column(nullable = false)
+    var state: Byte? = 0,
+
     @ManyToOne
     @JoinColumn(name="member_id")
     var member: Member? = null,

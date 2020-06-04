@@ -1,5 +1,6 @@
 package com.ssafy.learnacademy.controller
 
+import com.ssafy.learnacademy.service.AcademyCertificationService
 import com.ssafy.learnacademy.service.AcademyService
 import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.service.S3UploadService
@@ -16,6 +17,7 @@ import java.lang.Exception
 class MemberController(
         val memberService: MemberService,
         val academyService: AcademyService,
+        val academyCertificationService: AcademyCertificationService,
         val s3UploadService: S3UploadService
 ) {
 
@@ -76,7 +78,8 @@ class MemberController(
         } else {
             academyCertification.imageUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/cert/default.jpg"
         }
-        // academyCertuficationRepository 에 추가하는 코드 구현
+        val insertAcademyCertification = academyCertificationService.insert(academyCertification)
+        academyCertificationService.sendCertificationInfoToAdmin(insertAcademyCertification)
         return ResponseEntity.ok().body(insertMember)
     }
 
@@ -84,7 +87,7 @@ class MemberController(
     @ApiOperation(value = "회원 수정", notes = "회원 정보를 수정합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요. " +
             "\n비밀번호는 정부 수정 시 재입력해서 수정폼에 들어오도록 해주세요.")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    fun updateMember(@RequestBody member: Member): ResponseEntity<Member> {
+    fun updateMember(member: Member): ResponseEntity<Member> {
         if (member.profileFile == null) {
             member.profileUrl = s3UploadService.uploadFile(member.profileFile, "profile/")
         } else {
