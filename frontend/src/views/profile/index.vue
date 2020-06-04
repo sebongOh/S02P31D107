@@ -24,7 +24,6 @@
             <tr><td><input class="input1" type="number" v-model="ageInput"></td></tr>
             <tr><th>성별&nbsp;&nbsp;
               <select v-model="genderInput"><option :value="0">남</option><option :value="1">여</option></select></th></tr>
-            <!-- 현재 비밀번호 확인 / 이게 맞아야 수정도 탈퇴도 된다-->
             <tr><th>현재 비밀번호 확인<span class="red">*필수</span></th></tr>
             <tr><td><input class="input1" type="password" v-model="currentPassword"></td></tr>
             </table>
@@ -55,7 +54,7 @@ export default {
     Footer,
   },
   computed: {
-    ...mapGetters(["name", "email", "address", "phone", "age", "gender"]),
+    ...mapGetters(["name", "email", "address", "phone", "age", "gender", "profileFile"]),
   },
   created(){
     this.passwordSchema
@@ -83,7 +82,7 @@ export default {
       genderInput: 0,
       currentPassword: "",
       retirement: false,
-      imageUrl: "",
+      imgUrl: "",
       error: {},
       passwordSchema: new PV()
     }
@@ -96,34 +95,79 @@ export default {
       this.phoneInput = this.phone;
       this.ageInput = this.age;
       this.genderInput = this.gender;
+      this.imgUrl = this.profileFile;
     },
     modify(){
       if(this.currentPassword == ""){
         alert("현재 비밀번호는 반드시 입력해야 합니다!");
         return;
       }
-      //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
-      if(this.password == ""){
-        this.password = this.currentPassword;
-        this.passwordConfirm = this.currentPassword;
-      }else if(this.error.password){
-        alert("비밀번호 형식이 알맞지 않습니다!");
-        return;
-      }else if(this.error.same){
-        alert("비밀번호와 비밀번호확인이 일치하지 않습니다!");
-        return;
-      }
-      //수정 성공하면 입력(Input)된 내용으로 state 변경
-      console.log("수정");
+      this.$store
+          .dispatch("student/passwordCheck", {
+            email: this.email,
+            password: this.currentPassword,
+          })
+          .then((res) => {
+            if (res.status == 404) {
+              console.log("aniVibro가 뭐죠 404");
+              this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
+            } else if (res.status == 200) {
+              console.log("현재 비밀번호 인증 성공");
+              if(this.error.password){
+                alert("비밀번호 형식이 알맞지 않습니다!");
+                return;
+              }else if(this.error.same){
+                alert("비밀번호와 비밀번호확인이 일치하지 않습니다!");
+                return;
+              }
+              let formData = new FormData();
+              formData.append("email", this.emailInput);
+              formData.append("name", this.nameInput);
+              formData.append("password", this.currentPassword);
+              formData.append("address", this.addressInput);
+              formData.append("phone", this.phoneInput);
+              formData.append("age", this.ageInput);
+              formData.append("gender", this.genderInput);
+              formData.append("profileFile", this.profileFiles);//나중에 imgUrl 로 넘길 변수 변경
+              this.$store
+              .dispatch("student/updateProfile", formData)
+              .then((res) => {
+                console.log(res.data);
+                console.log("수정완료");
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            }
+          })
+          .catch(() => {
+            console.log("aniVibro가 뭐죠 catch");
+            this.aniVibro("code", "서버 접속을 실패했습니다.");
+          });
     },
     retire(){
       if(this.currentPassword == ""){
         alert("현재 비밀번호는 반드시 입력해야 합니다!");
         return;
       }
-      //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
-      //탈퇴하기
-      console.log("탈퇴");
+      this.$store
+          .dispatch("student/passwordCheck", {
+            email: this.email,
+            password: this.currentPassword,
+          })
+          .then((res) => {
+            if (res.status == 404) {
+              console.log("aniVibro가 뭐죠 404");
+              this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
+            } else if (res.status == 200) {
+              console.log("현재 비밀번호 인증 성공");
+              //회원 탈퇴
+            }
+          })
+          .catch(() => {
+            console.log("aniVibro가 뭐죠 catch");
+            this.aniVibro("code", "서버 접속을 실패했습니다.");
+          });
     },
     checkPasswordForm(e){
       var ps = e.target.value;
