@@ -50,12 +50,12 @@ import Footer from "@/views/profile/components/Footer";
 import PV from "password-validator";
 
 export default {
-  name: 'Profile',
+  name: "Profile",
   components: {
-    Footer
+    Footer,
   },
   computed: {
-    ...mapGetters(["name", "email", "address", "phone", "age", "gender"])
+    ...mapGetters(["name", "email", "address", "phone", "age", "gender"]),
   },
   created(){
     this.passwordSchema
@@ -89,7 +89,7 @@ export default {
     }
   },
   methods: {
-    getInputData(){
+    getInputData() {
       this.nameInput = this.name;
       this.emailInput = this.email;
       this.addressInput = this.address;
@@ -150,42 +150,43 @@ export default {
 </script>
 
 <style>
-.profile-div{
+.profile-div {
   text-align: center;
 }
-.profile-table{
-  width:90%;
+.profile-table {
+  width: 90%;
   margin: 5%;
   height: auto;
   text-align: left;
-  background-color: #F2F6FC;
+  background-color: #f2f6fc;
   padding: 10px;
 }
-th, td{
+th,
+td {
   padding: 3px;
 }
-.btn1{
-  width:90%;
-  height:auto;
+.btn1 {
+  width: 90%;
+  height: auto;
   margin: 5%;
   text-align: right;
 }
-.btn2{
-  width:50%;
+.btn2 {
+  width: 50%;
 }
-.input1{
+.input1 {
   border-radius: 3px;
   border: solid 1px gray;
   width: 99%;
   height: 30px;
-  margin-right: 1%;;
+  margin-right: 1%;
 }
-.red{
+.red {
   color: red;
   font-size: 10px;
   vertical-align: top;
 }
-.modify-btn{
+.modify-btn {
   width: 50%;
   height: 50px;
   font-size: 18px;
@@ -193,7 +194,7 @@ th, td{
   border-radius: 5px;
   border: 3px solid darkgreen;
 }
-.retire-btn{
+.retire-btn {
   width: 80px;
   height: 30px;
   background-color: red;
@@ -208,37 +209,37 @@ th, td{
   text-align: center;
   padding: 10px;
 }
-.ok-btn{
-  width:50%;
+.ok-btn {
+  width: 50%;
   height: 40px;
   border-radius: 5px;
   background-color: coral;
   border: solid 3px chocolate;
 }
 .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
+  border-color: #409eff;
 }
 .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
 }
 .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
+  width: 178px;
+  height: 178px;
+  display: block;
 }
-.footer-domain{
+.footer-domain {
   width: auto;
   height: 80px;
 }
