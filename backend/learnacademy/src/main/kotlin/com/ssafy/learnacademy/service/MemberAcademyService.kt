@@ -3,9 +3,11 @@ package com.ssafy.learnacademy.service
 import com.ssafy.learnacademy.repository.AcademyRepository
 import com.ssafy.learnacademy.repository.MemberAcademyRepository
 import com.ssafy.learnacademy.repository.MemberRepository
+import com.ssafy.learnacademy.vo.Academy
+import com.ssafy.learnacademy.vo.Member
 import com.ssafy.learnacademy.vo.MemberAcademy
 import org.springframework.stereotype.Service
-import java.util.*
+import sun.nio.cs.ext.MacThai
 
 @Service
 class MemberAcademyService(
@@ -14,8 +16,20 @@ class MemberAcademyService(
         var academyRepository: AcademyRepository
 ) {
 
-    fun getMemberAcademy(memberAcademyId: Long): Optional<MemberAcademy>? {
-        return memberAcademyRepository.findById(memberAcademyId)
+    fun getMemberAcademy(memberAcademyId: Long): MemberAcademy? {
+        return memberAcademyRepository.findById(memberAcademyId).get()
+    }
+
+    fun findByMemberId(memberId: Long): MutableList<Academy> {
+        val memberAcademyIdList: MutableList<Long> = memberAcademyRepository.findAllByMemberId(memberId)
+        val academyList: MutableList<Academy> = academyRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        return academyList
+    }
+
+    fun findByAcademyId(academyId: Long): MutableList<Member> {
+        val memberAcademyIdList: MutableList<Long> = memberAcademyRepository.findAllByAcademyId(academyId)
+        val memberList: MutableList<Member> = memberRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        return memberList
     }
 
     fun insertMemberAcademy(memberAcademy: MemberAcademy): MemberAcademy? {
