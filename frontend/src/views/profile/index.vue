@@ -1,127 +1,45 @@
 <template>
-  <div id="Profile" class="app-container">
-    <div class="profile-div" v-if="!retirement">
-      <h2>내 정보 수정</h2>
-      <table class="profile-table">
-        <tr>
-          <th>프로필 사진</th>
-        </tr>
-        <tr>
-          <td>
-            <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </td>
-        </tr>
-        <tr>
-          <th>이름</th>
-        </tr>
-        <tr>
-          <td>
-            <input
-              class="input1"
-              type="text"
-              readonly="readonly"
-              v-model="nameInput"
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>이메일</th>
-        </tr>
-        <tr>
-          <td>
-            <input
-              class="input1"
-              type="text"
-              readonly="readonly"
-              v-model="emailInput"
-            />
-          </td>
-        </tr>
-        <tr>
-          <th>비밀번호</th>
-        </tr>
-        <tr>
-          <td><input class="input1" type="password" v-model="password" /></td>
-        </tr>
-        <tr>
-          <th>비밀번호 확인</th>
-        </tr>
-        <tr>
-          <td>
-            <input class="input1" type="password" v-model="passwordConfirm" />
-          </td>
-        </tr>
-        <tr>
-          <th>주소</th>
-        </tr>
-        <tr>
-          <td><input class="input1" type="text" v-model="addressInput" /></td>
-        </tr>
-        <tr>
-          <th>폰번호</th>
-        </tr>
-        <tr>
-          <td><input class="input1" type="text" v-model="phoneInput" /></td>
-        </tr>
-        <tr>
-          <th>나이</th>
-        </tr>
-        <tr>
-          <td><input class="input1" type="number" v-model="ageInput" /></td>
-        </tr>
-        <tr>
-          <th>
-            성별&nbsp;&nbsp;
-            <select v-model="genderInput"
-              ><option :value="0">남</option
-              ><option :value="1">여</option></select
-            >
-          </th>
-        </tr>
-        <!-- 현재 비밀번호 확인 / 이게 맞아야 수정도 탈퇴도 된다-->
-        <tr>
-          <th>현재 비밀번호 확인<span class="red">*필수</span></th>
-        </tr>
-        <tr>
-          <td>
-            <input class="input1" type="password" v-model="currentPassword" />
-          </td>
-        </tr>
-      </table>
-
-      <button class="modify-btn" @click="modify()"><b>수정</b></button>
-      <div class="btn1">
-        <button class="retire-btn" @click="retirement = true">회원탈퇴</button>
+    <div id="Profile">
+      <div class="app-container">
+            <div class="profile-div" v-if="!retirement">
+            <h2>내 정보 수정</h2>
+            <table class="profile-table">
+            <tr><th>프로필 사진</th></tr>
+            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imgUrl" /></td></tr>
+            <tr><th>이름</th></tr>
+            <tr><td><input class="input1" type="text" readonly="readonly" v-model="nameInput"></td></tr>
+            <tr><th>이메일</th></tr>
+            <tr><td><input class="input1" type="text" readonly="readonly" v-model="emailInput"></td></tr>
+            <tr><th>비밀번호</th></tr>
+            <tr><td><input class="input1" type="password" v-model="password" @input="checkPasswordForm"></td></tr>
+            <tr v-if="error.password"><td class="red">{{error.password}}</td></tr>
+            <tr><th>비밀번호 확인</th></tr>
+            <tr><td><input class="input1" type="password" v-model="passwordConfirm" @input="checkSame"></td></tr>
+            <tr v-if="error.same"><td class="red">{{error.same}}</td></tr>
+            <tr><th>주소</th></tr>
+            <tr><td><input class="input1" type="text" v-model="addressInput"></td></tr>
+            <tr><th>폰번호</th></tr>
+            <tr><td><input class="input1" type="text" v-model="phoneInput"></td></tr>
+            <tr><th>나이</th></tr>
+            <tr><td><input class="input1" type="number" v-model="ageInput"></td></tr>
+            <tr><th>성별&nbsp;&nbsp;
+              <select v-model="genderInput"><option :value="0">남</option><option :value="1">여</option></select></th></tr>
+            <!-- 현재 비밀번호 확인 / 이게 맞아야 수정도 탈퇴도 된다-->
+            <tr><th>현재 비밀번호 확인<span class="red">*필수</span></th></tr>
+            <tr><td><input class="input1" type="password" v-model="currentPassword"></td></tr>
+            </table>
+            <button class="modify-btn" @click="modify()"><b>수정</b></button>
+            <div class="btn1"><button class="retire-btn" @click="retirement = true">회원탈퇴</button></div>
+            </div>
+            <table class="retirement-table" v-if="retirement">
+              <tr><th colspan="2"><h2>정말 탈퇴하시겠습니까?</h2></th></tr>
+              <tr><td class="btn2"><button class="ok-btn" @click="retire()"><b>네</b></button></td>
+              <td><button class="ok-btn" @click="retirement = false"><b>취소</b></button></td></tr>
+            </table>
       </div>
-    </div>
-    <table class="retirement-table" v-if="retirement">
-      <tr>
-        <th colspan="2"><h2>정말 탈퇴하시겠습니까?</h2></th>
-      </tr>
-      <tr>
-        <td class="btn2">
-          <button class="ok-btn" @click="retire()"><b>네</b></button>
-        </td>
-        <td>
-          <button class="ok-btn" @click="retirement = false">
-            <b>취소</b>
-          </button>
-        </td>
-      </tr>
-    </table>
-
-    <div class="footer-domain">
-      <Footer />
-    </div>
+     <div class="footer-domain">
+     <Footer />
+     </div>
   </div>
 </template>
 
@@ -129,6 +47,7 @@
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
 import Footer from "@/views/profile/components/Footer";
+import PV from "password-validator";
 
 export default {
   name: "Profile",
@@ -138,8 +57,19 @@ export default {
   computed: {
     ...mapGetters(["name", "email", "address", "phone", "age", "gender"]),
   },
-  mounted() {
-    this.getInputData();
+  created(){
+    this.passwordSchema
+      .is()
+      .min(8)
+      .is()
+      .max(100)
+      .has()
+      .digits()
+      .has()
+      .letters();
+  },
+  mounted(){
+    this.getInputData()
   },
   data() {
     return {
@@ -153,8 +83,10 @@ export default {
       genderInput: 0,
       currentPassword: "",
       retirement: false,
-      imageUrl: "", //나중에 imgUrl 을 받아서 getInputData 에서 넣어준다
-    };
+      imageUrl: "",
+      error: {},
+      passwordSchema: new PV()
+    }
   },
   methods: {
     getInputData() {
@@ -165,50 +97,56 @@ export default {
       this.ageInput = this.age;
       this.genderInput = this.gender;
     },
-    modify() {
-      console.log("수정");
-      if (this.currentPassword == "") {
+    modify(){
+      if(this.currentPassword == ""){
         alert("현재 비밀번호는 반드시 입력해야 합니다!");
         return;
-      } else {
-        //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
       }
-      if (this.password == "") {
+      //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
+      if(this.password == ""){
         this.password = this.currentPassword;
         this.passwordConfirm = this.currentPassword;
-      } else if (this.password != this.passwordConfirm) {
-        alert("비밀번호와 비밀번호확인이 다릅니다!");
+      }else if(this.error.password){
+        alert("비밀번호 형식이 알맞지 않습니다!");
+        return;
+      }else if(this.error.same){
+        alert("비밀번호와 비밀번호확인이 일치하지 않습니다!");
         return;
       }
       //수정 성공하면 입력(Input)된 내용으로 state 변경
+      console.log("수정");
     },
-    retire() {
-      console.log("탈퇴");
-      if (this.currentPassword == "") {
+    retire(){
+      if(this.currentPassword == ""){
         alert("현재 비밀번호는 반드시 입력해야 합니다!");
         return;
-      } else {
-        //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
       }
+      //currentPassword 를 서버에 보내서 확인하고 틀릴 경우 alert 보낸 후 return - member/checkPassword
       //탈퇴하기
+      console.log("탈퇴");
     },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("Avatar picture must be JPG format!");
+    checkPasswordForm(e){
+      var ps = e.target.value;
+      if(ps != this.passwordConfirm){
+        this.error.same = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+      }else{
+        this.error.same = null;
       }
-      if (!isLt2M) {
-        this.$message.error("Avatar picture size can not exceed 2MB!");
+      if (ps.length > 0 && !this.passwordSchema.validate(ps)){
+        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
+      }else{
+        this.error.password = false;
       }
-      return isJPG && isLt2M;
     },
-  },
-};
+    checkSame(e){
+      if(e.target.value != this.password){
+        this.error.same = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+      }else{
+        this.error.same = false;
+      }
+    }
+  }
+}
 </script>
 
 <style>
@@ -264,10 +202,12 @@ td {
   border-radius: 5px;
   border: 3px solid brown;
 }
-.retirement-table {
-  width: 100%;
+.retirement-table{
+  width:90%;
+  margin: 5%;
   height: auto;
   text-align: center;
+  padding: 10px;
 }
 .ok-btn {
   width: 50%;
