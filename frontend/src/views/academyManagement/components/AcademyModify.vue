@@ -2,43 +2,21 @@
     <div class="profile-div">
       <div v-if="!auth & !retirement">
         <table class="profile-table">
-            <tr><th>학원 사진</th></tr>
-            <!-- <tr><td><el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload></td></tr> -->
-            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imgUrl" /></td></tr>
             <!-- 학원ID는 나중에 보이진 않고 서버에 수정할 때만 전송 -->
             <tr><th>학원ID</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="academyId"></td></tr>
             <tr><th>학원명</th></tr>
-            <tr><td><input class="input1" type="text" v-model="name"></td></tr>
+            <tr><td><input class="input1" type="text" readonly="readonly" v-model="name"></td></tr>
             <tr><th>전화번호</th></tr>
-            <tr><td><input class="input1" type="text" v-model="phone"></td></tr>
+            <tr><td><input class="input1" type="text" readonly="readonly" v-model="phone"></td></tr>
             <tr><th>주소</th></tr>
-            <tr><td><input class="input1" type="text" v-model="address"></td></tr>
+            <tr><td><input class="input1" type="text" readonly="readonly" v-model="address"></td></tr>
             <tr><th>카테고리</th></tr>
-            <tr><td>
-            <input class="checkbox1" type="checkbox" v-model="category" value="어학원">어학원
-            <input class="checkbox1" type="checkbox" v-model="category" value="컴퓨터학원">컴퓨터학원
-            <input class="checkbox1" type="checkbox" v-model="category" value="무용학원">무용학원<br>
-            <input class="checkbox1" type="checkbox" v-model="category" value="공무원시험학원">공무원시험학원
-            <input class="checkbox1" type="checkbox" v-model="category" value="간호학원">간호학원<br>
-            <input class="checkbox1" type="checkbox" v-model="category" value="보습학원">보습학원
-            <input class="checkbox1" type="checkbox" v-model="category" value="음악학원">음악학원
-            <input class="checkbox1" type="checkbox" v-model="category" value="입시학원">입시학원<br>
-            <input class="checkbox1" type="checkbox" v-model="category" value="편입학원">편입학원
-            <input class="checkbox1" type="checkbox" v-model="category" value="미술학원">미술학원
-            <input class="checkbox1" type="checkbox" v-model="category" value="미용학원">미용학원<br>
-            <input class="checkbox1" type="checkbox" v-model="category" value="한문학원">한문학원
-            <input class="checkbox1" type="checkbox" v-model="category" value="수학학원">수학학원
-            </td></tr>
+            <tr><th>학원 사진</th></tr>
+            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imgUrl" /></td></tr>
+            <tr><td><input class="input1" type="text" readonly="readonly" v-model="category"></td></tr>
+            <tr><td>학원 상세설명</td></tr>
+            <tr><td colspan="2"><textarea class="input2" /></td></tr>
             <tr><th>스케줄 추가</th></tr>
             <tr v-for="index in count" :key="index"><td><Schedule /></td></tr>
             <tr><td><button class="add-btn2" @click="count++">+</button></td></tr>
@@ -70,14 +48,17 @@ import Schedule from "@/views/academyManagement/components/Schedule";
 
 export default {
   components: { Schedule },
-  props: ["academyId", "emails"],
+  props: ["academyId"],//academy/{academyId} 를 통해 학원 상세 정보를 받아서 대입
+  mounted(){
+    this.getAcademy();
+  },
   data() {
     return {
       imageUrl: "",
       name: "",
       phone: "",
       address: "",
-      category: [],
+      category: "",
       memberId: "",
       password: "",
       auth: false,
@@ -86,6 +67,22 @@ export default {
     }
   },
   methods:{
+      getAcademy(){
+        this.$store
+          .dispatch("student/findAcademy", {
+            academyId: this.academyId
+          })
+          .then((res) => {
+            if (res.status == 404) {
+              console.log("aniVibro가 뭐죠 404");
+            } else if (res.status == 200) {
+              console.log(res);
+            }
+          })
+          .catch(() => {
+            console.log("aniVibro가 뭐죠 catch");
+          });
+      },
       modify(){
           console.log(this.category);
           console.log(this.imageUrl);

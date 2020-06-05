@@ -8,6 +8,8 @@ import { passwordCheck } from "@/api/student";
 import { readReview, writeReview } from "@/api/student";
 import { pay } from "@/api/student";
 import { paySuccess } from "@/api/student";
+import { findAcademy } from "@/api/student";
+const axios = require('axios');
 
 const state = {
   token: getToken(),
@@ -202,6 +204,22 @@ const actions = {
           resolve(res);
         })
         .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  findAcademy({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      findAcademy(data.academyId)
+        .then((res) => {
+          axios.defaults.headers.common['X-AUTH-TOKEN'] = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU5MTMzNzg3NSwiZXhwIjoxNTkxMzQxNDc1fQ.DGy-KXFR4moqvpPz_YcW-Up3fSkKxT0qg_kL3JSi8cg";
+          console.log("res");
+          console.log(res);
+          resolve(res);
+        })
+        .catch((err) => {
+          console.log("err");
+          console.log(err);
           reject(err);
         });
     });

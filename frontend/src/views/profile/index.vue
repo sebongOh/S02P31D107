@@ -86,7 +86,7 @@ export default {
     Footer,
   },
   computed: {
-    ...mapGetters(["name", "email", "address", "phone", "age", "gender", "profileFile"]),
+    ...mapGetters(["name", "email", "address", "phone", "age", "gender", "profileFile", "token"]),
   },
   created(){
     this.passwordSchema
@@ -129,7 +129,7 @@ export default {
       this.ageInput = this.age;
       this.genderInput = this.gender;
       this.imgUrl = this.profileFile;
-      console.log(this.profileFile);
+      console.log(this.token);
     },
     modify(){
       if(this.currentPassword == ""){

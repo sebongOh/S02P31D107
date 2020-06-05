@@ -13,7 +13,7 @@
         <button class="add-btn" @click="addAcademy()">+</button>
         <AcademyAdd v-if="isAdd & value==''"/>
         <!-- 학원이 선택되어 있다면 해당 학원 안에 수정/삭제 기능 -->
-        <AcademyModify v-if="value!=''" :academyId="value" :email="email"/>
+        <AcademyModify v-if="value!=''" :academyId="value"/>
       </div>
         <div class="footer-domain">
             <Footer/>
@@ -35,26 +35,27 @@ export default {
   },
   data() {
     return {
+      ///academy-management-authority/member 해서 받아온 값들 중 academyId 를 value 에 들어가도록 하고 name 을 label 에 들어가도록 한다
       options: [
         {
-          value: "Value1",
-          label: "Option1",
+          value: "9472674",
+          label: "홀릭미술학원 본원",
         },
         {
-          value: "Value2",
-          label: "Option2",
+          value: "10139665",
+          label: "구미제과제빵학원",
         },
         {
-          value: "Value3",
-          label: "Option3",
+          value: "9749818",
+          label: "르네상스미술학원",
         },
         {
-          value: "Value4",
-          label: "Option4",
+          value: "9318985",
+          label: "이레실용음악학원",
         },
         {
-          value: "Value5",
-          label: "Option5",
+          value: "17710983",
+          label: "구미미용학원",
         },
       ],
       value: "",
