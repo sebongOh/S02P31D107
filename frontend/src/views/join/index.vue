@@ -136,7 +136,6 @@
                 >
                 <el-input
                   class="w3-input w3-border w3-hover-indigo"
-                  name="email"
                   v-model="member.code"
                   :disabled="pageInfo.isAuthEmail"
                   placeholder="Code"
@@ -364,7 +363,6 @@ export default {
       let formData = new FormData(document.getElementById("form"));
       formData.delete("address");
       formData.delete("detailAddress");
-      formData.append("email", this.member.email);
       formData.append("address", this.member.address);
       if (this.normaluser) {
         this.$store

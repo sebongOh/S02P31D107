@@ -11,7 +11,7 @@
             <div class="write-review-div" @click="writeReview = true">리뷰 쓰기</div>
         </div>
         <div class="review-div">
-        <el-carousel arrow="always" height="500px">
+        <el-carousel :interval="10000" arrow="always" height="500px">
             <el-carousel-item v-for="r in reviews" :key="r.reviewId">
                 <Review :review="r"/>
             </el-carousel-item>
@@ -81,11 +81,28 @@ export default {
                 this.reviews = [{ reviewId:1, title:"SSAFY학원 최고! 강추강추! 꼭 와서 들어보세요!", score:5, createDate:"2020-06-04", contents: "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라"},
                 { reviewId:2, title:"SSAFY학원 추천합니다", score:4, createDate:"2020-06-04", contents: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."},
                 { reviewId:3, title:"다시 가고 싶다...", score:5, createDate:"2020-06-04", contents: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text."}];
+                //임시 데이터 끝
             }else{
                 this.isAvailable = true;
                 //academyId로 학원상세정보 받아오기
                 //등록한 회원이면 isPayed = true
-                //백엔드 통신으로 전체 리뷰 리턴되면 props로  Review 컴포넌트에 다 갖다주기
+                this.$store
+                .dispatch("student/readReview", {//리뷰 받아오기
+                    academyId: this.academyId
+                })
+                .then((res) => {
+                    if (res.status == 404) {
+                      console.log("aniVibro가 뭐죠 404");
+                      this.aniVibro("code", "리뷰 받아오기에 실패하였습니다.");
+                    } else if (res.status == 200) {
+                      console.log("리뷰 받아오기 성공");
+                      //받아온 리뷰들 reviews 에 넣기
+                    }
+                })
+                .catch(() => {
+                  console.log("aniVibro가 뭐죠 catch");
+                  this.aniVibro("code", "서버 접속을 실패했습니다.");
+                });
             }
         },
         goBoard(){
