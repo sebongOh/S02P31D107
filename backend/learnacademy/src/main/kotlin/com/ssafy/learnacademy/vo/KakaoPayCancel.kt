@@ -18,7 +18,7 @@ data class KakaoPayCancel(
         var item_code : String? = null, //상품 코드, 최대 100자
         var quantity : Int? = null, //상품 수량
         var created_at : Date? = null, //결제 준비 요청 시각
-        var approved_at : Data? = null,//결제 승인 시각
+        var approved_at : Date? = null,//결제 승인 시각
         var canceled_at : Date? = null, //결제 취소 시각
         var payload : String? = null //취소 요청 시 전달한 값
 )
