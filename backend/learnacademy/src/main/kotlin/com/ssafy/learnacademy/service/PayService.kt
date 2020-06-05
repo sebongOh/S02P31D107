@@ -36,4 +36,8 @@ class PayService (var payRepository: PayRepository){
     fun findBySchedule(schedule : AcademySchedule) : List<Pay>?{
         return payRepository.findByAcademySchedule(schedule)
     }
+
+    fun findByAcademyId(academyId : Long) : List<Pay>?{
+        return payRepository.findByAcademyId(academyId)
+    }
 }
