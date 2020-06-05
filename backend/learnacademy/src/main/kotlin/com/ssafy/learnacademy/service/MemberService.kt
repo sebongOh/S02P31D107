@@ -73,8 +73,8 @@ class MemberService
 
     fun getMember(): Member? {
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
-        val tmp: Member = authentication.getPrincipal() as Member
-        return memberRepository.findByEmail(tmp.email ?: "")
+        val member: Member = authentication.getPrincipal() as Member
+        return memberRepository.findByEmail(member.email ?: "")
     }
 
 }

@@ -6,5 +6,7 @@ class MemberRequest (
     @JsonProperty
     var email: String? = null,
     @JsonProperty
-    var password: String? = null
+    var password: String? = null,
+    @JsonProperty
+    var type: String? = null
 )

@@ -1,6 +1,7 @@
 package com.ssafy.learnacademy.controller
 
 import com.ssafy.learnacademy.service.AcademyManagementAuthorityService
+import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.vo.Academy
 import com.ssafy.learnacademy.vo.AcademyManagementAuthority
 import com.ssafy.learnacademy.vo.Member
@@ -13,26 +14,28 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/academy-management-authority")
 //@CrossOrigin(origins = ["*"], maxAge = 3600)
 class AcademyManagementAuthorityController(
-        val academyManagementAuthorityService: AcademyManagementAuthorityService
+        val academyManagementAuthorityService: AcademyManagementAuthorityService,
+        val memberService: MemberService
 ) {
 
     @GetMapping("/{academyManagementAuthorityId}")
     fun getAcademyManagementAuthority(@PathVariable("academyManagementAuthorityId") AcademyManagementAuthorityId: Long): ResponseEntity<AcademyManagementAuthority>? {
-        val academyManagementAuthority = academyManagementAuthorityService.findById(AcademyManagementAuthorityId) ?: return ResponseEntity.notFound().build()
+        val academyManagementAuthority: AcademyManagementAuthority = academyManagementAuthorityService.findById(AcademyManagementAuthorityId) ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok().body(academyManagementAuthority)
     }
 
     // 학원 회원 아이디로 조회 (학원 회원이 관리할 수 있는 학원들 조회)
-    @GetMapping("/member/{memberId}")
-    fun getAcademyManagementAuthorityByMemberId(@PathVariable("memberId") memberId: Long): ResponseEntity<MutableList<Academy>>? {
-        val academyList : MutableList<Academy> = academyManagementAuthorityService.findByMemberId(memberId) ?: return ResponseEntity.notFound().build()
+    @GetMapping("/member")
+    fun getAcademyManagementAuthorityByMemberId(): ResponseEntity<MutableList<Academy>>? {
+        val member: Member = memberService.getMember() ?: return ResponseEntity.notFound().build()
+        val academyList : MutableList<Academy> = academyManagementAuthorityService.findByMemberId(member.memberId ?: 0)
         return ResponseEntity.ok().body(academyList)
     }
 
     // 학원 아이디로 학원 관리권한을 가지고 있는 회원 조회 (학원 권한을 가지고 있는 회원들 조회)
     @GetMapping("/academy/{academyId}")
     fun getAcademyManagementAuthorityByAcademyId(@PathVariable("academyId") academyId: Long): ResponseEntity<MutableList<Member>>? {
-        val memberList : MutableList<Member> = academyManagementAuthorityService.findByAcademyId(academyId) ?: return ResponseEntity.notFound().build()
+        val memberList : MutableList<Member> = academyManagementAuthorityService.findByAcademyId(academyId)
         return ResponseEntity.ok().body(memberList)
     }
 

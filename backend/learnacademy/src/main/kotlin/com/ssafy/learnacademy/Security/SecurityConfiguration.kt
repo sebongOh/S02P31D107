@@ -35,7 +35,7 @@ class SecurityConfiguration(val jwtTokenProvider: JwtTokenProvider) : WebSecurit
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() //get요청 열기
                 .anyRequest().authenticated().and().cors() //그외 유저롤만 접근
                 .and()
-//                .addFilterBefore(JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
+                .addFilterBefore(JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
     }
 
     //swagger ignoring
@@ -49,27 +49,14 @@ class SecurityConfiguration(val jwtTokenProvider: JwtTokenProvider) : WebSecurit
                 "/webjars/**",
                 "/verify/**",
                 "/verify",
-                "/academy",
-                "/academy/**",
-                "/academy/**/**",
+                "/academy-certification",
+                "/academy-certification/**",
                 "/*/signin",
                 "/*/signup",
+                "/*/academy-signup",
                 "/*/sendEmail",
                 "/*/checkCode",
-                "/*/findPassword",
-                "/academy-schedule",
-                "/academy-schedule/**",
-                "/academy-schedule/**/**",
-                "/schedule-detail",
-                "/schedule-detail/**",
-                "/schedule-detail/**/**",
-                "/pay",
-                "/pay/**",
-                "/pay/ready",
-                "/pay/paySuccess/**/**/**",
-                "/pay/find/**", "/pay/**/**","/pay/**/**/**","/pay/**/**/**/**",
-                "/memberacademy","/memberacademy/**","/memberacademy/**/**","/memberSchedule","/memberSchedule/**",
-                "/member","/member/**","/member/**/**"
+                "/*/findPassword"
                 )
     }
 }

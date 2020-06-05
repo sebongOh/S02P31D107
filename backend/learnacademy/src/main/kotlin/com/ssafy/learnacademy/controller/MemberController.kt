@@ -29,17 +29,10 @@ class MemberController(
         return ResponseEntity.ok().body(member)
     }
 
-      // 학원 아이디로 연결된 학원 계정 조회
-//    @GetMapping("/{memberId}")
-//    @ApiOperation(value = "학원 아이디로 ", notes = "멤버를 검색합니다")
-//    fun getMemberByAcademyId(@PathVariable("memberId") memberId: Long): ResponseEntity<Member> {
-//        val member: Member? = memberService.findById(memberId) ?: return ResponseEntity.noContent().build()
-//        return ResponseEntity.ok().body(member)
-//    }
-
     @PostMapping("/signup")
     @ApiOperation(value = "회원 가입", notes = "회원 정보를 등록합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요.")
     fun insertMember(member: Member): ResponseEntity<Member> {
+        member.type = "일반회원"
         if (member.profileFile != null) {
             member.profileUrl = s3UploadService.uploadFile(member.profileFile, "profile/")
         } else {
@@ -50,7 +43,7 @@ class MemberController(
         return ResponseEntity.ok().body(insertMember)
     }
 
-    @PostMapping("/academySignup")
+    @PostMapping("/academy-signup")
     @ApiOperation(value = "학원 회원 가입", notes = "학원 회원 정보를 등록합니다. 회원 가입 데이터 + academyId, imageFile 추가하여 보내주세요.")
     fun insertAcademyMember(academyCertificationRequest: AcademyCertificationRequest): ResponseEntity<Member> {
         val member: Member = Member()
@@ -63,6 +56,7 @@ class MemberController(
         member.gender = academyCertificationRequest.gender
         member.profileFile = academyCertificationRequest.profileFile
         member.roles.add("ROLE_ADMIN")
+        member.type = "학원회원"
         if (academyCertificationRequest.profileFile != null) {
             member.profileUrl = s3UploadService.uploadFile(academyCertificationRequest.profileFile, "profile/")
         } else {
@@ -72,7 +66,16 @@ class MemberController(
 
         val academyCertification: AcademyCertification = AcademyCertification()
         academyCertification.member = insertMember
-        academyCertification.academy = academyService.getAcademy(academyCertificationRequest.academyId ?: 0)
+        val academy: Academy = Academy()
+        academy.academyId = academyCertificationRequest.academyId
+        academy.contents = "학원 소개가 없습니다."
+        academy.category = ""
+        academy.imageUrl = ""
+        academy.phone = ""
+        academy.name = ""
+        academy.address = ""
+        val insertAcademy: Academy? = academyService.insertAcademy(academy)
+        academyCertification.academy = insertAcademy
         if (academyCertificationRequest.imageFile != null) {
             academyCertification.imageUrl = s3UploadService.uploadFile(academyCertificationRequest.imageFile, "cert/")
         } else {
@@ -112,34 +115,34 @@ class MemberController(
 
     @PostMapping("/signin")
     @ApiOperation(value = "로그인", notes = "이메일, 비밀번호를 받고 정보 일치 시 token을 발급합니다.")
-    fun signIn(@RequestBody member: MemberRequest): ResponseEntity<MutableMap<String, String>>? {
+    fun signIn(@RequestBody member: MemberRequest): ResponseEntity<String>? {
         val loginMember: Member = memberService.findByEmail(member.email ?:"")
                 ?: return ResponseEntity.notFound().build()
-        val requestObject: MutableMap<String, String> = mutableMapOf()
-        requestObject.put("access_token", memberService.signIn(loginMember, member.password ?: ""))
-        return ResponseEntity.ok().body(requestObject)
+        if (!loginMember.type.equals(member.type)) return ResponseEntity.badRequest().build()
+        val access_token: String = memberService.signIn(loginMember, member.password ?: "")
+        return ResponseEntity.ok().body(access_token)
     }
 
     @PostMapping("/checkPassword")
     @ApiOperation(value = "비밀번호 확인", notes = "비밀번호가 맞는지 확인합니다. 이때 이메일과 비밀번호를 json 형식으로 날려주세요.")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun checkPassword(@RequestBody member: MemberRequest): ResponseEntity<Unit>? {
-        var findMember: Member = memberService.findByEmail(member.email ?:"")
-                ?: return ResponseEntity.notFound().build()
-        return ResponseEntity.ok().build()
-    }
+    var findMember: Member = memberService.findByEmail(member.email ?:"")
+            ?: return ResponseEntity.notFound().build()
+    return ResponseEntity.ok().build()
+}
 
-    @PostMapping("/findPassword")
-    @ApiOperation(value = "비밀번호 찾기", notes = "비밀번호를 찾습니다. email과 name을 json 형식으로 날려주세요.")
-    fun findPassword(@RequestBody member: Member): ResponseEntity<Unit>? {
-        var findMember: Member = memberService.findByEmail(member.email ?:"")
-                ?: return ResponseEntity.notFound().build()
-        if (!findMember.name.equals(member.name)) return ResponseEntity.notFound().build()
-        val tempPassword = memberService.randomPassword()
-        findMember.password = tempPassword
-        memberService.updateMember(findMember)
-        memberService.sendTempPassword(member.email ?: "", tempPassword)
-        return ResponseEntity.ok().build()
-    }
+@PostMapping("/findPassword")
+@ApiOperation(value = "비밀번호 찾기", notes = "비밀번호를 찾습니다. email과 name을 json 형식으로 날려주세요.")
+fun findPassword(@RequestBody member: Member): ResponseEntity<Unit>? {
+    var findMember: Member = memberService.findByEmail(member.email ?:"")
+            ?: return ResponseEntity.notFound().build()
+    if (!findMember.name.equals(member.name)) return ResponseEntity.notFound().build()
+    val tempPassword = memberService.randomPassword()
+    findMember.password = tempPassword
+    memberService.updateMember(findMember)
+    memberService.sendTempPassword(member.email ?: "", tempPassword)
+    return ResponseEntity.ok().build()
+}
 
 }
