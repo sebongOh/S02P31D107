@@ -13,7 +13,7 @@
         <button class="add-btn" @click="addAcademy()">+</button>
         <AcademyAdd v-if="isAdd & value==''"/>
         <!-- 학원이 선택되어 있다면 해당 학원 안에 수정/삭제 기능 -->
-        <AcademyModify v-if="value!=''" :academyId="value"/>
+        <AcademyModify v-if="value!=''" :academyId="value" :email="email"/>
       </div>
         <div class="footer-domain">
             <Footer/>
@@ -25,9 +25,14 @@
 import AcademyModify from "@/views/academyManagement/components/AcademyModify";
 import AcademyAdd from "@/views/academyManagement/components/AcademyAdd";
 import Footer from "@/views/academyManagement/components/Footer";
+import { mapGetters } from "vuex";
+import { getToken } from "@/utils/auth";
 
 export default {
   components: { AcademyModify, AcademyAdd, Footer },
+  computed: {
+    ...mapGetters(["email"]),
+  },
   data() {
     return {
       options: [

@@ -3,6 +3,9 @@ import { join, login, acajoin } from "@/api/student";
 import { requestEmail } from "@/api/student";
 import { emailCheck } from "@/api/student";
 import { findPassword } from "@/api/student";
+import { updateProfile, retire } from "@/api/student";
+import { passwordCheck } from "@/api/student";
+import { readReview } from "@/api/student";
 import { pay } from "@/api/student";
 import { paySuccess } from "@/api/student";
 
@@ -74,7 +77,17 @@ const actions = {
         });
     });
   },
-
+  pay({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      pay(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
   paySuccess({ commit }, data) {
     return new Promise((resolve, reject) => {
       paySuccess(data)
@@ -132,9 +145,48 @@ const actions = {
         });
     });
   },
-  pay({ commit }, data) {
+
+  updateProfile({ commit }, formData) {
     return new Promise((resolve, reject) => {
-      pay(data)
+      updateProfile(formData)
+        .then((res) => {
+          commit("SET_TOKEN", res.data);
+          setToken(res.data);
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  passwordCheck({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      passwordCheck({
+        email: data.email.trim(),
+        password: data.password,
+      })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  retire({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      retire(data) //헤더에 액세스 토큰 넣어서 보내야함
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  readReview({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      readReview(data.academyId)
         .then((res) => {
           resolve(res);
         })

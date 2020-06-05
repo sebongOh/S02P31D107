@@ -45,7 +45,7 @@
             </table>
             <button @click="auth=true">학원 권한 변경</button>
             <div class="btn1"><button class="retire-btn" @click="retirement = true">학원 삭제</button></div>
-            <button @click="clickTest()">입력된 내용 확인</button>
+            <button @click="modify()">학원 정보 수정</button>
       </div>
       <table v-if="auth" class="profile-table">
         <tr><th colspan="2">권한 넘겨줄 회원 ID</th></tr>
@@ -70,7 +70,7 @@ import Schedule from "@/views/academyManagement/components/Schedule";
 
 export default {
   components: { Schedule },
-  props: ["academyId"],
+  props: ["academyId", "emails"],
   data() {
     return {
       imageUrl: "",
@@ -86,7 +86,7 @@ export default {
     }
   },
   methods:{
-      clickTest(){
+      modify(){
           console.log(this.category);
           console.log(this.imageUrl);
           var img = document.getElementById("imgUpload");
@@ -101,6 +101,24 @@ export default {
           alert("현재 비밀번호를 입력해주세요!");
           return;
         }
+        this.$store
+          .dispatch("student/passwordCheck", {
+            email: this.email,
+            password: this.password,
+          })
+          .then((res) => {
+            if (res.status == 404) {
+              console.log("aniVibro가 뭐죠 404");
+              this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
+            } else if (res.status == 200) {
+              console.log("현재 비밀번호 인증 성공");
+              //권한 이동
+            }
+          })
+          .catch(() => {
+            console.log("aniVibro가 뭐죠 catch");
+            this.aniVibro("code", "서버 접속을 실패했습니다.");
+          });
         console.log(this.memberId + " 님한테 " +this.academyId +" 권한이 넘어갔습니다.");
       },
       retire(){
@@ -108,7 +126,24 @@ export default {
           alert("현재 비밀번호를 입력해주세요!");
           return;
         }
-      //해당 회사 삭제
+      this.$store
+          .dispatch("student/passwordCheck", {
+            email: this.email,
+            password: this.password,
+          })
+          .then((res) => {
+            if (res.status == 404) {
+              console.log("aniVibro가 뭐죠 404");
+              this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
+            } else if (res.status == 200) {
+              console.log("현재 비밀번호 인증 성공");
+              //회사 삭제
+            }
+          })
+          .catch(() => {
+            console.log("aniVibro가 뭐죠 catch");
+            this.aniVibro("code", "서버 접속을 실패했습니다.");
+          });
     }
   }
 }

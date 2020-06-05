@@ -63,3 +63,34 @@ export const findPassword = (data) => {
     data,
   });
 };
+
+export const updateProfile = (data) => {
+  return request({
+    url: "member",
+    method: "put",
+    data,
+  });
+};
+
+export const passwordCheck = (data) => {
+  return request({
+    url: "member/checkPassword",
+    method: "post",
+    data,
+  });
+};
+
+export const retire = (data) => {
+  return request({
+    url: "member",
+    method: "delete",
+    data
+  });
+};
+
+export const readReview = (data) => {
+  return request({
+    url: "review/"+data+"/academy",
+    method: "get"
+  });
+};
