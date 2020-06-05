@@ -24,6 +24,22 @@ export const acajoin = (data) => {
   });
 };
 
+export const pay = (data) => {
+  return request({
+    url: "pay/ready",
+    method: "post",
+    data,
+  });
+};
+
+export const paySuccess = (data) => {
+  return request({
+    url: "pay/paySuccess",
+    method: "post",
+    data,
+  });
+};
+
 export const requestEmail = (data) => {
   return request({
     url: "verify/sendEmail",
