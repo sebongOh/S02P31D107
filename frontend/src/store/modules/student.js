@@ -3,6 +3,8 @@ import { join, login, acajoin } from "@/api/student";
 import { requestEmail } from "@/api/student";
 import { emailCheck } from "@/api/student";
 import { findPassword } from "@/api/student";
+import { pay } from "@/api/student";
+import { paySuccess } from "@/api/student";
 
 const state = {
   token: getToken(),
@@ -73,6 +75,18 @@ const actions = {
     });
   },
 
+  paySuccess({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      paySuccess(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+
   acajoin({ commit }, formData) {
     return new Promise((resolve, reject) => {
       acajoin(formData)
@@ -110,6 +124,17 @@ const actions = {
   findPassword({ commit }, data) {
     return new Promise((resolve, reject) => {
       findPassword(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  pay({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      pay(data)
         .then((res) => {
           resolve(res);
         })

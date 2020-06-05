@@ -58,6 +58,11 @@ export default [
     name: "payment",
   },
   {
+    path: "/paymenting",
+    component: () => import("@/views/paying"),
+    name: "paymenting",
+  },
+  {
     path: "*",
     component: () => import("@/views/error"),
     name: "error404",
