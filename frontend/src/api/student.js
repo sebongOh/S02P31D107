@@ -71,3 +71,10 @@ export const retire = (data) => {
     data
   });
 };
+
+export const readReview = (data) => {
+  return request({
+    url: "review/"+data+"/academy",
+    method: "get"
+  });
+};

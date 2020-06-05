@@ -3,9 +3,9 @@ import { join, login, acajoin } from "@/api/student";
 import { requestEmail } from "@/api/student";
 import { emailCheck } from "@/api/student";
 import { findPassword } from "@/api/student";
-import { updateProfile } from "@/api/student";
+import { updateProfile, retire } from "@/api/student";
 import { passwordCheck } from "@/api/student";
-import { retire } from "@/api/student";
+import { readReview } from "@/api/student";
 
 const state = {
   token: getToken(),
@@ -151,6 +151,17 @@ const actions = {
   retire({ commit }, data) {
     return new Promise((resolve, reject) => {
       retire(data)//헤더에 액세스 토큰 넣어서 보내야함
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  readReview({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      readReview(data.academyId)
         .then((res) => {
           resolve(res);
         })

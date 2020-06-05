@@ -96,6 +96,7 @@ export default {
       this.ageInput = this.age;
       this.genderInput = this.gender;
       this.imgUrl = this.profileFile;
+      console.log(this.profileFile);
     },
     modify(){
       if(this.currentPassword == ""){
@@ -162,6 +163,9 @@ export default {
             } else if (res.status == 200) {
               console.log("현재 비밀번호 인증 성공");
               //회원 탈퇴
+              //탈퇴 성공하면 로그인 페이지로
+              var router = this.$router;
+              router.push("/");
             }
           })
           .catch(() => {
