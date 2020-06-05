@@ -41,7 +41,8 @@ export default {
       mapOptions: {
         place: "",
         options: {
-          radius: 100
+          radius: 100,
+          checked: ""
         }
       }
     };
@@ -76,6 +77,7 @@ export default {
       } else {
         this.mapOptions.options.radius = 6000;
       }
+      this.mapOptions.checked = options.checked;
       this.page = 6;
     }
   }

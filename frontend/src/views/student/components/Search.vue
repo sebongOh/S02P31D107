@@ -16,21 +16,6 @@ export default {
     return {
       mapOptions: {
         location: {
-          //구미시청
-          // latitude: 36.119565,
-          // longitude: 128.344285,
-          //강남
-          // latitude: 37.497372,
-          // longitude: 127.02701,
-          //대치
-          // latitude: 37.490819,
-          // longitude: 127.055104,
-          // 부산대
-          // latitude: 35.231592,
-          // longitude: 129.084163,
-          // 노량진
-          //   latitude: 37.513545,
-          //   longitude: 126.940996,
           latitude: 0,
           longitude: 0
         },
@@ -40,12 +25,12 @@ export default {
       },
       datas: [],
       page: 0,
-      maxPage: 1
+      maxPage: 45
     };
   },
   mounted() {
-    console.log("여기는 Search");
-    console.log(this.options.options.radius);
+    // console.log("여기는 Search");
+    // console.log(this.options.options.radius);
     this.mapOptions.location.latitude = this.options.place.x;
     this.mapOptions.location.longitude = this.options.place.y;
     this.mapOptions.radius = this.options.options.radius;
@@ -92,7 +77,9 @@ export default {
     placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         for (let i = 0; i < data.length; ++i) {
-          this.datas.push(data[i]);
+          this.options.checked.forEach(value => {
+            if (data[i].category_name.includes(value)) this.datas.push(data[i]);
+          });
         }
         this.page += 1;
         if (this.page == this.maxPage) {
