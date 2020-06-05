@@ -13,6 +13,7 @@ import javax.xml.ws.Response
 
 @RestController
 @RequestMapping("/academy-schedule")
+@CrossOrigin(origins = ["*"], maxAge = 3600)
 class AcademyScheduleController (var academyScheduleService: AcademyScheduleService, var academyService: AcademyService){
 
     @GetMapping
