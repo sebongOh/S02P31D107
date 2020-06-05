@@ -1,8 +1,13 @@
 <template>
   <div class="user" id="login">
     <div class="wrapC">
-      <h1>로그인<br /></h1>
-
+      <h1>로그인</h1>
+      <div style="text-align:right; margin-bottom:10px">
+        <el-button v-model="value" @click="change()" v-if="value"
+          >일반회원</el-button
+        >
+        <el-button v-model="value" @click="change()" v-else>학원회원</el-button>
+      </div>
       <div class="input-with-label">
         <input
           v-model="email"
@@ -101,6 +106,14 @@ export default {
     },
   },
   methods: {
+    change() {
+      this.value = !this.value;
+      if (this.value) {
+        this.type = "학원회원";
+      } else {
+        this.type = "일반회원";
+      }
+    },
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
@@ -128,6 +141,11 @@ export default {
           })
           .then((res) => {
             //메인으로 넘김
+            if (this.type == "학원회원") {
+              this.router.push({ path: "/academy-management" });
+            } else {
+              this.$router.push({ path: "/student-main" });
+            }
             this.isSubmit = true;
           })
           .catch((err) => {
@@ -139,6 +157,8 @@ export default {
   },
   data: () => {
     return {
+      type: "일반회원",
+      value: false,
       email: "",
       password: "",
       passwordSchema: new PV(),

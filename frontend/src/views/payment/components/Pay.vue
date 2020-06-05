@@ -49,16 +49,20 @@
     <hr />
     <el-row>
       <el-col :span="24">
-        <el-button type="warning" style="width:100%"><b>결제하기</b></el-button>
+        <el-button type="warning" style="width:100%" @click="pay"
+          ><b>결제하기</b></el-button
+        >
       </el-col>
     </el-row>
   </el-card>
 </template>
 
 <script>
+import { Store } from "vuex";
 export default {
   data: () => {
     return {
+      token: "",
       academy: {
         name: "",
         schedule: "",
@@ -67,7 +71,25 @@ export default {
       month: 1,
     };
   },
-  mounted() {},
+  methods: {
+    pay() {
+      this.$store
+        .dispatch("student/pay", {
+          memberId: "1",
+          scheduleId: "3",
+        })
+        .then((res) => {
+          console.log(res);
+          window.location.href = res.data;
+          this.$emit("changePagenum", 1);
+          // this.token = this.$route.query.pg_token;
+          // this.$store.dispatch("student/paysucc/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 

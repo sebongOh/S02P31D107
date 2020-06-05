@@ -6,6 +6,8 @@ import { findPassword } from "@/api/student";
 import { updateProfile, retire } from "@/api/student";
 import { passwordCheck } from "@/api/student";
 import { readReview, writeReview } from "@/api/student";
+import { pay } from "@/api/student";
+import { paySuccess } from "@/api/student";
 
 const state = {
   token: getToken(),
@@ -75,6 +77,28 @@ const actions = {
         });
     });
   },
+  pay({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      pay(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  paySuccess({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      paySuccess(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
 
   acajoin({ commit }, formData) {
     return new Promise((resolve, reject) => {
@@ -121,6 +145,7 @@ const actions = {
         });
     });
   },
+
   updateProfile({ commit }, formData) {
     return new Promise((resolve, reject) => {
       updateProfile(formData)
@@ -138,7 +163,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       passwordCheck({
         email: data.email.trim(),
-        password: data.password
+        password: data.password,
       })
         .then((res) => {
           resolve(res);
@@ -150,7 +175,7 @@ const actions = {
   },
   retire({ commit }, data) {
     return new Promise((resolve, reject) => {
-      retire(data)//헤더에 액세스 토큰 넣어서 보내야함
+      retire(data) //헤더에 액세스 토큰 넣어서 보내야함
         .then((res) => {
           resolve(res);
         })

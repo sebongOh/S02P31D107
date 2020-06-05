@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <Pay />
-    <PaySucc />
+    <Pay @changePagenum="changepage" v-if="pagenum == 0" />
+    <PaySucc @changePagenum="changepage" v-if="pagenum == 2" />
   </div>
 </template>
 
@@ -14,7 +14,14 @@ export default {
     PaySucc,
   },
   data: () => {
-    return {};
+    return {
+      pagenum: 0,
+    };
+  },
+  methods: {
+    changepage(num) {
+      this.pagenum = num;
+    },
   },
 };
 </script>
