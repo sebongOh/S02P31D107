@@ -16,4 +16,7 @@ interface PayRepository : JpaRepository<Pay, Long>{
 
     @Query("select p from Pay p where p.academySchedule.academyScheduleId = (select a.academyScheduleId from AcademySchedule a where a.academy.academyId = :academy_id)")
     fun findByAcademyId(@Param("academy_id") academyId: Long) : List<Pay>?
+
+    @Query("select p from Pay p where p.academySchedule.academyScheduleId=:academy_schedule_id and p.member.memberId = :member_id")
+    fun getMyPay(@Param("member_id") memberId : Long,@Param("academy_schedule_id") scheduleId : Long) : List<Pay>?
 }

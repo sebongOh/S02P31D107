@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 import java.net.URI
 import javax.servlet.http.HttpServletRequest
+import javax.xml.ws.Response
 
 
 @RestController
@@ -243,6 +244,20 @@ class PayController(var payService: PayService, var memberService: MemberService
     @ApiOperation(value="tid로 결제내역 검색" , notes = "tid로 결제내역을 검색합니다")
     fun findByTid(@PathVariable tid : String) : ResponseEntity<Pay>?{
         val pay : Pay = payService.findByTid(tid) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(pay)
+    }
+
+    @PostMapping("/MyPay")
+    @ApiOperation(value="해당tid찾아오기", notes = "특정 스케쥴의 tid 불러오기")
+    fun getMyPay(@RequestBody getTid: GetTid) : ResponseEntity<List<Pay>>?{
+        val pay : List<Pay> = payService.getMyPay(getTid.memberId!!, getTid.scheduleId!!) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(pay)
+    }
+
+    @GetMapping("/{payId}/payId")
+    @ApiOperation(value = "특정 결제내역 검색", notes = "특정 결제내역을 검색합니다")
+    fun findById(@PathVariable payId : Long) : ResponseEntity<Pay>?{
+        val pay : Pay = payService.findById(payId) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(pay)
     }
 }

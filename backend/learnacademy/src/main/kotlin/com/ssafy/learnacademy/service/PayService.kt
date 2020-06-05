@@ -44,4 +44,8 @@ class PayService (var payRepository: PayRepository){
     fun findByTid(tid : String) : Pay?{
         return payRepository.findByTid(tid)
     }
+
+    fun getMyPay(memberId : Long, scheduleId : Long) : List<Pay>?{
+        return payRepository.getMyPay(memberId,scheduleId)
+    }
 }
