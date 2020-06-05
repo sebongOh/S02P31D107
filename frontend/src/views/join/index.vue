@@ -1,11 +1,6 @@
 <template>
   <div>
-    <el-steps
-      :active="active"
-      finish-status="success"
-      simple
-      style="margin-top: 20px"
-    >
+    <el-steps :active="active" finish-status="success" simple style="margin-top: 20px">
       <el-step title="Step 1"></el-step>
       <el-step title="Step 2"></el-step>
       <el-step title="Step 3"></el-step>
@@ -17,11 +12,7 @@
         <el-form>
           <el-col :xs="8" :sm="8" :md="8">
             <el-button @click="normaluser = true">
-              <el-avatar
-                shape="square"
-                :size="80"
-                icon="el-icon-s-custom"
-              ></el-avatar>
+              <el-avatar shape="square" :size="80" icon="el-icon-s-custom"></el-avatar>
               <br />
               <span>일반회원</span>
             </el-button>
@@ -34,11 +25,7 @@
           </el-col>
           <el-col :xs="8" :sm="8" :md="8">
             <el-button @click="normaluser = false">
-              <el-avatar
-                shape="square"
-                :size="80"
-                icon="el-icon-school"
-              ></el-avatar>
+              <el-avatar shape="square" :size="80" icon="el-icon-school"></el-avatar>
               <br />
               <span>학원회원</span>
             </el-button>
@@ -73,13 +60,8 @@
               </el-upload>
               <el-dialog :visible.sync="dialogVisible">
                 <img width="100%" :src="dialogImageUrl" alt />
-              </el-dialog> -->
-              <input
-                type="file"
-                @change="previewImage"
-                accept="image/*"
-                name="profileFile"
-              />
+              </el-dialog>-->
+              <input type="file" @change="previewImage" accept="image/*" name="profileFile" />
               <div class="image-preview" v-if="imageData.length > 0">
                 <img class="preview" :src="imageData" />
               </div>
@@ -95,10 +77,11 @@
                   warning: pageInfo.isRequestEmail,
                 }"
                 @click="requestEmail"
-                >{{
-                  ux.sendEmailText[pageInfo.isRequestEmail ? 1 : 0]
-                }}</el-button
               >
+                {{
+                ux.sendEmailText[pageInfo.isRequestEmail ? 1 : 0]
+                }}
+              </el-button>
               <el-form-item
                 prop="email"
                 label="Email"
@@ -132,8 +115,7 @@
                     'w3-border-red': !pageInfo.isAuthEmail,
                     'w3-border-blue': pageInfo.isAuthEmail,
                   }"
-                  >{{ ux.authEmailText[pageInfo.isAuthEmail ? 1 : 0] }}</span
-                >
+                >{{ ux.authEmailText[pageInfo.isAuthEmail ? 1 : 0] }}</span>
                 <el-input
                   class="w3-input w3-border w3-hover-indigo"
                   v-model="member.code"
@@ -156,9 +138,7 @@
                   }"
                   show-password
                 ></el-input>
-                <span class="error">
-                  {{ error.checkPassword }}
-                </span>
+                <span class="error">{{ error.checkPassword }}</span>
               </el-form-item>
             </p>
             <p :class="ux.password">
@@ -168,34 +148,21 @@
                   v-model="member.passwordConfirm"
                   show-password
                 ></el-input>
-                <label v-show="!pageInfo.equalsToPassword" style="color:red"
-                  >비밀번호를 확인해주세요.</label
-                >
+                <label v-show="!pageInfo.equalsToPassword" style="color:red">비밀번호를 확인해주세요.</label>
               </el-form-item>
               <span class="error">{{ error.password }}</span>
             </p>
 
             <el-form-item label="이름" required>
-              <el-input
-                placeholder="Please input name"
-                v-model="member.name"
-                name="name"
-              ></el-input>
+              <el-input placeholder="Please input name" v-model="member.name" name="name"></el-input>
             </el-form-item>
             <el-form-item label="핸드폰" required>
-              <el-input
-                placeholder="-없이 입력해주세요"
-                v-model="member.phone"
-                name="phone"
-              ></el-input>
+              <el-input placeholder="-없이 입력해주세요" v-model="member.phone" name="phone"></el-input>
             </el-form-item>
 
             <p>
               <el-form-item label="주소" required>
-                <span
-                  @click="pageInfo.showFindAddress = !pageInfo.showFindAddress"
-                  >Find</span
-                >
+                <span @click="pageInfo.showFindAddress = !pageInfo.showFindAddress">Find</span>
                 <el-input
                   name="address"
                   type="text"
@@ -235,22 +202,23 @@
             </el-form-item>
 
             <el-form-item label="나이" required>
-              <el-input
-                v-model="member.age"
-                name="age"
-                placeholder="나이를 입력하시오"
-              ></el-input>
+              <el-input v-model="member.age" name="age" placeholder="나이를 입력하시오"></el-input>
             </el-form-item>
             <el-form-item label="학원이름" required v-if="!normaluser">
-              <el-autocomplete
-                class="inline-input"
-                name="academyId"
-                v-model="academyname"
-                :fetch-suggestions="querySearch"
-                placeholder="Please Input"
-                @select="handleSelect"
-              ></el-autocomplete>
+              <el-input class="inline-input" v-model="keyword" placeholder="학원 명을 입력해 주세요"></el-input>
+              <el-button @click="searchPlaces">학원 검색</el-button>
             </el-form-item>
+            <el-table
+              :data="searchResult"
+              stripe
+              style="width: 100%"
+              max-height="300"
+              @row-click="rowClicked"
+              v-if="searchResult.length>0"
+            >
+              <el-table-column prop="place_name" label="상호명" width="100"></el-table-column>
+              <el-table-column prop="road_address_name" label="주소"></el-table-column>
+            </el-table>
             <el-form-item label="PortFolio" required v-if="!normaluser">
               <input name="imageFile" type="file" ref="file" />
             </el-form-item>
@@ -267,15 +235,9 @@
 
       <!--------------------------------- 버튼--------------------------------------->
       <div style="text-align:center">
-        <el-button v-if="active === 0" style="margin-top: 12px;" @click="next"
-          >Next step</el-button
-        >
-        <el-button v-if="active === 1" style="margin-top: 12px;" @click="join"
-          >Submit</el-button
-        >
-        <el-button v-if="active === 2" style="margin-top: 12px;" @click="go"
-          >OK</el-button
-        >
+        <el-button v-if="active === 0" style="margin-top: 12px;" @click="next">Next step</el-button>
+        <el-button v-if="active === 1" style="margin-top: 12px;" @click="join">Submit</el-button>
+        <el-button v-if="active === 2" style="margin-top: 12px;" @click="go">OK</el-button>
       </div>
       <!--------------------------------- 버튼--------------------------------------->
     </div>
@@ -285,9 +247,12 @@
 <script>
 import { VueDaumPostcode } from "vue-daum-postcode";
 import PV from "password-validator";
+
+let ps;
+
 export default {
   components: {
-    VueDaumPostcode,
+    VueDaumPostcode
   },
   data: () => {
     return {
@@ -300,21 +265,21 @@ export default {
         authEmailText: ["인증번호확인", "인증완료"],
         isAuthEmail: {},
         name: {},
-        password: {},
+        password: {}
       },
       error: {
         code: "",
         email: "",
         name: "",
         password: "",
-        checkPassword: false,
+        checkPassword: false
       },
       pageInfo: {
         isOverlapId: false,
         isAuthEmail: false,
         equalsToPassword: false,
         showFindAddress: false,
-        isRequestEmail: false,
+        isRequestEmail: false
       },
       active: 0,
       member: {
@@ -328,15 +293,17 @@ export default {
         detailAddress: "",
         address: "",
         phone: "",
-        portfolio: "",
+        portfolio: ""
       },
       academy: [{}],
-      academyname: "",
+      academyId: "",
       passwordSchema: new PV(),
       passwordConfirm: "",
       isIng: {
-        email: false,
+        email: false
       },
+      keyword: "",
+      searchResult: []
     };
   },
   created() {
@@ -350,7 +317,55 @@ export default {
       .has()
       .letters();
   },
+  mounted() {
+    // 장소 검색 객체를 생성합니다
+    ps = new kakao.maps.services.Places();
+
+    const script = document.createElement("script");
+    /* global kakao */
+    script.src =
+      "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=be28ab6abd772e2ef55ac5c2f1aa7792";
+    document.head.appendChild(script);
+  },
   methods: {
+    rowClicked(row) {
+      // console.log(row);
+      this.keyword = row.place_name;
+      this.academyId = row.id;
+      this.searchResult = [];
+    },
+    noSearchResult() {
+      this.$message({
+        message: "검색 결과가 존재하지 않습니다.",
+        type: "warning"
+      });
+    },
+    searchError() {
+      this.$message.error("검색 결과 중 오류가 발생했습니다.");
+    },
+    searchPlaces() {
+      let keyword = this.keyword;
+      // console.log(keyword);
+      if (!keyword.replace(/^\s+|\s+$/g, "")) {
+        alert("키워드를 입력해주세요!");
+        return false;
+      }
+      // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+      ps.keywordSearch(keyword, this.placesSearchCB);
+    },
+    // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+    placesSearchCB(data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        // console.log(data);
+        this.searchResult = data;
+      } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        this.noSearchResult();
+        return;
+      } else if (status === kakao.maps.services.Status.ERROR) {
+        this.searchError();
+        return;
+      }
+    },
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
@@ -367,19 +382,19 @@ export default {
       if (this.normaluser) {
         this.$store
           .dispatch("student/join", formData)
-          .then((res) => {
+          .then(res => {
             console.log(res.data);
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       } else {
         this.$store
           .dispatch("student/acajoin", formData)
-          .then((res) => {
+          .then(res => {
             console.log(res.data);
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       }
@@ -427,7 +442,7 @@ export default {
         this.isIng.email = true;
         this.$store
           .dispatch("student/requestEmail", { email: this.member.email })
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               alert("이메일에 인증코드를 전송했습니다.");
               this.pageInfo.isRequestEmail = true;
@@ -440,7 +455,7 @@ export default {
               this.isIng.email = false;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.aniVibro("email", "서버 접속을 실패했습니다.");
             this.pageInfo.isRequestEmail = false;
             this.isIng.email = false;
@@ -456,9 +471,9 @@ export default {
         this.$store
           .dispatch("student/emailCheck", {
             email: this.member.email,
-            code: this.member.code,
+            code: this.member.code
           })
-          .then((res) => {
+          .then(res => {
             if (res.status == 404) {
               this.aniVibro("code", "이메일 인증에 실패하였습니다.");
             } else if (res.status == 200) {
@@ -480,7 +495,7 @@ export default {
         this.isIng.id = true;
         this.$store
           .dispatch("student/idOverlap", this.member.id)
-          .then((res) => {
+          .then(res => {
             if (res.data == null || res.data == "") {
               alert("중복 체크 완료!!");
               this.pageInfo.isOverlapId = true;
@@ -488,7 +503,7 @@ export default {
               this.aniVibro("id", "중복된 ID입니다.");
             }
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
             this.aniVibro("id", "서버 접속을 실패했습니다.");
           });
@@ -528,7 +543,7 @@ export default {
       cb(results);
     },
     createFilter(queryString) {
-      return (link) => {
+      return link => {
         return (
           link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         );
@@ -545,7 +560,7 @@ export default {
         // create a new FileReader to read this image and convert to base64 format
         var reader = new FileReader();
         // Define a callback function to run, when FileReader finishes its job
-        reader.onload = (e) => {
+        reader.onload = e => {
           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
           // Read image as base64 and set to imageData
           this.imageData = e.target.result;
@@ -553,7 +568,7 @@ export default {
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
-    },
+    }
   },
   watch: {
     password: function(v) {
@@ -562,8 +577,8 @@ export default {
     "member.passwordConfirm"() {
       this.pageInfo.equalsToPassword =
         this.member.password === this.member.passwordConfirm ? true : false;
-    },
-  },
+    }
+  }
 };
 </script>
 
