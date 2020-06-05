@@ -55,11 +55,12 @@ const actions = {
       login({
         email: data.email.trim(),
         password: data.password,
+        type: data.type,
       })
         .then((res) => {
           commit("SET_TOKEN", res.data);
           setToken(res.data);
-          resolve();
+          resolve(res);
         })
         .catch((err) => {
           reject(err);
