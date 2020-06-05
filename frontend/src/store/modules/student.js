@@ -57,11 +57,12 @@ const actions = {
       login({
         email: data.email.trim(),
         password: data.password,
+        type: data.type,
       })
         .then((res) => {
           commit("SET_TOKEN", res.data);
           setToken(res.data);
-          resolve();
+          resolve(res);
         })
         .catch((err) => {
           reject(err);
@@ -212,7 +213,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       findAcademy(data.academyId)
         .then((res) => {
-          axios.defaults.headers.common['X-AUTH-TOKEN'] = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU5MTMzNzg3NSwiZXhwIjoxNTkxMzQxNDc1fQ.DGy-KXFR4moqvpPz_YcW-Up3fSkKxT0qg_kL3JSi8cg";
+          axios.defaults.headers.common['X-AUTH-TOKEN'] = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU5MTM0NDQ1NiwiZXhwIjoxNTkxMzQ4MDU2fQ.Nyhtglf8YVIlG7WUhdgQXG9wfG93JBsZsjxLloit1NI";
           console.log("res");
           console.log(res);
           resolve(res);
