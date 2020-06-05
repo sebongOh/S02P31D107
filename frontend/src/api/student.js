@@ -78,3 +78,10 @@ export const readReview = (data) => {
     method: "get"
   });
 };
+
+export const writeReview = (data) => {
+  return request({
+    url: "review",
+    method: "post"
+  });
+};

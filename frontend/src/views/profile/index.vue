@@ -18,6 +18,38 @@
             <tr v-if="error.same"><td class="red">{{error.same}}</td></tr>
             <tr><th>주소</th></tr>
             <tr><td><input class="input1" type="text" v-model="addressInput"></td></tr>
+            <!-- <tr><td>
+              <el-form-item label="주소" required>
+                <span
+                  @click="showFindAddress = !showFindAddress"
+                  >Find</span
+                >
+                <el-input
+                  name="address"
+                  type="text"
+                  v-model="member.addressObj.address"
+                  v-show="!showFindAddress"
+                  @click="showFindAddress = !showFindAddress"
+                />
+                <br />
+                <el-input
+                  class="w3-input w3-border w3-hover-indigo"
+                  name="detailAddress"
+                  type="text"
+                  v-model="member.detailAddress"
+                  v-show="!showFindAddress"
+                  placeholder="Detail Address"
+                />
+                <VueDaumPostcode
+                  v-if="showFindAddress"
+                  @complete="
+                    (member.addressObj = $event),
+                      (showFindAddress = !showFindAddress)
+                  "
+                  style="height: 450px; overflow: scroll;"
+                ></VueDaumPostcode>
+              </el-form-item>
+            </td></tr> -->
             <tr><th>폰번호</th></tr>
             <tr><td><input class="input1" type="text" v-model="phoneInput"></td></tr>
             <tr><th>나이</th></tr>
@@ -84,7 +116,8 @@ export default {
       retirement: false,
       imgUrl: "",
       error: {},
-      passwordSchema: new PV()
+      passwordSchema: new PV(),
+      showFindAddress: false
     }
   },
   methods: {

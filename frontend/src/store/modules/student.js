@@ -5,7 +5,7 @@ import { emailCheck } from "@/api/student";
 import { findPassword } from "@/api/student";
 import { updateProfile, retire } from "@/api/student";
 import { passwordCheck } from "@/api/student";
-import { readReview } from "@/api/student";
+import { readReview, writeReview } from "@/api/student";
 
 const state = {
   token: getToken(),
@@ -162,6 +162,17 @@ const actions = {
   readReview({ commit }, data) {
     return new Promise((resolve, reject) => {
       readReview(data.academyId)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  writeReview({ commit }, formData) {
+    return new Promise((resolve, reject) => {
+      writeReview(formData)
         .then((res) => {
           resolve(res);
         })
