@@ -1,14 +1,14 @@
 package com.ssafy.learnacademy.service
 
-import com.amazonaws.services.s3.AmazonS3
-import com.amazonaws.services.s3.AmazonS3Client
 import com.ssafy.learnacademy.Security.JwtTokenProvider
 import com.ssafy.learnacademy.repository.MemberRepository
 import com.ssafy.learnacademy.vo.Member
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.*
 
 
@@ -37,8 +37,8 @@ class MemberService
         return memberRepository.save(member)
     }
 
-    fun deleteMember(memberId: Long) {
-        return memberRepository.deleteById(memberId)
+    fun deleteMember(member: Member) {
+        return memberRepository.delete(member)
     }
 
     fun signIn(loginMember: Member, password: String): String {
@@ -69,6 +69,12 @@ class MemberService
             }
         }
         return tempPassword
+    }
+
+    fun getMember(): Member? {
+        val authentication: Authentication = SecurityContextHolder.getContext().authentication
+        val tmp: Member = authentication.getPrincipal() as Member
+        return memberRepository.findByEmail(tmp.email ?: "")
     }
 
 }

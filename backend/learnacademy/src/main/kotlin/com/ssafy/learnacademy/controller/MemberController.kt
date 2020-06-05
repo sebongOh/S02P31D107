@@ -21,11 +21,11 @@ class MemberController(
         val s3UploadService: S3UploadService
 ) {
 
-    @GetMapping("/{memberId}")
+    @GetMapping()
     @ApiOperation(value = "멤버 찾기", notes = "멤버를 검색합니다")
 //    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    fun getMember(@PathVariable("memberId") memberId: Long): ResponseEntity<Member> {
-        val member: Member? = memberService.findById(memberId) ?: return ResponseEntity.noContent().build()
+    fun getMember(): ResponseEntity<Member> {
+        val member: Member? = memberService.getMember() ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(member)
     }
 
@@ -97,12 +97,13 @@ class MemberController(
         return ResponseEntity.ok().body(insertMember)
     }
 
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping()
     @ApiOperation(value = "회원 정보 삭제(탈퇴)", notes = "회원 정보를 삭제합니다.")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    fun deleteMember(@PathVariable("memberId") memberId: Long): ResponseEntity<Unit> {
+    fun deleteMember(): ResponseEntity<Unit> {
         try {
-            memberService.deleteMember(memberId)
+            val findMember: Member = memberService.getMember() ?: return ResponseEntity.notFound().build()
+            memberService.deleteMember(findMember)
         } catch (e: Exception) {
             return ResponseEntity.notFound().build()
         }
