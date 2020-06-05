@@ -24,12 +24,15 @@ class PayController(var payService: PayService, var memberService: MemberService
     final var HOST : String = "https://kapi.kakao.com/"
     var kakaoPayApproval: KakaoPayApproval? =null
     var kakaoPayReady: KakaoPayReady? = null
+    var kakaoPayOrder : KakaoPayOrder? = null
+    var kakaoPayCancel : KakaoPayCancel? = null
+    final val webUrl : String = "http://192.168.35.48:8080/"
 
     @PostMapping("/ready")
+    @ApiOperation(value = "카카오페이 결제준비", notes = "카카오페이 결제를준비합니다")
     fun kakaoPayReady(@RequestBody payReadyRequest : PayReadyRequest, request : HttpServletRequest) : ResponseEntity<String>{
         var headers = HttpHeaders()
         var restTemplate = RestTemplate()
-        val webUrl : String = "http://192.168.43.116:8080/"
 
         headers.add("Authorization","KakaoAK "+"b6c1c0d9dcaeedd5745508c7b9d7e133")
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
@@ -74,6 +77,7 @@ class PayController(var payService: PayService, var memberService: MemberService
     }
 
     @PostMapping("/paySuccess")
+    @ApiOperation(value="카카오페이 결제완료", notes = "카카오페이 결제완료")
     fun kakaoPayInfo(@RequestBody payRequest: PayRequest) : ResponseEntity<Pay>{
         var restTemplate = RestTemplate()
         var headers = HttpHeaders()
@@ -135,6 +139,80 @@ class PayController(var payService: PayService, var memberService: MemberService
         return ResponseEntity.ok().body(insertPay)
     }
 
+    @PostMapping("/cancel")
+    @ApiOperation(value="카카오페이 결제취소", notes = "카카오페이 결제취소하기")
+    fun kakaoPayCancel(@RequestBody payCancelRequest : PayCancelRequest, request: HttpRequest) : ResponseEntity<KakaoPayCancel>{
+
+        var headers = HttpHeaders()
+        var restTemplate = RestTemplate()
+
+        headers.add("Authorization","KakaoAK "+"b6c1c0d9dcaeedd5745508c7b9d7e133")
+        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
+        headers.add("Content-type", MediaType.APPLICATION_FORM_URLENCODED_VALUE+";charset=utf-8")
+
+        println("###############  취소 요청정보  #################")
+        println("cid : "+payCancelRequest.cid)
+        println("tid : "+payCancelRequest.tid)
+        println("취소금액 : "+ payCancelRequest.cancel_amount)
+        println("취소 비과세금액 : "+ payCancelRequest.cancel_tax_free_amount)
+        println("###############################################")
+
+
+        var params: MultiValueMap<String, String> = LinkedMultiValueMap()
+        params.add("cid",payCancelRequest.cid)
+        params.add("tid",payCancelRequest.tid)
+        params.add("cancel_amount",payCancelRequest.cancel_amount.toString())
+        params.add("cancel_tax_free_amount",payCancelRequest.cancel_tax_free_amount.toString())
+        var body : HttpEntity<MultiValueMap<String,String>> = HttpEntity<MultiValueMap<String,String>>(params,headers)
+        println("################   취소정보  ###################")
+        println(body.headers.toString())
+        println(body.body.toString())
+        println("###############################################")
+        try {
+            kakaoPayCancel = restTemplate.postForObject(URI("https://kapi.kakao.com/v1/payment/cancel"), body, KakaoPayCancel::class.java)
+            return ResponseEntity<KakaoPayCancel>(kakaoPayCancel, HttpStatus.OK)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+
+    }
+
+    @PostMapping("/order")
+    @ApiOperation(value="카카오페이 주문조회", notes = "카카오페이 주문내역조회")
+    fun kakaoPayOrderInfo(@RequestBody kakaoPayOrderInfoRequest: KakaoPayOrderInfoRequest, request : HttpRequest) : ResponseEntity<KakaoPayOrder>{
+        var headers = HttpHeaders()
+        var restTemplate = RestTemplate()
+
+        headers.add("Authorization","KakaoAK "+"b6c1c0d9dcaeedd5745508c7b9d7e133")
+        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
+        headers.add("Content-type", MediaType.APPLICATION_FORM_URLENCODED_VALUE+";charset=utf-8")
+
+        println("##############  조회 요청정보  #################")
+        println("cid : "+kakaoPayOrderInfoRequest.cid)
+        println("tid : "+kakaoPayOrderInfoRequest.tid)
+        println("##############################################")
+
+        var params: MultiValueMap<String, String> = LinkedMultiValueMap()
+        params.add("cid",kakaoPayOrderInfoRequest.cid)
+        params.add("tid",kakaoPayOrderInfoRequest.tid)
+
+        var body : HttpEntity<MultiValueMap<String,String>> = HttpEntity<MultiValueMap<String,String>>(params,headers)
+        println("################   조회정보  ###################")
+        println(body.headers.toString())
+        println(body.body.toString())
+        println("###############################################")
+
+        try {
+            kakaoPayOrder = restTemplate.postForObject(URI("https://kapi.kakao.com/v1/payment/order"), body, KakaoPayOrder::class.java)
+            return ResponseEntity<KakaoPayOrder>(kakaoPayOrder, HttpStatus.OK)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+
     @GetMapping("/{memberId}/member")
     @ApiOperation(value = "멤버결제내역 검색", notes = "멤버결제내역을 검색합니다")
     fun findByMember(@PathVariable memberId : Long) : ResponseEntity<List<Pay>>?{
@@ -151,5 +229,10 @@ class PayController(var payService: PayService, var memberService: MemberService
         return ResponseEntity.ok().body(pay)
     }
 
-    // 학원으로 검색 만들어야함
+    @GetMapping("/{academyId}/academy")
+    @ApiOperation(value = "학원 결제내역 검색", notes = "학원의 결제내역을 검색합니다")
+    fun findByAcademy(@PathVariable academyId : Long) : ResponseEntity<List<Pay>>?{
+        val pay : List<Pay> = payService.findByAcademyId(academyId) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(pay)
+    }
 }
