@@ -27,5 +27,7 @@ class Pay (
 
         var payMethodType : String? =null,
 
-        var approvedAt : String? =null
+        var approvedAt : String? =null,
+
+        var type : Byte? = null
 )

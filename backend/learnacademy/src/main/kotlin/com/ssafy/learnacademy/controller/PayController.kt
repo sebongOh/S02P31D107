@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest
 class PayController(var payService: PayService, var memberService: MemberService, var academyScheduleService: AcademyScheduleService, var academyService: AcademyService) {
 
     final var HOST : String = "https://kapi.kakao.com/"
-    var kakaoPayApproval: KakaoPayApproval? =null
+
     var kakaoPayReady: KakaoPayReady? = null
     var kakaoPayOrder : KakaoPayOrder? = null
     var kakaoPayCancel : KakaoPayCancel? = null
@@ -81,7 +81,7 @@ class PayController(var payService: PayService, var memberService: MemberService
     fun kakaoPayInfo(@RequestBody payRequest: PayRequest) : ResponseEntity<Pay>{
         var restTemplate = RestTemplate()
         var headers = HttpHeaders()
-
+        var kakaoPayApproval: KakaoPayApproval? =null
         println("############## 결제 요청정보  ###################")
         println("스케쥴번호 : "+payRequest.scheduleId)
         println("멤버번호 : "+payRequest.memberId)
@@ -112,7 +112,7 @@ class PayController(var payService: PayService, var memberService: MemberService
             kakaoPayApproval = restTemplate.postForObject(URI(HOST + "v1/payment/approve"), body,
                     KakaoPayApproval::class.java)
             val pay: Pay = createPay(kakaoPayApproval, payRequest.scheduleId!!, payRequest.memberId!!)
-            insertPay(pay)
+            insertPay(pay, 0)
             return ResponseEntity<Pay>(pay, HttpStatus.OK)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -134,7 +134,8 @@ class PayController(var payService: PayService, var memberService: MemberService
     }
 
 
-    fun insertPay(pay : Pay) : ResponseEntity<Pay>?{
+    fun insertPay(pay : Pay, type : Byte) : ResponseEntity<Pay>?{
+        pay.type = type
         val insertPay : Pay? = payService.insertPay(pay) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(insertPay)
     }
@@ -170,6 +171,8 @@ class PayController(var payService: PayService, var memberService: MemberService
         println("###############################################")
         try {
             kakaoPayCancel = restTemplate.postForObject(URI("https://kapi.kakao.com/v1/payment/cancel"), body, KakaoPayCancel::class.java)
+            var pay : Pay? = payService.findByTid(payCancelRequest.tid!!) ?: return ResponseEntity.noContent().build()
+            insertPay(pay!!, 1)
             return ResponseEntity<KakaoPayCancel>(kakaoPayCancel, HttpStatus.OK)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -233,6 +236,13 @@ class PayController(var payService: PayService, var memberService: MemberService
     @ApiOperation(value = "학원 결제내역 검색", notes = "학원의 결제내역을 검색합니다")
     fun findByAcademy(@PathVariable academyId : Long) : ResponseEntity<List<Pay>>?{
         val pay : List<Pay> = payService.findByAcademyId(academyId) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(pay)
+    }
+
+    @GetMapping("/{tid}/tid")
+    @ApiOperation(value="tid로 결제내역 검색" , notes = "tid로 결제내역을 검색합니다")
+    fun findByTid(@PathVariable tid : String) : ResponseEntity<Pay>?{
+        val pay : Pay = payService.findByTid(tid) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(pay)
     }
 }

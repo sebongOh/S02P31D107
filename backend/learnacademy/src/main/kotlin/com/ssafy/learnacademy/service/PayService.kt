@@ -40,4 +40,8 @@ class PayService (var payRepository: PayRepository){
     fun findByAcademyId(academyId : Long) : List<Pay>?{
         return payRepository.findByAcademyId(academyId)
     }
+
+    fun findByTid(tid : String) : Pay?{
+        return payRepository.findByTid(tid)
+    }
 }
