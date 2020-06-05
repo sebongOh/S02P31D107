@@ -4,9 +4,9 @@
       <h1>로그인</h1>
       <div style="text-align:right; margin-bottom:10px">
         <el-button v-model="value" @click="change()" v-if="value"
-          >일반회원</el-button
+          >학원회원</el-button
         >
-        <el-button v-model="value" @click="change()" v-else>학원회원</el-button>
+        <el-button v-model="value" @click="change()" v-else>일반회원</el-button>
       </div>
       <div class="input-with-label">
         <input
@@ -138,11 +138,12 @@ export default {
           .dispatch("student/login", {
             email: this.email,
             password: this.password,
+            type: this.type,
           })
           .then((res) => {
             //메인으로 넘김
-            if (this.type == "학원회원") {
-              this.router.push({ path: "/academy-management" });
+            if (this.type === "학원회원") {
+              this.$router.push({ path: "/academy-management" });
             } else {
               this.$router.push({ path: "/student-main" });
             }

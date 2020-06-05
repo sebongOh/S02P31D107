@@ -18,7 +18,7 @@ export const join = (data) => {
 
 export const acajoin = (data) => {
   return request({
-    url: "member/academySignup",
+    url: "member/academy-signup",
     method: "post",
     data,
   });
@@ -84,13 +84,13 @@ export const retire = (data) => {
   return request({
     url: "member",
     method: "delete",
-    data
+    data,
   });
 };
 
 export const readReview = (data) => {
   return request({
-    url: "review/"+data+"/academy",
-    method: "get"
+    url: "review/" + data + "/academy",
+    method: "get",
   });
 };
