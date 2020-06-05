@@ -213,14 +213,13 @@ const actions = {
     return new Promise((resolve, reject) => {
       findAcademy(data.academyId)
         .then((res) => {
-          axios.defaults.headers.common['X-AUTH-TOKEN'] = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU5MTM0NDQ1NiwiZXhwIjoxNTkxMzQ4MDU2fQ.Nyhtglf8YVIlG7WUhdgQXG9wfG93JBsZsjxLloit1NI";
-          console.log("res");
-          console.log(res);
+          // console.log("res");
+          // console.log(res);
           resolve(res);
         })
         .catch((err) => {
-          console.log("err");
-          console.log(err);
+          // console.log("err");
+          // console.log(err);
           reject(err);
         });
     });
