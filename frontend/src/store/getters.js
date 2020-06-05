@@ -6,6 +6,7 @@ const getters = {
     age: (state) => state.student.age,
     gender: (state) => state.student.gender,
     child: (state) => state.student.child,
+    token: (state) => state.student.token
 };
 
 export default getters;

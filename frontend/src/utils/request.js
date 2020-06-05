@@ -15,6 +15,9 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers["Access-Control-Allow-Origin"] = "*";
       config.headers["access_token"] = getToken();
+      config.headers["X-AUTH-TOKEN"] = getToken();
+      //console.log("config");
+      //console.log(config);
     }
     return config;
   },

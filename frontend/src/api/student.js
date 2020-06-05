@@ -94,3 +94,18 @@ export const readReview = (data) => {
     method: "get",
   });
 };
+
+export const writeReview = (data) => {
+  return request({
+    url: "review",
+    method: "post",
+    data
+  });
+};
+
+export const findAcademy = (data) => {
+  return request({
+    url: "academy/"+data,
+    method: "get"
+  });
+};

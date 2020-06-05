@@ -5,9 +5,11 @@ import { emailCheck } from "@/api/student";
 import { findPassword } from "@/api/student";
 import { updateProfile, retire } from "@/api/student";
 import { passwordCheck } from "@/api/student";
-import { readReview } from "@/api/student";
+import { readReview, writeReview } from "@/api/student";
 import { pay } from "@/api/student";
 import { paySuccess } from "@/api/student";
+import { findAcademy } from "@/api/student";
+const axios = require('axios');
 
 const state = {
   token: getToken(),
@@ -192,6 +194,32 @@ const actions = {
           resolve(res);
         })
         .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  writeReview({ commit }, formData) {
+    return new Promise((resolve, reject) => {
+      writeReview(formData)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  findAcademy({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      findAcademy(data.academyId)
+        .then((res) => {
+          // console.log("res");
+          // console.log(res);
+          resolve(res);
+        })
+        .catch((err) => {
+          // console.log("err");
+          // console.log(err);
           reject(err);
         });
     });
