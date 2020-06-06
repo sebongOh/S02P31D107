@@ -26,6 +26,7 @@ class MemberController(
 //    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun getMember(): ResponseEntity<Member> {
         val member: Member? = memberService.getMember() ?: return ResponseEntity.noContent().build()
+        member?.password = ""
         return ResponseEntity.ok().body(member)
     }
 
@@ -88,16 +89,16 @@ class MemberController(
             "\n비밀번호는 정부 수정 시 재입력해서 수정폼에 들어오도록 해주세요.")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun updateMember(member: Member): ResponseEntity<Member> {
-        if (member.profileFile == null) {
+        val findMember: Member? = memberService.getMember()
+        member.memberId = findMember?.memberId
+        if (member.profileFile != null) {
             member.profileUrl = s3UploadService.uploadFile(member.profileFile, "profile/")
-        } else {
-            member.profileUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/profile/default.png"
         }
         val insertMember :Member? = memberService.updateMember(member)
         return ResponseEntity.ok().body(insertMember)
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     @ApiOperation(value = "회원 정보 삭제(탈퇴)", notes = "회원 정보를 삭제합니다.")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun deleteMember(): ResponseEntity<Unit> {
@@ -124,10 +125,10 @@ class MemberController(
     @ApiOperation(value = "비밀번호 확인", notes = "비밀번호가 맞는지 확인합니다. 이때 이메일과 비밀번호를 json 형식으로 날려주세요.")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun checkPassword(@RequestBody member: MemberRequest): ResponseEntity<Unit>? {
-        var findMember: Member = memberService.findByEmail(member.email ?:"")
-                ?: return ResponseEntity.notFound().build()
-        return ResponseEntity.ok().build()
-    }
+    var findMember: Member = memberService.findByEmail(member.email ?:"")
+            ?: return ResponseEntity.notFound().build()
+    return ResponseEntity.ok().build()
+}
 
     @PostMapping("/findPassword")
     @ApiOperation(value = "비밀번호 찾기", notes = "비밀번호를 찾습니다. email과 name을 json 형식으로 날려주세요.")
