@@ -16,5 +16,11 @@ export default {};
   width: 100%;
   height: 60px;
   z-index: 100;
+  text-align: center;
+}
+.logo{
+  width: auto;
+  height: 50px;
+  margin: 5px;
 }
 </style>

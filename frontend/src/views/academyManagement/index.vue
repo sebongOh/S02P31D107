@@ -87,6 +87,7 @@ export default {
             }
         })
         .catch(() => {
+            this.haveAcademy = false;
             console.log("에러 catch");
         });
     }

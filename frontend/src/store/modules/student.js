@@ -203,9 +203,9 @@ const actions = {
         });
     });
   },
-  writeReview({ commit }, formData) {
+  writeReview({ commit }, data) {
     return new Promise((resolve, reject) => {
-      writeReview(formData)
+      writeReview(data)
         .then((res) => {
           resolve(res);
         })
