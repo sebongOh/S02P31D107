@@ -23,6 +23,9 @@ class Academy (
         var phone: String? = null,
 
         @Column(nullable = false)
+        var contents: String? = null,
+
+        @Column(nullable = false)
         var category: String? = null,
 
         @Column(nullable = false)

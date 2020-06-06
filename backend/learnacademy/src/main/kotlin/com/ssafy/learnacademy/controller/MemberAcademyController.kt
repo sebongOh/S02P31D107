@@ -1,6 +1,7 @@
 package com.ssafy.learnacademy.controller
 
 import com.ssafy.learnacademy.service.MemberAcademyService
+import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.vo.Academy
 import com.ssafy.learnacademy.vo.Member
 import com.ssafy.learnacademy.vo.MemberAcademy
@@ -12,7 +13,10 @@ import javax.xml.ws.Response
 @RestController
 @RequestMapping("/member-academy")
 @CrossOrigin(origins = ["*"], maxAge = 3600)
-class MemberAcademyController (val memberAcademyService: MemberAcademyService) {
+class MemberAcademyController (
+        val memberAcademyService: MemberAcademyService,
+        val memberService: MemberService
+) {
 
     @GetMapping("/{memberAcademyId}")
     fun getMemberAcademy(@PathVariable("memberAcademyId") memberAcademyId: Long): ResponseEntity<MemberAcademy>? {
@@ -20,16 +24,17 @@ class MemberAcademyController (val memberAcademyService: MemberAcademyService) {
     }
 
     // 일반 회원 아이디로 조회 (일반 회원이 등록한 학원들 조회)
-    @GetMapping("/member/{memberId}")
-    fun getMemberAcademyByMemberId(@PathVariable("memberId") memberId: Long): ResponseEntity<MutableList<Academy>>? {
-        val academyList : MutableList<Academy> = memberAcademyService.findByMemberId(memberId) ?: return ResponseEntity.notFound().build()
+    @GetMapping("/member")
+    fun getMemberAcademyByMemberId(): ResponseEntity<MutableList<Academy>>? {
+        val member: Member = memberService.getMember() ?: return ResponseEntity.notFound().build()
+        val academyList : MutableList<Academy> = memberAcademyService.findByMemberId(member.memberId ?: 0)
         return ResponseEntity.ok().body(academyList)
     }
 
     // 학원 아이디로 조회 (학원에 등록된 원생들 조회)
     @GetMapping("/academy/{academyId}")
     fun getMemberAcademyByAcademyId(@PathVariable("academyId") academyId: Long): ResponseEntity<MutableList<Member>>? {
-        val memberList : MutableList<Member> = memberAcademyService.findByAcademyId(academyId) ?: return ResponseEntity.notFound().build()
+        val memberList : MutableList<Member> = memberAcademyService.findByAcademyId(academyId)
         return ResponseEntity.ok().body(memberList)
     }
 

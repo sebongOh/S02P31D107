@@ -1,8 +1,9 @@
 package com.ssafy.learnacademy.vo
 
 import java.time.LocalDateTime
+import java.util.*
 
-class KakaoPayApproval (
+data class KakaoPayApproval (
     var aid : String? =null, // 요청 고유 번호
     var tid : String? =null, // 결제 고유 번호
     var cid : String? = "TC0ONETIME", // 가맹점 코드
@@ -12,8 +13,8 @@ class KakaoPayApproval (
     var payment_method_type : String? = "CARD", // 결제수단 CARD or MONEY
     var amount : Amount? =null, // 결제금액 정보
     var card_info : CardInfo? =null, // 결제 상세 정보, 결제수단이 카드일 경우만 포함
-    var created_at : LocalDateTime? =null, // 결제 준비 요청 시각
-    var approved_at : LocalDateTime? =null, // 결제 승인 시각
+    var created_at : Date? =null, // 결제 준비 요청 시각
+    var approved_at : Date? =null, // 결제 승인 시각
     var quantity : Int? =null, // 상품 수량
     var item_name : String? =null, // 상품 이름
     var item_code : String? =null, // 상품 코드

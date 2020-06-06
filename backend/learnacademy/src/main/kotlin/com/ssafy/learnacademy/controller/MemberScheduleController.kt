@@ -1,6 +1,7 @@
 package com.ssafy.learnacademy.controller
 
 import com.ssafy.learnacademy.service.MemberScheduleService
+import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.vo.MemberSchedule
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
@@ -11,7 +12,11 @@ import java.util.*
 
 @RestController
 @RequestMapping("/member-schedule")
-class MemberScheduleController(var memberScheduleService: MemberScheduleService) {
+@CrossOrigin(origins = ["*"], maxAge = 3600)
+class MemberScheduleController(
+        val memberScheduleService: MemberScheduleService,
+        val memberService: MemberService
+) {
 
     @GetMapping
     @ApiOperation(value = "사용자 스케쥴 전체찾기", notes = "사용자 스케쥴을 전체 찾습니다")
@@ -28,6 +33,7 @@ class MemberScheduleController(var memberScheduleService: MemberScheduleService)
     @PostMapping
     @ApiOperation(value="사용자 스케쥴 등록", notes = "사용자 스케쥴을 등록합니다")
     fun insertMemberSchedule(@RequestBody memberSchedule: MemberSchedule) : MemberSchedule?{
+        memberSchedule.member = memberService.getMember()
         return memberScheduleService.insertMemberSchedule(memberSchedule)
     }
 

@@ -33,6 +33,7 @@ class AcademyController(var academyService: AcademyService) {
     @PostMapping
     @ApiOperation(value="학원 등록", notes = "학원을 등록합니다")
     fun insertAcademy(@RequestBody academy: Academy): ResponseEntity<Academy>? {
+        academy.contents = "학원 소개글이 없습니다."
         val insertAcademy : Academy? = academyService.insertAcademy(academy) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(insertAcademy)
     }

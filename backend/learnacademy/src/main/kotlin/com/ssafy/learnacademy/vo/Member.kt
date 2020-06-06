@@ -42,6 +42,9 @@ class Member (
     @Column(nullable = false)
     var profileUrl: String? = null,
 
+    @Column(nullable = false)
+    var type: String? = null,
+
     @OneToMany(mappedBy = "member", cascade = [CascadeType.ALL])
     @JsonIgnore
     var memberSchedule : MutableList<MemberSchedule>? =null,
