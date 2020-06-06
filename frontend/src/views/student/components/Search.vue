@@ -1,7 +1,18 @@
 <template>
   <div>
     <div id="map" class="map"></div>
-    <div class="list"></div>
+    <div class="list">
+      <el-collapse accordion>
+        <el-collapse-item>
+          <template slot="title">
+            <div>{{clickList.place_name}}</div>
+            <i class="header-icon el-icon-info"></i>
+          </template>
+          <div>{{clickList.place_name}}</div>
+          <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
   </div>
 </template>
 
@@ -14,6 +25,8 @@ export default {
   props: ["options"],
   data() {
     return {
+      clickList: {},
+      markerClick: false,
       mapOptions: {
         location: {
           //구미시청
@@ -132,7 +145,9 @@ export default {
       });
 
       // 마커에 클릭이벤트를 등록합니다
+      var here = this;
       kakao.maps.event.addListener(marker, "click", function() {
+        here.clickList = place;
         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
         infowindow.setContent(
           '<div style="padding:5px;font-size:12px;">' +
@@ -149,6 +164,6 @@ export default {
 <style>
 .map {
   width: 100%;
-  height: 400px;
+  height: 500px;
 }
 </style>
