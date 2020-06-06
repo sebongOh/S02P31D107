@@ -1,18 +1,7 @@
 <template>
   <div>
     <div id="map" class="map"></div>
-    <div class="list">
-      <el-collapse accordion>
-        <el-collapse-item>
-          <template slot="title">
-            <div>{{clickList.place_name}}</div>
-            <i class="header-icon el-icon-info"></i>
-          </template>
-          <div>{{clickList.place_name}}</div>
-          <div>Consistent within interface: all elements should be consistent, such as: design style, icons and texts, position of elements, etc.</div>
-        </el-collapse-item>
-      </el-collapse>
-    </div>
+    <div class="list"></div>
   </div>
 </template>
 
