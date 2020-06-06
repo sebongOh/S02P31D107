@@ -9,6 +9,7 @@ import { readReview, writeReview } from "@/api/student";
 import { pay } from "@/api/student";
 import { paySuccess } from "@/api/student";
 import { findAcademy } from "@/api/student";
+import { memberInfo } from "@/api/student";
 const axios = require('axios');
 
 const state = {
@@ -47,6 +48,9 @@ const mutations = {
   SET_CHILD: (state, child) => {
     state.child = child;
   },
+  SET_PROFILEFILE: (state, profileFile) => {
+    state.profileFile = profileFile;
+  }
 };
 
 const actions = {
@@ -213,13 +217,20 @@ const actions = {
     return new Promise((resolve, reject) => {
       findAcademy(data.academyId)
         .then((res) => {
-          // console.log("res");
-          // console.log(res);
           resolve(res);
         })
         .catch((err) => {
-          // console.log("err");
-          // console.log(err);
+          reject(err);
+        });
+    });
+  },
+  memberInfo({ commit }) {
+    return new Promise((resolve, reject) => {
+      memberInfo()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
           reject(err);
         });
     });

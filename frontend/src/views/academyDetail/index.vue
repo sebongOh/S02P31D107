@@ -23,23 +23,19 @@
         <table class="btn-table"><tr><td class="btn2"><button class="ok-btn"><b>등록</b></button></td>
         <td class="btn2"><button class="ok-btn" @click="writeReview = false"><b>취소</b></button></td></tr></table>
     </div>
-    <div class="footer-domain">
-        <Footer/>
-    </div>
     <button v-if="isAvailable & isPayed & !writeReview" class="port-btn" @click="goBoard()"><b>게시판<br>이동</b></button>
     <button v-if="isAvailable & !isPayed & !writeReview" class="port-btn" @click="goPay()"><b>결제하기</b></button>
 </div>
 </template>
 
 <script>
-import Footer from "@/views/academyDetail/components/Footer";
 import Review from "@/views/academyDetail/components/Review";
 import ReviewWrite from "@/views/academyDetail/components/ReviewWrite";
 import { mapGetters } from "vuex";
 import { getToken } from "@/utils/auth";
 
 export default {
-    components: { Footer, Review, ReviewWrite },
+    components: { Review, ReviewWrite },
     props: ["academyId", "name", "address", "phone"],
     computed: {
     ...mapGetters(["email"]),
