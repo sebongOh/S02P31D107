@@ -109,3 +109,10 @@ export const findAcademy = (data) => {
     method: "get"
   });
 };
+
+export const memberInfo = () => {
+  return request({
+    url: "member",
+    method: "get"
+  });
+};
