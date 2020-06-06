@@ -1,7 +1,16 @@
 <template>
   <div>
     <div id="map" class="map"></div>
-    <div class="list"></div>
+    <div id="menu_wrap" v-if="markerClick" @click="detail(clickList.id)">
+      <ui class="item">
+        <span class="markerbg marker_1"></span>
+        <div class="info">
+          <h4>{{clickList.place_name}}</h4>
+          <span class="address">{{clickList.road_address_name}}</span>
+          <span class="tel">{{clickList.phone}}</span>
+        </div>
+      </ui>
+    </div>
   </div>
 </template>
 
@@ -57,6 +66,12 @@ export default {
       : this.addKakaoMapScript();
   },
   methods: {
+    detail(academyId) {
+      this.$router.push({
+        name: "academyDetail",
+        params: { academyId: academyId }
+      });
+    },
     addKakaoMapScript() {
       const script = document.createElement("script");
       /* global kakao */
@@ -137,6 +152,7 @@ export default {
       var here = this;
       kakao.maps.event.addListener(marker, "click", function() {
         here.clickList = place;
+        here.markerClick = true;
         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
         infowindow.setContent(
           '<div style="padding:5px;font-size:12px;">' +
@@ -151,6 +167,51 @@ export default {
 </script>
 
 <style>
+#menu_wrap {
+  width: 100%;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  font-size: 15px;
+}
+.info .tel {
+  color: #009900;
+}
+.item .info {
+  padding: 0 5px 10px 55px;
+}
+.item span {
+  display: block;
+  margin-top: 4px;
+}
+.item h4,
+.item .info {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.item .markerbg {
+  float: left;
+  position: absolute;
+  width: 36px;
+  height: 37px;
+  margin: 10px 0 0 10px;
+  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
+    no-repeat;
+}
+.item .marker_1 {
+  background-position: 0 -10px;
+}
+li {
+  list-style: none;
+}
+.item {
+  position: relative;
+  border-bottom: 2px solid #888;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 65px;
+}
 .map {
   width: 100%;
   height: 500px;
