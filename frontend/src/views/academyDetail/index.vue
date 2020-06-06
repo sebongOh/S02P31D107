@@ -4,6 +4,21 @@
         <h2>{{academyName}}</h2>
         <img v-if="academyImg != ''" class="img-div" :src="academyImg" />
         <div v-if="academyImg == ''" class="img-div"/>
+        <el-col :span="18" :xs="24">
+          <el-card>
+            <el-tabs v-model="activeTab">
+              <el-tab-pane label="상세정보" name="detail">
+                <Detail :address="academyAddress" :category="academyCategory" :contents="academyDetail" :phone="academyPhone" />
+              </el-tab-pane>
+              <el-tab-pane label="리뷰" name="reviewboard">
+                <ReviewBoard :academyId="academyId" :isPayed="isPayed" />
+              </el-tab-pane>
+              <el-tab-pane label="코스목록" name="course">
+                <Course />
+              </el-tab-pane>
+            </el-tabs>
+          </el-card>
+        </el-col>
         <div class="detail-div">{{academyDetail}}</div><br>
         <b>주소</b> : {{academyAddress}}<br>
         <b>연락처</b> : {{academyPhone}}<br>
@@ -32,9 +47,12 @@
 
 <script>
 import Review from "@/views/academyDetail/components/Review";
+import Detail from "@/views/academyDetail/components/Detail";
+import ReviewBoard from "@/views/academyDetail/components/ReviewBoard";
+import Course from "@/views/academyDetail/components/Course";
 
 export default {
-    components: { Review },
+    components: { Review, Detail, ReviewBoard, Course },
     props: ["academyId"],
     mounted(){
         this.getAcademy();
@@ -46,6 +64,7 @@ export default {
             academyImg: "",
             academyAddress: "",
             academyPhone: "",
+            academyCategory: "",
             reviews: {},
             isPayed: false,
             isAvailable: true,
@@ -142,7 +161,6 @@ h2{
     margin: 0;
 }
 .academy-detail{
-    padding: 3%;
     width: 100%;
     height: 100%;
     min-height: 1000px;
