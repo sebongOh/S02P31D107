@@ -18,9 +18,11 @@
         </el-carousel>
         </div>
     </div>
-    <div v-if="writeReview">
-        <ReviewWrite :academyId="academyId" :email="email" />
-        <table class="btn-table"><tr><td class="btn2"><button class="ok-btn"><b>등록</b></button></td>
+    <div v-if="writeReview" class="write-div">
+        <div class="line-div">평점(1~5) <input class="input3" type="number" v-model="score"></div>
+        <div class="line-div">제목</div><div class="line-div"><input class="input4" type="text" v-model="title"></div>
+        <div class="line-div">내용(200자 이내)</div><div class="line-div"><textarea class="input5" v-model="contents" /></div>
+        <table class="btn-table"><tr><td class="btn2"><button class="ok-btn" @click="pushReview()"><b>등록</b></button></td>
         <td class="btn2"><button class="ok-btn" @click="writeReview = false"><b>취소</b></button></td></tr></table>
     </div>
     <button v-if="isAvailable & isPayed & !writeReview" class="port-btn" @click="goBoard()"><b>게시판<br>이동</b></button>
@@ -30,16 +32,10 @@
 
 <script>
 import Review from "@/views/academyDetail/components/Review";
-import ReviewWrite from "@/views/academyDetail/components/ReviewWrite";
-import { mapGetters } from "vuex";
-import { getToken } from "@/utils/auth";
 
 export default {
-    components: { Review, ReviewWrite },
-    props: ["academyId", "name", "address", "phone"],
-    computed: {
-    ...mapGetters(["email"]),
-    },
+    components: { Review },
+    props: ["academyId"],
     mounted(){
         this.getAcademy();
     },
@@ -53,7 +49,10 @@ export default {
             reviews: {},
             isPayed: false,
             isAvailable: true,
-            writeReview: false
+            writeReview: false,
+            score:5,
+            title: "",
+            contents: ""
         }
     },
     methods: {
@@ -67,10 +66,11 @@ export default {
                 //props로 값들 받아오기
 
                 //임시 데이터 삽입
+                this.academyId = "9749818";
                 this.isAvailable = true;
                 this.isPayed = true;
                 this.academyDetail = "학원 상세 설명 부분"
-                this.academyName = "SSAFY학원";
+                this.academyName = "싸피학원";
                 this.academyAddress = "OO시 OO구 OO동";
                 this.academyPhone = "010-0000-1111";
                 this.academyImg = "http://edu.ssafy.com/asset/images/header-logo.jpg";
@@ -103,11 +103,35 @@ export default {
         },
         goBoard(){
             var router = this.$router;
-            router.push("/");
+            router.push("/academy-main");
         },
         goPay(){
             var router = this.$router;
-            router.push("/");
+            router.push("/payment");
+        },
+        pushReview(){
+            console.log(this.academyId);
+            console.log(this.score);
+            console.log(this.title);
+            console.log(this.contents);
+            this.$store
+          .dispatch("student/writeReview", {
+            academy: {academyId: this.academyId},
+            score: this.score,
+            title: this.title,
+            contents: this.contents,
+          })
+          .then((res) => {
+            if (res.status == 200) {
+                alert("리뷰를 등록했습니다!");
+                this.writeReview = false;
+            }else{
+                console.log("리뷰 등록에 실패했습니다.");
+            }
+          })
+          .catch((err) => {
+            console.log("리뷰 등록에 실패했습니다. catch");
+          });
         }
     }
 }
@@ -185,5 +209,32 @@ h2{
   border-radius: 5px;
   background-color: coral;
   border: solid 3px chocolate;
+}
+.write-div{
+    padding: 3%;
+}
+.line-div{
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+.input3 {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  text-align: center;
+  border: solid 1px black;
+}
+.input4{
+    width: 96%;
+    height: 30px;
+    border: solid 1px black;
+    padding-left: 5px;
+}
+.input5{
+    width: 96%;
+    height: 130px;
+    border: solid 1px black;
+    padding: 5px;
 }
 </style>

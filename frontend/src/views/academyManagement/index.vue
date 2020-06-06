@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="app-container">
+      <div class="app-container" v-if="haveAcademy">
         <h1>학원관리 페이지</h1>
         <el-select v-model="value" placeholder="관리할 학원 선택">
             <el-option
@@ -14,6 +14,11 @@
         <AcademyAdd v-if="isAdd & value==''"/>
         <!-- 학원이 선택되어 있다면 해당 학원 안에 수정/삭제 기능 -->
         <AcademyModify v-if="value!=''" :academyId="value"/>
+      </div>
+      <div v-if="!haveAcademy" class="no-have-academy">
+        현재 권한을 가지고 계시는 학원이 없습니다.<br>
+        권한 요청 승인을 기다려주세요!<br>
+        문의 : learnacademy02@gmail.com
       </div>
     </div>
 </template>
@@ -29,8 +34,12 @@ export default {
   computed: {
     ...mapGetters(["email"]),
   },
+  mounted(){
+    this.getAcademy();
+  },
   data() {
     return {
+      haveAcademy:true,
       ///academy-management-authority/member 해서 받아온 값들 중 academyId 를 value 에 들어가도록 하고 name 을 label 에 들어가도록 한다
       options: [
         {
@@ -63,6 +72,25 @@ export default {
       this.isAdd = true;
       this.value = "";
     },
+  getAcademy() {
+    this.$store
+        .dispatch("student/memberAcademy")
+        .then((res) => {
+            if (res.status == 200) {
+              if(res.data == ""){
+                this.haveAcademy = false;
+              }
+                console.log(res.data);
+                //data 에 있는 값들을 value, label 에 넣기
+            }else{
+              this.haveAcademy = false;
+            }
+        })
+        .catch(() => {
+            this.haveAcademy = false;
+            console.log("에러 catch");
+        });
+    }
   },
 };
 </script>
@@ -84,5 +112,10 @@ export default {
 }
 .add-btn:active {
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.42);
+}
+.no-have-academy{
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
 }
 </style>

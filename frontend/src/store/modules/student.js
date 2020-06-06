@@ -10,6 +10,7 @@ import { pay } from "@/api/student";
 import { paySuccess } from "@/api/student";
 import { findAcademy } from "@/api/student";
 import { memberInfo } from "@/api/student";
+import { memberAcademy } from "@/api/student";
 const axios = require('axios');
 
 const state = {
@@ -202,9 +203,9 @@ const actions = {
         });
     });
   },
-  writeReview({ commit }, formData) {
+  writeReview({ commit }, data) {
     return new Promise((resolve, reject) => {
-      writeReview(formData)
+      writeReview(data)
         .then((res) => {
           resolve(res);
         })
@@ -227,6 +228,17 @@ const actions = {
   memberInfo({ commit }) {
     return new Promise((resolve, reject) => {
       memberInfo()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  memberAcademy({ commit }) {
+    return new Promise((resolve, reject) => {
+      memberAcademy()
         .then((res) => {
           resolve(res);
         })

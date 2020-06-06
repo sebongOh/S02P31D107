@@ -16,7 +16,7 @@
             <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imgUrl" /></td></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="category"></td></tr>
             <tr><td>학원 상세설명</td></tr>
-            <tr><td colspan="2"><textarea class="input2" /></td></tr>
+            <tr><td colspan="2"><textarea class="input2" v-model="contents" /></td></tr>
             <tr><th>스케줄 추가</th></tr>
             <tr v-for="index in count" :key="index"><td><Schedule /></td></tr>
             <tr><td><button class="add-btn2" @click="count++">+</button></td></tr>
@@ -48,9 +48,14 @@ import Schedule from "@/views/academyManagement/components/Schedule";
 
 export default {
   components: { Schedule },
-  props: ["academyId"],//academy/{academyId} 를 통해 학원 상세 정보를 받아서 대입
+  props: ["academyId"],
   mounted(){
     this.getAcademy();
+  },
+  watch:{
+    academyId(academyId){
+      this.getAcademy();
+    }
   },
   data() {
     return {
@@ -59,8 +64,8 @@ export default {
       phone: "",
       address: "",
       category: "",
-      memberId: "",
       password: "",
+      contents: "",
       auth: false,
       retirement: false,
       count: 0
@@ -76,7 +81,12 @@ export default {
             if (res.status == 404) {
               console.log("aniVibro가 뭐죠 404");
             } else if (res.status == 200) {
-              console.log(res);
+              this.imageUrl = res.data.imageUrl;
+              this.name = res.data.name;
+              this.phone = res.data.phone;
+              this.address = res.data.address;
+              this.category = res.data.category;
+              this.contents = res.data.contents;
             }
           })
           .catch(() => {
