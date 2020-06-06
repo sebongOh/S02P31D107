@@ -81,7 +81,10 @@ export default {
                 this.haveAcademy = false;
               }
                 console.log(res.data);
-                //data 에 있는 값들을 value, label 에 넣기
+                this.options = [];
+                for(var data in res.data){
+                  this.options.append({value:data.academyId, label:data.name});
+                }
             }else{
               this.haveAcademy = false;
             }
