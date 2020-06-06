@@ -51,6 +51,7 @@ export default [
     path: "/academy-detail",
     component: () => import("@/views/academyDetail"),
     name: "academyDetail",
+    props: true,
   },
   {
     path: "/payment",
