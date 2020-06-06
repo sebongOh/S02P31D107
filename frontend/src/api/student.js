@@ -116,3 +116,10 @@ export const memberInfo = () => {
     method: "get"
   });
 };
+
+export const memberAcademy = () => {
+  return request({
+    url: "/academy-management-authority/member",
+    method: "get"
+  });
+};
