@@ -42,8 +42,7 @@ class ScheduleDetailController (var scheduleDetailService: ScheduleDetailService
     @PostMapping
     @ApiOperation(value="학원 스케쥴 상세정보 등록", notes = "학원스케쥴 상세정보를 등록합니다")
     fun insertScheduleDetail(@RequestBody scheduleDetail: ScheduleDetail) : ResponseEntity<ScheduleDetail>?{
-       academyService.getAcademy(scheduleDetail.academySchedule?.academy?.academyId!!) ?: return ResponseEntity.noContent().build()
-       academyScheduleService.findById(scheduleDetail.academySchedule?.academyScheduleId!!) ?: return ResponseEntity.noContent().build()
+        scheduleDetail.academySchedule = academyScheduleService.findById(scheduleDetail.academySchedule?.academyScheduleId!!) ?: return ResponseEntity.noContent().build()
         val insertScheduleDetail : ScheduleDetail? = scheduleDetailService.insertScheduleDetail(scheduleDetail) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(insertScheduleDetail)
     }

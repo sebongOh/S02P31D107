@@ -22,13 +22,19 @@ class MemberAcademyService(
 
     fun findByMemberId(memberId: Long): MutableList<Academy> {
         val memberAcademyIdList: MutableList<Long> = memberAcademyRepository.findAllByMemberId(memberId)
-        val academyList: MutableList<Academy> = academyRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        var academyList: MutableList<Academy> = mutableListOf()
+        if (memberAcademyIdList.size != 0) {
+            academyList = academyRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        }
         return academyList
     }
 
     fun findByAcademyId(academyId: Long): MutableList<Member> {
         val memberAcademyIdList: MutableList<Long> = memberAcademyRepository.findAllByAcademyId(academyId)
-        val memberList: MutableList<Member> = memberRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        var memberList: MutableList<Member> = mutableListOf()
+        if (memberAcademyIdList.size != 0) {
+            memberList = memberRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        }
         return memberList
     }
 

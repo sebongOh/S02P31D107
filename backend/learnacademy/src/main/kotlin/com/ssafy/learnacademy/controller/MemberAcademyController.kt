@@ -40,6 +40,8 @@ class MemberAcademyController (
 
     @PostMapping
     fun insertMemberAcademy(@RequestBody memberAcademy: MemberAcademy): MemberAcademy? {
+        var member: Member? = memberService.getMember()
+        memberAcademy.member = member
         return memberAcademyService.insertMemberAcademy(memberAcademy)
     }
 

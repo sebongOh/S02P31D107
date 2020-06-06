@@ -18,14 +18,20 @@ class AcademyManagementAuthorityService (
         ) {
 
     fun findByMemberId(memberId: Long): MutableList<Academy> {
-        val memberAcademyIdList: MutableList<Long> = academyManagementAuthorityRepository.findAllByMemberId(memberId)
-        val academyList: MutableList<Academy> = academyRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        val memberManagementIdList: MutableList<Long> = academyManagementAuthorityRepository.findAllByMemberId(memberId)
+        var academyList: MutableList<Academy> = mutableListOf()
+        if (memberManagementIdList.size != 0) {
+            academyList = academyRepository.findAllByAcademyManagementId(memberManagementIdList)
+        }
         return academyList
     }
 
     fun findByAcademyId(academyId: Long): MutableList<Member> {
         val memberAcademyIdList: MutableList<Long> = academyManagementAuthorityRepository.findAllByAcademyId(academyId)
-        val memberList: MutableList<Member> = memberRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        var memberList: MutableList<Member> = mutableListOf()
+        if (memberAcademyIdList.size != 0) {
+            memberList = memberRepository.findAllByMemberAcademyId(memberAcademyIdList)
+        }
         return memberList
     }
     fun findAll(): MutableList<AcademyManagementAuthority> {
