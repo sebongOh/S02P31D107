@@ -71,10 +71,10 @@ class MemberController(
         academy.academyId = academyCertificationRequest.academyId
         academy.contents = "학원 소개가 없습니다."
         academy.category = ""
-        academy.imageUrl = ""
-        academy.phone = ""
-        academy.name = ""
-        academy.address = ""
+        academy.phone = academyCertificationRequest.academyPhone
+        academy.name = academyCertificationRequest.academyName
+        academy.address = academyCertificationRequest.academyAddress
+        academy.imageUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/academy/default.jpg"
         val insertAcademy: Academy? = academyService.insertAcademy(academy)
         academyCertification.academy = insertAcademy
         if (academyCertificationRequest.imageFile != null) {

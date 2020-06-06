@@ -33,5 +33,11 @@ class AcademyCertificationRequest (
 
         var imageFile: MultipartFile? = null,
 
-        var academyId: Long? = null
+        var academyId: Long? = null,
+
+        var academyName: String? = null,
+
+        val academyPhone: String? = null,
+
+        val academyAddress: String? = null
 ) : BaseEntity()
