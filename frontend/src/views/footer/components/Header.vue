@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h1>배울학</h1>
+    <img src="@/assets/icon/logo2.png" class="logo" />
   </div>
 </template>
 

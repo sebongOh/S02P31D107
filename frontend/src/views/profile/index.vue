@@ -178,7 +178,12 @@ export default {
               formData.append("gender", this.gender);
               formData.append("profileUrl", this.profileUrl);
               formData.append("type", this.type);
-              console.log(formData);
+              for (var key of formData.keys()) {
+                console.log(key);
+              }
+              for (var value of formData.values()) {
+                console.log(value);
+              }
               this.$store
               .dispatch("student/updateProfile", formData)
               .then((res) => {
