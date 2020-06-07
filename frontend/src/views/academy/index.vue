@@ -6,7 +6,14 @@
     <div v-if="user">
       <el-row :gutter="20">
         <el-col :span="6" :xs="24">
-          <user-card :user="user" />
+          <UserCard
+            :academyId="academyId"
+            :name="name"
+            :address="address"
+            :category="category"
+            :phone="phone"
+            :imageUrl="imageUrl"
+          />
         </el-col>
 
         <el-col :span="18" :xs="24">
@@ -42,6 +49,7 @@ import Header from "@/views/student/components/Header";
 
 export default {
   name: "Profile",
+  props: ["academyId", "name", "address", "phone", "category", "imageUrl"],
   components: {
     UserCard,
     InsertNotice,
