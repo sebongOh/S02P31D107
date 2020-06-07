@@ -26,7 +26,7 @@
               <ReviewBoard :academyId="academyId" :isPayed="isPayed" />
             </el-tab-pane>
             <el-tab-pane label="코스목록" name="course">
-              <Course :academyId="academyId" />
+              <Course :academyId="academyId" :academyName="name" />
             </el-tab-pane>
           </el-tabs>
         </el-card>

@@ -8,11 +8,14 @@
 </template>
 <script>
 export default {
-    props:['academyId'],
+    props:['academyId', 'academyName'],
     data(){
         return{
             datas : []
         }
+    },
+    mounted(){
+        this.getSchedule();
     },
     methods:{
         getSchedule(){
@@ -38,8 +41,9 @@ export default {
             router.push({
             name: "payment",
             params: {
-              academyScheduleId:id,
-              name:name,
+              academyName:this.academyName,
+              scheduleId:id,
+              scheduleName:name,
               price:price
             }
             });
