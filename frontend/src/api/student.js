@@ -146,3 +146,10 @@ export const deleteSchedule = (data) => {
     method: "delete"
   });
 };
+
+export const getSchedule = (data) => {
+  return request({
+    url: "academy-schedule/academy/"+data,
+    method: "get"
+  });
+};

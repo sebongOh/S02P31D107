@@ -13,6 +13,7 @@ import { memberInfo } from "@/api/student";
 import { memberAcademy } from "@/api/student";
 import { updateAcademy } from "@/api/student";
 import { addSchedule, deleteSchedule } from "@/api/student";
+import { getSchedule } from "@/api/student";
 
 const axios = require('axios');
 
@@ -275,6 +276,17 @@ const actions = {
   deleteSchedule({ commit }, data) {
     return new Promise((resolve, reject) => {
       deleteSchedule(data.academyScheduleId)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  getSchedule({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      deleteSchedule(data.academyId)
         .then((res) => {
           resolve(res);
         })
