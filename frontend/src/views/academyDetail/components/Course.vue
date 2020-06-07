@@ -14,6 +14,9 @@ export default {
             datas : []
         }
     },
+    mounted(){
+        this.getSchedule();
+    },
     methods:{
         getSchedule(){
             this.$store
