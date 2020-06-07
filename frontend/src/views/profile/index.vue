@@ -7,7 +7,8 @@
             <table class="profile-table">
             <tr><th>프로필 사진</th></tr>
             <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="profileUrl" @change="previewImage" /></td></tr>
-            <tr><td><img :src="profileUrl" class="img-size" /></td></tr>
+            <tr><td><img v-if="profileFile==''" :src="profileUrl" class="img-size" />
+            <img v-if="profileFile!=''" :src="prifileFile" class="img-size" /></td></tr>
             <tr><th>이름</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="name"></td></tr>
             <tr><th>이메일</th></tr>
@@ -80,6 +81,7 @@ export default {
       currentPassword: "",
       retirement: false,
       profileUrl: "",
+      profileFile: "",
       type: "",
       error: {},
       passwordSchema: new PV(),
@@ -135,19 +137,19 @@ export default {
                 this.password = this.currentPassword;
                 this.passwordConfirm = this.currentPassword;
               }
-              let formData = new FormData();
-              formData.enctype='multipart/form-data'; 
-              formData.methods='put';
-              formData.append("email", this.email);
-              formData.append("name", this.name);
-              formData.append("password", this.password);
-              formData.append("address", this.address);
-              formData.append("phone", this.phone);
-              formData.append("age", this.age);
-              formData.append("gender", this.gender);
-              formData.append("profileUrl", this.profileUrl);
-              formData.append("profileFile", this.profileUrl);
-              formData.append("type", this.type);
+              // let formData = new FormData();
+              // formData.enctype='multipart/form-data'; 
+              // formData.methods='put';
+              // formData.append("email", this.email);
+              // formData.append("name", this.name);
+              // formData.append("password", this.password);
+              // formData.append("address", this.address);
+              // formData.append("phone", this.phone);
+              // formData.append("age", this.age);
+              // formData.append("gender", this.gender);
+              // formData.append("profileUrl", this.profileUrl);
+              // formData.append("profileFile", this.profileUrl);
+              // formData.append("type", this.type);
               // for (var key of formData.keys()) {
               //   console.log(key);
               // }
@@ -155,7 +157,17 @@ export default {
               //   console.log(value);
               // }
               this.$store
-              .dispatch("student/updateProfile", formData)
+              .dispatch("student/updateProfile", {
+                email : this.email,
+                name : this.name,
+                password : this.password,
+                address : this.address,
+                phone : this.phone,
+                age : this.age,
+                gender : this.gender,
+                profileUrl : this.profileUrl,
+                type : this.type
+              })
               .then((res) => {
                 this.name = res.data.name;
                 this.email = res.data.email;
@@ -230,7 +242,7 @@ export default {
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = e => {
-          this.profileUrl = e.target.result;
+          this.profileFile = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
       }

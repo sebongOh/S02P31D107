@@ -99,8 +99,19 @@ export default {
       modify(){
           // console.log(this.imageUrl);
           // console.log(this.imgData);
+          // let formData = new FormData();
+          // formData.enctype='multipart/form-data'; 
+          // formData.methods='put';
+          // formData.append("academyId", this.academyId);
+          // formData.append("address", this.address);
+          // formData.append("category", this.category);
+          // formData.append("contents", this.contents);
+          // formData.append("imageUrl", this.imageUrl);
+          // formData.append("name", this.name);
+          // formData.append("phone", this.phone);
                           this.$store
-          .dispatch("student/updateAcademy", {
+          .dispatch("student/updateAcademy",
+          {
             academyId : this.academyId,
             address : this.address,
             category : this.category,
@@ -108,7 +119,8 @@ export default {
             imageUrl : this.imageUrl,
             name : this.name,
             phone : this.phone
-          })
+          }
+          )
           .then((res) => {
             if (res.status == 200) {
               console.log("학원 정보 수정이 완료되었습니다.");
