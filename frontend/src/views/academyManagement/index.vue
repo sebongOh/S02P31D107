@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="font-type">
       <div class="header-footer-div"><Header /></div>
       <div class="app-container" v-if="haveAcademy">
         <h1>학원관리 페이지</h1>
@@ -84,6 +84,9 @@ export default {
 </script>
 
 <style>
+.font-type{
+  font-family: "Yeon Sung", cursive;
+}
 .app-container{
   padding: 2%;
 }

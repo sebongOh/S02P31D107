@@ -1,5 +1,5 @@
 <template>
-    <div id="Profile">
+    <div id="font-type">
       <div class="header-footer-div"><Header /></div>
       <div class="app-container">
             <div class="profile-div" v-if="!retirement">
@@ -252,6 +252,9 @@ export default {
 </script>
 
 <style>
+.font-type{
+  font-family: "Yeon Sung", cursive;
+}
 .profile-div {
   text-align: center;
 }

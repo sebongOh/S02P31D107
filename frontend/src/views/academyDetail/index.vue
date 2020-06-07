@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="font-type">
     <div class="header-footer-div">
       <Header />
     </div>
     <div class="academy-detail">
       <h2>{{name}}</h2>
       <img v-if="imgUrl != ''" class="img-div" :src="imgUrl" />
-      <div v-if="imgUrl == ''" class="img-div" />
+      <img v-if="imgUrl == ''" class="img-div" src="@/assets/icon/logo.png" />
       <el-col :span="18" :xs="24">
         <el-card>
           <el-tabs v-model="activeTab">
@@ -97,6 +97,9 @@ export default {
 </script>
 
 <style>
+.font-type{
+  font-family: "Yeon Sung", cursive;
+}
 h2 {
   margin: 0;
   padding: 5px;
