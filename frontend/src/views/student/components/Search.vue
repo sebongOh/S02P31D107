@@ -76,9 +76,12 @@ export default {
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
     placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
+        console.log(data);
         for (let i = 0; i < data.length; ++i) {
           this.options.checked.forEach(value => {
-            if (data[i].category_name.includes(value)) this.datas.push(data[i]);
+            if (data[i].category_name.includes(value)) {
+              this.datas.push(data[i]);
+            }
           });
         }
         this.page += 1;
