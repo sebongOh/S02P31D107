@@ -68,9 +68,8 @@ import Review from "@/views/academyDetail/components/Review";
 
 export default {
   components: { Review },
-  props: ["academyId"],
+  props: ["academyId", "name", "address", "phone", "category"],
   mounted() {
-    console.log(this.academyId);
     this.getAcademy();
   },
   data() {
