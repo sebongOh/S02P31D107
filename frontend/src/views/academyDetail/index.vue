@@ -26,7 +26,7 @@
               <ReviewBoard :academyId="academyId" :isPayed="isPayed" />
             </el-tab-pane>
             <el-tab-pane label="코스목록" name="course">
-              <Course />
+              <Course :academyId="academyId" />
             </el-tab-pane>
           </el-tabs>
         </el-card>
@@ -61,14 +61,14 @@ export default {
     },
     methods: {
         getAcademy(){
-                this.$store
+            this.$store
           .dispatch("student/findAcademy", {
             academyId : this.academyId,
           })
           .then((res) => {
             if (res.status == 200) {
               this.contents = res.data.contents;
-              this.imageUrl = res.data.imageUrl;
+              this.imgUrl = res.data.imageUrl;
             } else {
               this.contents = "아직 등록되지 않은 학원입니다."
             }
