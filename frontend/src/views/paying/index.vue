@@ -1,18 +1,20 @@
 <template>
-  <div>
+  <div class="app-container">
+    <Header />
     <Paying />
   </div>
 </template>
 
 <script>
 import Paying from "./components/Paying";
+import Header from "@/views/student/components/Header";
 export default {
-  components: { Paying },
+  components: { Paying, Header },
   data: () => {
     return {
       pg_token: "",
       memberId: "",
-      scheduleId: "",
+      scheduleId: ""
     };
   },
   mounted() {
@@ -26,18 +28,22 @@ export default {
       .dispatch("student/paySuccess", {
         pg_token: this.pg_token,
         memberId: this.memberId,
-        scheduleId: this.scheduleId,
+        scheduleId: this.scheduleId
       })
-      .then((res) => {
+      .then(res => {
         this.$router.push({ path: "Payment" });
         console.log(res);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   },
-  methods: {},
+  methods: {}
 };
 </script>
 
-<style></style>
+<style>
+.app-container {
+  padding: 60px 0;
+}
+</style>
