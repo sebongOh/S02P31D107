@@ -1,5 +1,6 @@
 <template>
     <div id="Profile">
+      <div class="header-footer-div"><Header /></div>
       <div class="app-container">
             <div class="profile-div" v-if="!retirement">
             <h2>내 정보 수정</h2>
@@ -68,19 +69,19 @@
               <td><button class="ok-btn" @click="retirement = false"><b>취소</b></button></td></tr>
             </table>
       </div>
-     <div class="footer-domain">
-     <Footer />
-     </div>
+     <div class="header-footer-div"><Footer /></div>
   </div>
 </template>
 
 <script>
-import Footer from "@/views/footer/index";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 import PV from "password-validator";
 
 export default {
   name: "Profile",
   components: {
+    Header,
     Footer,
   },
   created(){
@@ -347,5 +348,9 @@ td {
   width: 178px;
   height: 178px;
   display: block;
+}
+.header-footer-div{
+  width: 100%;
+  height: 60px;
 }
 </style>
