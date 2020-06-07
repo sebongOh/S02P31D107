@@ -42,18 +42,16 @@ export default {
     },
     methods:{
         getReview(){
-        //임시 리뷰
-        this.reviews = [{ reviewId:1, title:"SSAFY학원 최고! 강추강추! 꼭 와서 들어보세요!", score:5, createDate:"2020-06-04", contents: "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라"},
-        { reviewId:2, title:"SSAFY학원 추천합니다", score:4, createDate:"2020-06-04", contents: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English."},
-        { reviewId:3, title:"다시 가고 싶다...", score:5, createDate:"2020-06-04", contents: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text."}];
-        //임시 리뷰 끝
         this.$store
           .dispatch("student/readReview", {
             academyId: this.academyId
           })
           .then((res) => {
             if (res.status == 200) {
-              console.log(res.data);
+              this.reviews = [];
+              for(var data of res.data){
+                  this.reviews.push({reviewId:data.reviewId, score:data.score, title:data.title, contents:data.contents});
+              }
             }else{
                 console.log("리뷰를 가져오는데 문제가 생겼습니다.");
             }
@@ -63,10 +61,6 @@ export default {
           });
         },
         pushReview(){
-            console.log(this.academyId);
-            console.log(this.score);
-            console.log(this.title);
-            console.log(this.contents);
             this.$store
           .dispatch("student/writeReview", {
             academy: {academyId: this.academyId},

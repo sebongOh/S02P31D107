@@ -1,12 +1,14 @@
 <template>
-    <div id="Profile">
+    <div id="font-type">
       <div class="header-footer-div"><Header /></div>
       <div class="app-container">
             <div class="profile-div" v-if="!retirement">
             <h2>내 정보 수정</h2>
             <table class="profile-table">
             <tr><th>프로필 사진</th></tr>
-            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="profileUrl" /></td></tr>
+            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="profileUrl" @change="previewImage" /></td></tr>
+            <tr><td><img v-if="profileFile==''" :src="profileUrl" class="img-size" />
+            <img v-if="profileFile!=''" :src="prifileFile" class="img-size" /></td></tr>
             <tr><th>이름</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="name"></td></tr>
             <tr><th>이메일</th></tr>
@@ -19,38 +21,6 @@
             <tr v-if="error.same"><td class="red">{{error.same}}</td></tr>
             <tr><th>주소</th></tr>
             <tr><td><input class="input1" type="text" v-model="address"></td></tr>
-            <!-- <tr><td>
-              <el-form-item label="주소" required>
-                <span
-                  @click="showFindAddress = !showFindAddress"
-                  >Find</span
-                >
-                <el-input
-                  name="address"
-                  type="text"
-                  v-model="member.addressObj.address"
-                  v-show="!showFindAddress"
-                  @click="showFindAddress = !showFindAddress"
-                />
-                <br />
-                <el-input
-                  class="w3-input w3-border w3-hover-indigo"
-                  name="detailAddress"
-                  type="text"
-                  v-model="member.detailAddress"
-                  v-show="!showFindAddress"
-                  placeholder="Detail Address"
-                />
-                <VueDaumPostcode
-                  v-if="showFindAddress"
-                  @complete="
-                    (member.addressObj = $event),
-                      (showFindAddress = !showFindAddress)
-                  "
-                  style="height: 450px; overflow: scroll;"
-                ></VueDaumPostcode>
-              </el-form-item>
-            </td></tr> -->
             <tr><th>폰번호</th></tr>
             <tr><td><input class="input1" type="text" v-model="phone"></td></tr>
             <tr><th>나이</th></tr>
@@ -111,6 +81,7 @@ export default {
       currentPassword: "",
       retirement: false,
       profileUrl: "",
+      profileFile: "",
       type: "",
       error: {},
       passwordSchema: new PV(),
@@ -166,26 +137,37 @@ export default {
                 this.password = this.currentPassword;
                 this.passwordConfirm = this.currentPassword;
               }
-              let formData = new FormData();
-              formData.enctype='multipart/form-data'; 
-              formData.methods='put';
-              formData.append("email", this.email);
-              formData.append("name", this.name);
-              formData.append("password", this.password);
-              formData.append("address", this.address);
-              formData.append("phone", this.phone);
-              formData.append("age", this.age);
-              formData.append("gender", this.gender);
-              formData.append("profileUrl", this.profileUrl);
-              formData.append("type", this.type);
-              for (var key of formData.keys()) {
-                console.log(key);
-              }
-              for (var value of formData.values()) {
-                console.log(value);
-              }
+              // let formData = new FormData();
+              // formData.enctype='multipart/form-data'; 
+              // formData.methods='put';
+              // formData.append("email", this.email);
+              // formData.append("name", this.name);
+              // formData.append("password", this.password);
+              // formData.append("address", this.address);
+              // formData.append("phone", this.phone);
+              // formData.append("age", this.age);
+              // formData.append("gender", this.gender);
+              // formData.append("profileUrl", this.profileUrl);
+              // formData.append("profileFile", this.profileUrl);
+              // formData.append("type", this.type);
+              // for (var key of formData.keys()) {
+              //   console.log(key);
+              // }
+              // for (var value of formData.values()) {
+              //   console.log(value);
+              // }
               this.$store
-              .dispatch("student/updateProfile", formData)
+              .dispatch("student/updateProfile", {
+                email : this.email,
+                name : this.name,
+                password : this.password,
+                address : this.address,
+                phone : this.phone,
+                age : this.age,
+                gender : this.gender,
+                profileUrl : this.profileUrl,
+                type : this.type
+              })
               .then((res) => {
                 this.name = res.data.name;
                 this.email = res.data.email;
@@ -254,12 +236,25 @@ export default {
       }else{
         this.error.same = false;
       }
+    },
+    previewImage: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.profileFile = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
     }
   }
 }
 </script>
 
 <style>
+.font-type{
+  font-family: "Yeon Sung", cursive;
+}
 .profile-div {
   text-align: center;
 }
@@ -325,6 +320,10 @@ td {
   border-radius: 5px;
   background-color: coral;
   border: solid 3px chocolate;
+}
+.img-size{
+  height: 50px;
+  width: auto;
 }
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;

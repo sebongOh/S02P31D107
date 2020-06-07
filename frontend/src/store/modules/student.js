@@ -14,6 +14,7 @@ import { memberAcademy } from "@/api/student";
 import { updateAcademy } from "@/api/student";
 import { addSchedule, deleteSchedule } from "@/api/student";
 import { getSchedule } from "@/api/student";
+import { checkAcademyMember } from "@/api/student";
 
 const axios = require('axios');
 
@@ -287,6 +288,17 @@ const actions = {
   getSchedule({ commit }, data) {
     return new Promise((resolve, reject) => {
       getSchedule(data.academyId)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  checkAcademyMember({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      checkAcademyMember(data.academyId)
         .then((res) => {
           resolve(res);
         })

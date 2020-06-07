@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="course-div">
+        <hr>
         <div class="schedule-list" v-for="d in datas" :key="d.academyScheduleId" @click="goPay(d.academyScheduleId, d.name, d.price)">
             <b>코스명</b> : {{d.name}}<br>
             <b>가격</b> : {{d.price}} 원
@@ -53,10 +54,17 @@ export default {
 </script>
 
 <style>
+.course-div{
+    width: 96%;
+    height: auto;
+    min-height: 500px;
+    margin-left: 2%;
+}
 .schedule-list{
     width: 100%;
-    height: auto;
-    border-bottom: 1px black solid;
+    height: 60px;
+    border-bottom: 1px solid gray;
+    padding-top: 10px;
 }
 .schedule-list:hover{
     background-color: #F2F6FC;
