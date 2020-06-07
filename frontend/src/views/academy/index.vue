@@ -18,10 +18,7 @@
               </el-tab-pane>
               <el-tab-pane label="자료게시판" name="databoard">
                 <Databoard v-if="pageNum == 1" @changePageNum="pagechange" />
-                <InsertDataboard
-                  v-if="pageNum == 2"
-                  @changePageNum="pagechange"
-                />
+                <InsertDataboard v-if="pageNum == 2" @changePageNum="pagechange" />
               </el-tab-pane>
               <el-tab-pane label="1대1문의" name="qna">
                 <Qna :user="user" />
@@ -52,13 +49,13 @@ export default {
     Databoard,
     InsertDataboard,
     Qna,
-    Header,
+    Header
   },
   data() {
     return {
       pageNum: 1,
       user: {},
-      activeTab: "notice",
+      activeTab: "notice"
     };
   },
   created() {
@@ -72,10 +69,10 @@ export default {
       this.user = {
         name: this.name,
         email: "admin@test.com",
-        avatar: this.avatar,
+        avatar: this.avatar
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss">

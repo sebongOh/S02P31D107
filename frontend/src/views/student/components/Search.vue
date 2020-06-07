@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="map" class="map"></div>
-    <div id="menu_wrap" v-if="markerClick" @click="detail(clickList.id)">
+    <div id="menu_wrap" v-if="markerClick" @click="detail(clickList)">
       <ui class="item">
         <span class="markerbg marker_1"></span>
         <div class="info">
@@ -66,10 +66,16 @@ export default {
       : this.addKakaoMapScript();
   },
   methods: {
-    detail(academyId) {
+    detail(clicklist) {
       this.$router.push({
         name: "academyDetail",
-        params: { academyId: academyId }
+        params: {
+          academyId: clicklist.id,
+          name: clicklist.place_name,
+          address: clicklist.road_address_name,
+          category: clicklist.category_name,
+          phone: clicklist.phone
+        }
       });
     },
     addKakaoMapScript() {

@@ -1,27 +1,37 @@
 <template>
   <div>
-    <div class="header-footer-div"><Header /></div>
-    <div class="academy-detail">
-        <h2>{{name}}</h2>
-        <img v-if="imgUrl != ''" class="img-div" :src="imgUrl" />
-        <div v-if="imgUrl == ''" class="img-div"/>
-        <el-col :span="18" :xs="24">
-          <el-card>
-            <el-tabs v-model="activeTab">
-              <el-tab-pane label="상세정보" name="detail">
-                <Detail :address="address" :category="category" :contents="contents" :phone="phone" :isPayed="isPayed" />
-              </el-tab-pane>
-              <el-tab-pane label="리뷰" name="reviewboard">
-                <ReviewBoard :academyId="academyId" :isPayed="isPayed" />
-              </el-tab-pane>
-              <el-tab-pane label="코스목록" name="course">
-                <Course />
-              </el-tab-pane>
-            </el-tabs>
-          </el-card>
-        </el-col>
+    <div class="header-footer-div">
+      <Header />
     </div>
-    <div class="header-footer-div"><Footer /></div>
+    <div class="academy-detail">
+      <h2>{{name}}</h2>
+      <img v-if="imgUrl != ''" class="img-div" :src="imgUrl" />
+      <div v-if="imgUrl == ''" class="img-div" />
+      <el-col :span="18" :xs="24">
+        <el-card>
+          <el-tabs v-model="activeTab">
+            <el-tab-pane label="상세정보" name="detail">
+              <Detail
+                :address="address"
+                :category="category"
+                :contents="contents"
+                :phone="phone"
+                :isPayed="isPayed"
+              />
+            </el-tab-pane>
+            <el-tab-pane label="리뷰" name="reviewboard">
+              <ReviewBoard :academyId="academyId" :isPayed="isPayed" />
+            </el-tab-pane>
+            <el-tab-pane label="코스목록" name="course">
+              <Course />
+            </el-tab-pane>
+          </el-tabs>
+        </el-card>
+      </el-col>
+    </div>
+    <div class="header-footer-div">
+      <Footer />
+    </div>
   </div>
 </template>
 
@@ -68,22 +78,22 @@ export default {
 </script>
 
 <style>
-h2{
-    margin: 0;
-    padding: 5px;
+h2 {
+  margin: 0;
+  padding: 5px;
 }
-.academy-detail{
-    width: 100%;
-    height: auto;
-    background-color: #DCDFE6;
+.academy-detail {
+  width: 100%;
+  height: auto;
+  background-color: #dcdfe6;
 }
-.img-div{
-    width: 100%;
-    height: 300px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.img-div {
+  width: 100%;
+  height: 300px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.header-footer-div{
+.header-footer-div {
   width: 100%;
   height: 60px;
 }

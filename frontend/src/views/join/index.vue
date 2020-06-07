@@ -134,7 +134,6 @@
                   }"
                   show-password
                 ></el-input>
-                <span class="error">{{ error.checkPassword }}</span>
               </el-form-item>
             </p>
             <p :class="ux.password">
