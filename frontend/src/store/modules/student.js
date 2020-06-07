@@ -286,7 +286,7 @@ const actions = {
   },
   getSchedule({ commit }, data) {
     return new Promise((resolve, reject) => {
-      deleteSchedule(data.academyId)
+      getSchedule(data.academyId)
         .then((res) => {
           resolve(res);
         })
