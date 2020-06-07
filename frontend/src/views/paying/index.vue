@@ -1,20 +1,24 @@
 <template>
   <div class="app-container">
     <Header />
-    <Paying />
+    <Paying v-if="pagenum==0" />
+    <PaySucc v-if="pagenum==1" :result="result" />
   </div>
 </template>
 
 <script>
 import Paying from "./components/Paying";
+import PaySucc from "./components/PaySucc";
 import Header from "@/views/student/components/Header";
 export default {
-  components: { Paying, Header },
+  components: { Paying, Header, PaySucc },
   data: () => {
     return {
+      pagenum: 0,
       pg_token: "",
       memberId: "",
-      scheduleId: ""
+      scheduleId: "",
+      result: {}
     };
   },
   mounted() {
@@ -28,7 +32,8 @@ export default {
         scheduleId: this.scheduleId
       })
       .then(res => {
-        this.$router.push({ path: "Payment" });
+        this.pagenum = 1;
+        this.result = res.data;
         console.log(res);
       })
       .catch(err => {
@@ -41,6 +46,7 @@ export default {
 
 <style>
 .app-container {
+  font-family: "Yeon Sung", cursive;
   padding: 60px 0;
 }
 </style>

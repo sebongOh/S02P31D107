@@ -81,5 +81,6 @@ export default {
 <style lang="scss">
 .app-container {
   padding: 60px 0;
+  font-family: "Yeon Sung", cursive;
 }
 </style>

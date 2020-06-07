@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     <el-steps :active="active" finish-status="success" simple style="margin-top: 20px">
       <el-step title="Step 1"></el-step>
       <el-step title="Step 2"></el-step>
@@ -591,8 +591,10 @@ export default {
 </script>
 
 <style>
+.app-container {
+  font-family: "Yeon Sung", cursive;
+}
 .image-preview {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 20px;
 }
 img.preview {
