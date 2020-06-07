@@ -58,6 +58,7 @@ export default [
     path: "/payment",
     component: () => import("@/views/payment"),
     name: "payment",
+    props: true,
   },
   {
     path: "/paymenting",

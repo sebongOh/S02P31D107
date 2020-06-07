@@ -11,7 +11,7 @@
           <b>결제금액</b>
         </div>
         <div style="float:right; font-size:30px">
-          <b>200,000원</b>
+          <b>{{price}}원</b>
         </div>
       </el-col>
     </el-row>
@@ -26,7 +26,7 @@
         </div>
         <div>
           <div style="float:left">자동충전</div>
-          <div style="float:right">+20000원</div>
+          <div style="float:right">+{{price}}원</div>
         </div>
       </div>
     </div>
@@ -38,13 +38,13 @@
           <div style="float:left">
             <i class="el-icon-s-home" />학원
           </div>
-          <div style="float:right">싸피학원</div>
+          <div style="float:right">{{academyName}}</div>
         </div>
         <div class="user-bio-section-header">
           <div style="float:left">
             <i class="el-icon-s-order" />수강과목
           </div>
-          <div style="float:right">영어</div>
+          <div style="float:right">{{scheduleName}}</div>
         </div>
         <div class="user-bio-section-header">
           <div style="float:left">
@@ -56,7 +56,7 @@
           <div style="float:left">
             <i class="el-icon-s-order" />구매자
           </div>
-          <div style="float:right">김싸피</div>
+          <div style="float:right">{{memberName}}</div>
         </div>
       </div>
     </div>
@@ -75,30 +75,41 @@
 import { Store } from "vuex";
 
 export default {
+  props: ["academyName", "scheduleId", "scheduleName", "price"],
   data: () => {
     return {
+      memberId: "",
+      memberName: "",
       token: "",
-      academy: {
-        name: "",
-        schedule: "",
-        price: ""
-      },
       month: 1
     };
   },
+  mounted() {
+    this.getMemberData();
+  },
   methods: {
+    getMemberData() {
+      this.$store
+        .dispatch("student/memberInfo")
+        .then(res => {
+          if (res.status == 404) {
+            console.log("aniVibro가 뭐죠 404");
+          } else if (res.status == 200) {
+            this.memberId = res.data.memberId;
+            this.memberName = res.data.name;
+          }
+        })
+        .catch(() => {});
+    },
     pay() {
       this.$store
         .dispatch("student/pay", {
-          memberId: "1",
-          scheduleId: "3"
+          scheduleId: this.scheduleId
         })
         .then(res => {
           console.log(res);
           window.location.href = res.data;
           this.$emit("changePagenum", 2);
-          // this.token = this.$route.query.pg_token;
-          // this.$store.dispatch("student/paysucc/");
         })
         .catch(err => {
           console.log(err);

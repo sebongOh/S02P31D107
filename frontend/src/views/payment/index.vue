@@ -1,7 +1,14 @@
 <template>
   <div class="app-container">
     <Header />
-    <Pay @changePagenum="changepage" v-if="pagenum == 0" />
+    <Pay
+      :academyName="academyName"
+      :scheduleId="scheduleId"
+      :scheduleName="scheduleName"
+      :price="price"
+      @changePagenum="changepage"
+      v-if="pagenum == 0"
+    />
     <PaySucc @changePagenum="changepage" v-if="pagenum == 2" />
   </div>
 </template>
@@ -12,6 +19,7 @@ import Pay from "./components/Pay";
 import PaySucc from "./components/PaySucc";
 import { getToken } from "@/utils/auth";
 export default {
+  props: ["academyName", "scheduleId", "scheduleName", "price"],
   components: {
     Header,
     Pay,
@@ -22,6 +30,7 @@ export default {
       pagenum: 0
     };
   },
+  mounted() {},
   methods: {
     changepage(num) {
       this.pagenum = num;

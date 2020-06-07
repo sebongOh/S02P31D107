@@ -9,28 +9,6 @@
         <h1>결제진행중</h1>
       </div>
       <hr />
-
-      <div class="succInfo">
-        <div class="succInfoCol">
-          <div style="float:left">학원 :</div>
-          <div style="float:right">싸피학원</div>
-        </div>
-        <br />
-        <br />
-        <div class="succInfoCol">
-          <div style="float:left">수강과목 :</div>
-          <div style="float:right">싸피2기</div>
-        </div>
-        <br />
-        <br />
-        <div class="succInfoCol">
-          <div style="float:left">가격 :</div>
-          <div style="float:right">200,000원</div>
-        </div>
-        <br />
-      </div>
-
-      <hr />
       <el-row>
         <el-col :span="24">
           <el-button type="warning" style="width:100%">
