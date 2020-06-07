@@ -1,19 +1,25 @@
 <template>
-  <el-card style="margin-bottom:20px;">
+  <el-card style="border:1px solid grey; margin-top:10%">
     <div slot="header" style="text-align:center;">
-      <span style="font-size:20px"><b>주문 /결제</b></span>
+      <span style="font-size:20px">
+        <b>주문 /결제</b>
+      </span>
     </div>
     <el-row style="margin-bottom:10%">
-      <el-col :span="24" style="padding:10px"
-        ><div class="text-muted" style="float:left; font-size:20px">
+      <el-col :span="24" style="padding:10px">
+        <div class="text-muted" style="float:left; font-size:20px">
           <b>결제금액</b>
         </div>
-        <div style="float:right; font-size:30px"><b>200,000원</b></div></el-col
-      >
+        <div style="float:right; font-size:30px">
+          <b>200,000원</b>
+        </div>
+      </el-col>
     </el-row>
     <div class="user-profile" style="background-color:#FDDF1B">
       <div class="box-center">
-        <span style="font-size:25px"><b>카카오머니</b></span>
+        <span style="font-size:25px">
+          <b>카카오머니</b>
+        </span>
         <div style="padding-top:20%">
           <div style="float:left">현재잔액</div>
           <div style="float:right">0원</div>
@@ -29,19 +35,27 @@
       <hr />
       <div class="user-education user-bio-section">
         <div class="user-bio-section-header">
-          <div style="float:left"><i class="el-icon-s-home" />학원</div>
+          <div style="float:left">
+            <i class="el-icon-s-home" />학원
+          </div>
           <div style="float:right">싸피학원</div>
         </div>
         <div class="user-bio-section-header">
-          <div style="float:left"><i class="el-icon-s-order" />수강과목</div>
+          <div style="float:left">
+            <i class="el-icon-s-order" />수강과목
+          </div>
           <div style="float:right">영어</div>
         </div>
         <div class="user-bio-section-header">
-          <div style="float:left"><i class="el-icon-s-order" />기간</div>
+          <div style="float:left">
+            <i class="el-icon-s-order" />기간
+          </div>
           <div style="float:right">1개월</div>
         </div>
         <div class="user-bio-section-header">
-          <div style="float:left"><i class="el-icon-s-order" />구매자</div>
+          <div style="float:left">
+            <i class="el-icon-s-order" />구매자
+          </div>
           <div style="float:right">김싸피</div>
         </div>
       </div>
@@ -49,9 +63,9 @@
     <hr />
     <el-row>
       <el-col :span="24">
-        <el-button type="warning" style="width:100%" @click="pay"
-          ><b>결제하기</b></el-button
-        >
+        <el-button type="warning" style="width:100%" @click="pay">
+          <b>결제하기</b>
+        </el-button>
       </el-col>
     </el-row>
   </el-card>
@@ -59,6 +73,7 @@
 
 <script>
 import { Store } from "vuex";
+
 export default {
   data: () => {
     return {
@@ -66,9 +81,9 @@ export default {
       academy: {
         name: "",
         schedule: "",
-        price: "",
+        price: ""
       },
-      month: 1,
+      month: 1
     };
   },
   methods: {
@@ -76,20 +91,20 @@ export default {
       this.$store
         .dispatch("student/pay", {
           memberId: "1",
-          scheduleId: "3",
+          scheduleId: "3"
         })
-        .then((res) => {
+        .then(res => {
           console.log(res);
           window.location.href = res.data;
-          this.$emit("changePagenum", 1);
+          this.$emit("changePagenum", 2);
           // this.token = this.$route.query.pg_token;
           // this.$store.dispatch("student/paysucc/");
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
