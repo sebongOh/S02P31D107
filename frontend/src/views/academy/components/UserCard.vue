@@ -16,7 +16,9 @@
         </pan-thumb>-->
       </div>
       <div class="box-center">
-        <div class="user-name text-center">asdasdasdasdasd</div>
+        <div class="user-name text-center">
+          <h1>{{name}}</h1>
+        </div>
       </div>
     </div>
 
@@ -25,9 +27,9 @@
         <div class="user-education user-bio-section">
           <div class="user-bio-section-body">
             <div class="text-muted">
-              <h1>{{name}}</h1>
               <h4>{{category}}</h4>
               <h5>{{address}}</h5>
+              <h5>{{phone}}</h5>
             </div>
           </div>
         </div>
@@ -57,7 +59,7 @@
 
 <script>
 export default {
-  props: ["academyId", "name", "address", "phone", "category", "imageUrl"],
+  props: ["academyId", "name", "address", "phone", "category", "imgUrl"],
   default: () => {
     return {
       email: "",

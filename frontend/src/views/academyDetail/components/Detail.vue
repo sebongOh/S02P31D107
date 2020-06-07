@@ -12,7 +12,7 @@
     <b>연락처</b>
     : {{phone}}
     <br />
-    <button v-if="isPayed" class="port-btn" @click="goBoard()">
+    <button class="port-btn" @click="goBoard()">
       <b>
         게시판
         <br />이동

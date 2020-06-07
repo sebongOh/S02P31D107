@@ -12,7 +12,7 @@
             :address="address"
             :category="category"
             :phone="phone"
-            :imageUrl="imageUrl"
+            :imgUrl="imgUrl"
           />
         </el-col>
 
@@ -46,10 +46,11 @@ import Databoard from "./components/Databoard";
 import InsertDataboard from "./components/InsertDataboard";
 import Qna from "./components/Qna";
 import Header from "@/views/student/components/Header";
+import { getToken } from "@/utils/auth";
 
 export default {
   name: "Profile",
-  props: ["academyId", "name", "address", "phone", "category", "imageUrl"],
+  props: ["academyId", "name", "address", "phone", "category", "imgUrl"],
   components: {
     UserCard,
     InsertNotice,
@@ -73,13 +74,7 @@ export default {
     pagechange(num) {
       this.pageNum = num;
     },
-    getUser() {
-      this.user = {
-        name: this.name,
-        email: "admin@test.com",
-        avatar: this.avatar
-      };
-    }
+    getUser() {}
   }
 };
 </script>

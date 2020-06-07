@@ -31,6 +31,7 @@ export default [
     component: () => import("@/views/academy"),
     name: "academyMain",
     children: [],
+    props: true,
   },
   {
     path: "/findPassword",
