@@ -12,10 +12,13 @@
           <el-tabs v-model="activeTab">
             <el-tab-pane label="상세정보" name="detail">
               <Detail
+                :academyId="academyId"
+                :name="name"
                 :address="address"
                 :category="category"
                 :contents="contents"
                 :phone="phone"
+                :imgUrl="imgUrl"
                 :isPayed="isPayed"
               />
             </el-tab-pane>
@@ -58,20 +61,22 @@ export default {
     },
     methods: {
         getAcademy(){
-          console.log(this.academyId);
-          console.log(this.name);
-          //임시 데이터 삽입
-          // this.academyId = "9749818";
-          // this.isPayed = true;
-          // this.contents = "학원 상세 설명 부분";
-          // this.name = "싸피학원";
-          // this.address = "OO시 OO구 OO동";
-          // this.phone = "010-0000-1111";
-          // this.imgUrl = "http://edu.ssafy.com/asset/images/header-logo.jpg";
-          //임시 데이터 삽입 끝
-
-          //일단 학원 가져오고 DB 에 없으면 아래 문구만 추가하기
-          this.contents = "아직 등록되지 않은 학원입니다."
+                this.$store
+          .dispatch("student/findAcademy", {
+            academyId : this.academyId,
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              this.contents = res.data.contents;
+              this.imageUrl = res.data.imageUrl;
+            } else {
+              this.contents = "아직 등록되지 않은 학원입니다."
+            }
+          })
+          .catch(() => {
+            this.contents = "아직 등록되지 않은 학원입니다."
+            console.log("학원 상세정보 불러오기에 실패했습니다. catch");
+          });
       }
   }
 };
