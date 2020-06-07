@@ -18,7 +18,7 @@
             <tr><td>학원 상세설명</td></tr>
             <tr><td colspan="2"><textarea class="input2" v-model="contents" /></td></tr>
             <tr><th>스케줄 추가</th></tr>
-            <tr v-for="index in count" :key="index"><td><Schedule /></td></tr>
+            <tr v-for="index in count" :key="index"><td><Schedule :academyId="academyId" /></td></tr>
             <tr><td><button class="add-btn2" @click="count++">+</button></td></tr>
             </table>
             <button @click="auth=true">학원 권한 변경</button>
@@ -84,7 +84,7 @@ export default {
               this.phone = res.data.phone;
               this.address = res.data.address;
               this.category = res.data.category;
-              this.contents = res.data.contents;
+              this.contents = res.data.contents.replace(/<br>/gi, '\n');
             }else{
               console.log("학원 상세 데이터를 가져오는데 문제가 발생했습니다.");
             }
@@ -109,7 +109,7 @@ export default {
           })
           .then((res) => {
             if (res.status == 200) {
-              console.log(res.data);
+              console.log("학원 정보 수정이 완료되었습니다.");
             } else {
               this.contents = "학원 정보 수정에 실패했습니다."
             }

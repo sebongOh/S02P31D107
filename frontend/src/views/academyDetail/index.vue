@@ -61,13 +61,12 @@ export default {
     },
     methods: {
         getAcademy(){
-                this.$store
+            this.$store
           .dispatch("student/findAcademy", {
             academyId : this.academyId,
           })
           .then((res) => {
             if (res.status == 200) {
-              console.log(res.data);
               this.contents = res.data.contents;
               this.imgUrl = res.data.imageUrl;
             } else {

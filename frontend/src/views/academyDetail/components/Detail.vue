@@ -1,6 +1,6 @@
 <template>
     <div class="detail-div">
-        {{contents}}<br><br>
+        <div v-html="contents"></div><br><br>
         <b>카테고리</b> : {{category}}<br>
         <b>주소</b> : {{address}}<br>
         <b>연락처</b> : {{phone}}<br>

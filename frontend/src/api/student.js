@@ -131,3 +131,18 @@ export const updateAcademy = (data) => {
     data
   });
 };
+
+export const addSchedule = (data) => {
+  return request({
+    url: "academy-schedule",
+    method: "post",
+    data
+  });
+};
+
+export const deleteSchedule = (data) => {
+  return request({
+    url: "academy-schedule/"+data,
+    method: "delete"
+  });
+};
