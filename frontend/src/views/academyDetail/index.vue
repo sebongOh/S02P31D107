@@ -48,17 +48,19 @@ export default {
     },
     methods: {
         getAcademy(){
+          console.log(this.academyId);
+          console.log(this.name);
           //임시 데이터 삽입
-          this.academyId = "9749818";
-          this.isPayed = true;
-          this.contents = "학원 상세 설명 부분";
-          this.name = "싸피학원";
-          this.address = "OO시 OO구 OO동";
-          this.phone = "010-0000-1111";
-          this.imgUrl = "http://edu.ssafy.com/asset/images/header-logo.jpg";
+          // this.academyId = "9749818";
+          // this.isPayed = true;
+          // this.contents = "학원 상세 설명 부분";
+          // this.name = "싸피학원";
+          // this.address = "OO시 OO구 OO동";
+          // this.phone = "010-0000-1111";
+          // this.imgUrl = "http://edu.ssafy.com/asset/images/header-logo.jpg";
           //임시 데이터 삽입 끝
 
-          //일단 학원 가져오고 DB 에 없으면 props 로 값 받아오기
+          //일단 학원 가져오고 DB 에 없으면 아래 문구만 추가하기
           this.contents = "아직 등록되지 않은 학원입니다."
       }
   }
