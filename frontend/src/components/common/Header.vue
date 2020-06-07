@@ -10,7 +10,8 @@ export default {};
 
 <style>
 .header {
-  background-color: #c99d4e;
+  /* background-color: #c99d4e; */
+  background-color: #a69d8d;
   position: fixed;
   top: 0;
   width: 100%;
@@ -18,7 +19,7 @@ export default {};
   z-index: 100;
   text-align: center;
 }
-.logo{
+.logo {
   width: auto;
   height: 50px;
   margin: 5px;

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="font-type">
     <div class="header-footer-div">
       <Header />
     </div>
     <div class="academy-detail">
       <h2>{{name}}</h2>
       <img v-if="imgUrl != ''" class="img-div" :src="imgUrl" />
-      <div v-if="imgUrl == ''" class="img-div" />
+      <img v-if="imgUrl == ''" class="img-div" src="@/assets/icon/logo.png" />
       <el-col :span="18" :xs="24">
         <el-card>
           <el-tabs v-model="activeTab">
@@ -69,6 +69,20 @@ export default {
             if (res.status == 200) {
               this.contents = res.data.contents;
               this.imgUrl = res.data.imageUrl;
+              this.$store
+              .dispatch("student/checkAcademyMember", {
+                academyId : this.academyId,
+              })
+              .then((res) => {
+                if (res.status == 200) {
+                 this.isPayed = true;
+                } else {
+                  console.log("학원에 가입하지 않은 학생입니다.");
+                }
+              })
+              .catch(() => {
+                console.log("학원 학생인지 확인에 실패했습니다.. catch");
+              });
             } else {
               this.contents = "아직 등록되지 않은 학원입니다."
             }
@@ -83,6 +97,9 @@ export default {
 </script>
 
 <style>
+.font-type{
+  font-family: "Yeon Sung", cursive;
+}
 h2 {
   margin: 0;
   padding: 5px;
