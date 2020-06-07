@@ -123,3 +123,33 @@ export const memberAcademy = () => {
     method: "get"
   });
 };
+
+export const updateAcademy = (data) => {
+  return request({
+    url: "academy",
+    method: "put",
+    data
+  });
+};
+
+export const addSchedule = (data) => {
+  return request({
+    url: "academy-schedule",
+    method: "post",
+    data
+  });
+};
+
+export const deleteSchedule = (data) => {
+  return request({
+    url: "academy-schedule/"+data,
+    method: "delete"
+  });
+};
+
+export const getSchedule = (data) => {
+  return request({
+    url: "academy-schedule/academy/"+data,
+    method: "get"
+  });
+};

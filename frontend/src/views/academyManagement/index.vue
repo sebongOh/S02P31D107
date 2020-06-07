@@ -10,10 +10,8 @@
                 :label="item.label"
                 :value="item.value"></el-option>
         </el-select>
-        <!-- 학원 추가용 + 버튼 -->
         <button class="add-btn" @click="addAcademy()">+</button>
         <AcademyAdd v-if="isAdd & value==''"/>
-        <!-- 학원이 선택되어 있다면 해당 학원 안에 수정/삭제 기능 -->
         <AcademyModify v-if="value!=''" :academyId="value"/>
       </div>
       <div v-if="!haveAcademy" class="no-have-academy">
@@ -21,6 +19,13 @@
         권한 요청 승인을 기다려주세요!<br>
         문의 : learnacademy02@gmail.com
       </div>
+      <br><br><el-row>
+          <el-col :span="24">
+            <el-button type="warning" style="width:100%" @click="logout()">
+            <b>로그아웃</b>
+            </el-button>
+          </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -28,6 +33,7 @@
 import AcademyModify from "@/views/academyManagement/components/AcademyModify";
 import AcademyAdd from "@/views/academyManagement/components/AcademyAdd";
 import Header from "@/components/common/Header";
+import { removeToken } from "@/utils/auth";
 
 export default {
   components: { AcademyModify, AcademyAdd, Header },
@@ -37,29 +43,7 @@ export default {
   data() {
     return {
       haveAcademy:true,
-      ///academy-management-authority/member 해서 받아온 값들 중 academyId 를 value 에 들어가도록 하고 name 을 label 에 들어가도록 한다
-      options: [
-        {
-          value: "9472674",
-          label: "홀릭미술학원 본원",
-        },
-        {
-          value: "10139665",
-          label: "구미제과제빵학원",
-        },
-        {
-          value: "9749818",
-          label: "르네상스미술학원",
-        },
-        {
-          value: "9318985",
-          label: "이레실용음악학원",
-        },
-        {
-          value: "17710983",
-          label: "구미미용학원",
-        },
-      ],
+      options: [],
       value: "",
       isAdd: false,
     };
@@ -77,10 +61,9 @@ export default {
               if(res.data == ""){
                 this.haveAcademy = false;
               }
-                console.log(res.data);
                 this.options = [];
-                for(var data in res.data){
-                  this.options.append({value:data.academyId, label:data.name});
+                for(var data of res.data){
+                  this.options.push({value:data.academyId, label:data.name});
                 }
             }else{
               this.haveAcademy = false;
@@ -90,6 +73,11 @@ export default {
             this.haveAcademy = false;
             console.log("에러 catch");
         });
+    },
+    logout(){
+      removeToken();
+      var router = this.$router;
+      router.push("/");
     }
   },
 };
