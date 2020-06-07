@@ -1,5 +1,6 @@
 package com.ssafy.learnacademy.controller
 
+import com.ssafy.learnacademy.service.AcademyScheduleService
 import com.ssafy.learnacademy.service.MemberScheduleService
 import com.ssafy.learnacademy.service.MemberService
 import com.ssafy.learnacademy.vo.MemberSchedule
@@ -15,6 +16,7 @@ import java.util.*
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 class MemberScheduleController(
         val memberScheduleService: MemberScheduleService,
+        val academyScheduleService: AcademyScheduleService,
         val memberService: MemberService
 ) {
 
@@ -32,9 +34,11 @@ class MemberScheduleController(
 
     @PostMapping
     @ApiOperation(value="사용자 스케쥴 등록", notes = "사용자 스케쥴을 등록합니다")
-    fun insertMemberSchedule(@RequestBody memberSchedule: MemberSchedule) : MemberSchedule?{
+    fun insertMemberSchedule(@RequestBody memberSchedule: MemberSchedule) : ResponseEntity<MemberSchedule>{
         memberSchedule.member = memberService.getMember()
-        return memberScheduleService.insertMemberSchedule(memberSchedule)
+        memberSchedule.academySchedule = academyScheduleService.findById(memberSchedule.academySchedule?.academyScheduleId ?: 0)
+        val insertMemberSchedule = memberScheduleService.insertMemberSchedule(memberSchedule)
+        return ResponseEntity.ok().body(insertMemberSchedule)
     }
 
     @PutMapping

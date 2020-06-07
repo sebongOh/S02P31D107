@@ -1,6 +1,7 @@
 package com.ssafy.learnacademy.controller
 
 import com.ssafy.learnacademy.service.AcademyService
+import com.ssafy.learnacademy.service.S3UploadService
 import com.ssafy.learnacademy.vo.Academy
 import com.ssafy.learnacademy.vo.Board
 import com.ssafy.learnacademy.vo.Member
@@ -12,7 +13,10 @@ import java.util.*
 @RestController
 @RequestMapping("/academy")
 //@CrossOrigin(origins = ["*"], maxAge = 3600)
-class AcademyController(var academyService: AcademyService) {
+class AcademyController(
+        val academyService: AcademyService,
+        val s3UploadService: S3UploadService
+) {
 
     @GetMapping
     @ApiOperation(value="학원 전체 찾기", notes = "학원을 전부 검색합니다")
@@ -24,7 +28,12 @@ class AcademyController(var academyService: AcademyService) {
     @GetMapping("/{academyId}")
     @ApiOperation(value="학원 찾기", notes = "학원을 검색합니다")
     fun getAcademy(@PathVariable("academyId") academyId: Long): ResponseEntity<Academy>? {
-        val academy : Academy? = academyService.getAcademy(academyId) ?: return ResponseEntity.noContent().build()
+        var  academy : Academy? = null
+        try {
+            academy = academyService.getAcademy(academyId) ?: return ResponseEntity.noContent().build()
+        } catch (e: Exception) {
+            return ResponseEntity.noContent().build()
+        }
         return ResponseEntity.ok().body(academy)
     }
 
@@ -42,6 +51,10 @@ class AcademyController(var academyService: AcademyService) {
     @ApiOperation(value="학원 수정", notes = "학원을 수정합니다")
     fun updateAcademy(@RequestBody academy: Academy): ResponseEntity<Academy>? {
         academyService.getAcademy(academy.academyId!!) ?: return ResponseEntity.noContent().build()
+        if (academy.imageFile != null) {
+            academy.imageUrl = s3UploadService.uploadFile(academy.imageFile, "academy/")
+        }
+        academy.contents = academy.contents?.replace("\n", "<br>")
         academyService.updateAcademy(academy)
         return ResponseEntity.ok().body(academy)
     }

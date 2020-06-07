@@ -64,19 +64,24 @@ class MemberController(
             member.profileUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/profile/default.png"
         }
         val insertMember: Member? = memberService.insertMember(member)
-
         val academyCertification: AcademyCertification = AcademyCertification()
         academyCertification.member = insertMember
         val academy: Academy = Academy()
-        academy.academyId = academyCertificationRequest.academyId
-        academy.contents = "학원 소개가 없습니다."
-        academy.category = ""
-        academy.phone = academyCertificationRequest.academyPhone
-        academy.name = academyCertificationRequest.academyName
-        academy.address = academyCertificationRequest.academyAddress
-        academy.imageUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/academy/default.jpg"
-        val insertAcademy: Academy? = academyService.insertAcademy(academy)
-        academyCertification.academy = insertAcademy
+        try {
+            val findAcademy: Academy? = academyService.getAcademy(academyCertificationRequest.academyId ?: 0)
+            academyCertification.academy = findAcademy
+        } catch (e: Exception) {
+            academy.academyId = academyCertificationRequest.academyId
+            academy.contents = "학원 소개가 없습니다."
+            academy.category = ""
+            academy.phone = academyCertificationRequest.academyPhone
+            academy.name = academyCertificationRequest.academyName
+            academy.address = academyCertificationRequest.academyAddress
+            academy.category = academyCertificationRequest.academyCategory
+            academy.imageUrl = "https://learnacademy.s3.ap-northeast-2.amazonaws.com/academy/default.jpg"
+            academyCertification.academy = academyService.insertAcademy(academy)
+        }
+
         if (academyCertificationRequest.imageFile != null) {
             academyCertification.imageUrl = s3UploadService.uploadFile(academyCertificationRequest.imageFile, "cert/")
         } else {
@@ -128,22 +133,21 @@ class MemberController(
     @ApiOperation(value = "비밀번호 확인", notes = "비밀번호가 맞는지 확인합니다. 이때 이메일과 비밀번호를 json 형식으로 날려주세요.")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     fun checkPassword(@RequestBody member: MemberRequest): ResponseEntity<Unit>? {
-    var findMember: Member = memberService.findByEmail(member.email ?:"")
-            ?: return ResponseEntity.notFound().build()
-    return ResponseEntity.ok().build()
-}
+        var findMember: Member = memberService.findByEmail(member.email ?:"") ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok().build()
+    }
 
-@PostMapping("/findPassword")
-@ApiOperation(value = "비밀번호 찾기", notes = "비밀번호를 찾습니다. email과 name을 json 형식으로 날려주세요.")
-fun findPassword(@RequestBody member: Member): ResponseEntity<Unit>? {
-    var findMember: Member = memberService.findByEmail(member.email ?:"")
-            ?: return ResponseEntity.notFound().build()
-    if (!findMember.name.equals(member.name)) return ResponseEntity.notFound().build()
-    val tempPassword = memberService.randomPassword()
-    findMember.password = tempPassword
-    memberService.updateMember(findMember)
-    memberService.sendTempPassword(member.email ?: "", tempPassword)
-    return ResponseEntity.ok().build()
-}
+    @PostMapping("/findPassword")
+    @ApiOperation(value = "비밀번호 찾기", notes = "비밀번호를 찾습니다. email과 name을 json 형식으로 날려주세요.")
+    fun findPassword(@RequestBody member: Member): ResponseEntity<Unit>? {
+        var findMember: Member = memberService.findByEmail(member.email ?:"")
+                ?: return ResponseEntity.notFound().build()
+        if (!findMember.name.equals(member.name)) return ResponseEntity.notFound().build()
+        val tempPassword = memberService.randomPassword()
+        findMember.password = tempPassword
+        memberService.updateMember(findMember)
+        memberService.sendTempPassword(member.email ?: "", tempPassword)
+        return ResponseEntity.ok().build()
+    }
 
 }

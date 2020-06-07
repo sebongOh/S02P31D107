@@ -30,7 +30,12 @@ class AcademyCertificationController(
     @GetMapping("/{academyCertificationId}")
     @ApiOperation(value = "학원 인증 요청 조회", notes = "학원 인증 요청을 검색합니다")
     fun getBoard(@PathVariable("academyCertificationId") academyCertificationId : Long) : ResponseEntity<AcademyCertification>?{
-        val academyCertification : AcademyCertification? =  acacemyCertificationService.findById(academyCertificationId) ?: return ResponseEntity.noContent().build()
+        var academyCertification : AcademyCertification? =  null
+        try {
+            academyCertification = acacemyCertificationService.findById(academyCertificationId) ?: return ResponseEntity.noContent().build()
+        } catch (e: Exception) {
+            return ResponseEntity.noContent().build()
+        }
         return ResponseEntity.ok().body(academyCertification)
     }
 

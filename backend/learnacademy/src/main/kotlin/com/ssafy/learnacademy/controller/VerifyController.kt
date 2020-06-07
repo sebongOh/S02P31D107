@@ -17,7 +17,6 @@ class VerifyController(val verifyService: VerifyService, val memberService: Memb
     @PostMapping("/sendEmail")
     @ApiOperation(value = "인증 코드 이메일로 발송", notes = "인증 코드를 입력한 이메일로 발송합니다.")
     fun sendEmail(@RequestBody verify: Verify) : ResponseEntity<Unit> {
-        println(verify.email)
         val member: Member? = verify.email?.let { memberService.findByEmail(it) }
         if (member != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build()
@@ -27,7 +26,7 @@ class VerifyController(val verifyService: VerifyService, val memberService: Memb
         if (isVerify == null) {
             verifyService.insertVerify(verify)
         } else {
-            isVerify.code = verifyService.randomCode()
+            isVerify.code = verify.code
             verifyService.updateVerify(isVerify)
         }
         

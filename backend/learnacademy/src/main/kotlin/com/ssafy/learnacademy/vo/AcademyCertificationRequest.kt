@@ -37,7 +37,9 @@ class AcademyCertificationRequest (
 
         var academyName: String? = null,
 
-        val academyPhone: String? = null,
+        var academyPhone: String? = null,
 
-        val academyAddress: String? = null
+        var academyAddress: String? = null,
+
+        var academyCategory: String? = null
 ) : BaseEntity()

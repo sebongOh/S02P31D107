@@ -10,7 +10,6 @@ import javax.persistence.*
 @Table(name="academy")
 class Academy (
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var academyId: Long? = null,
 
         @Column(nullable = false)

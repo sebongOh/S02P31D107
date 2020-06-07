@@ -36,8 +36,14 @@ class ReviewController (var reviewService: ReviewService,
     @GetMapping("/{academyId}/academy")
     @ApiOperation(value = "학원 리뷰 검색", notes = "학원 리뷰를 검색합니다")
     fun getAcademyReview(@PathVariable("academyId") academyId : Long) : ResponseEntity<List<Review>>?{
-        val academy : Academy = academyService.getAcademy(academyId) ?: return ResponseEntity.noContent().build()
-        val review : List<Review> = reviewService.findByAcademy(academy) ?: return ResponseEntity.noContent().build()
+        var academy : Academy? = null
+        var review : List<Review>? = null
+        try {
+            academy = academyService.getAcademy(academyId) ?: return ResponseEntity.noContent().build()
+            review = reviewService.findByAcademy(academy) ?: return ResponseEntity.noContent().build()
+        } catch (e: Exception) {
+            return ResponseEntity.noContent().build()
+        }
         return ResponseEntity.ok().body(review)
     }
 
