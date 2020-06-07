@@ -11,6 +11,8 @@ import { paySuccess } from "@/api/student";
 import { findAcademy } from "@/api/student";
 import { memberInfo } from "@/api/student";
 import { memberAcademy } from "@/api/student";
+import { updateAcademy } from "@/api/student";
+
 const axios = require('axios');
 
 const state = {
@@ -239,6 +241,17 @@ const actions = {
   memberAcademy({ commit }) {
     return new Promise((resolve, reject) => {
       memberAcademy()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  updateAcademy({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      updateAcademy(data)
         .then((res) => {
           resolve(res);
         })

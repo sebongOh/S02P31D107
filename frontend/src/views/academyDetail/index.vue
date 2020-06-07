@@ -67,8 +67,9 @@ export default {
           })
           .then((res) => {
             if (res.status == 200) {
+              console.log(res.data);
               this.contents = res.data.contents;
-              this.imageUrl = res.data.imageUrl;
+              this.imgUrl = res.data.imageUrl;
             } else {
               this.contents = "아직 등록되지 않은 학원입니다."
             }

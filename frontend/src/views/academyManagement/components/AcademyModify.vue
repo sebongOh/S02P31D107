@@ -12,9 +12,9 @@
             <tr><th>주소</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="address"></td></tr>
             <tr><th>카테고리</th></tr>
-            <tr><th>학원 사진</th></tr>
-            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imgUrl" /></td></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="category"></td></tr>
+            <tr><th>학원 사진</th></tr>
+            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imageUrl" /></td></tr>
             <tr><td>학원 상세설명</td></tr>
             <tr><td colspan="2"><textarea class="input2" v-model="contents" /></td></tr>
             <tr><th>스케줄 추가</th></tr>
@@ -78,27 +78,45 @@ export default {
             academyId: this.academyId
           })
           .then((res) => {
-            if (res.status == 404) {
-              console.log("aniVibro가 뭐죠 404");
-            } else if (res.status == 200) {
+            if (res.status == 200) {
               this.imageUrl = res.data.imageUrl;
               this.name = res.data.name;
               this.phone = res.data.phone;
               this.address = res.data.address;
               this.category = res.data.category;
               this.contents = res.data.contents;
+            }else{
+              console.log("학원 상세 데이터를 가져오는데 문제가 발생했습니다.");
             }
           })
           .catch(() => {
-            console.log("aniVibro가 뭐죠 catch");
+            console.log("학원 상세 데이터를 가져오는데 문제가 발생했습니다. catch");
           });
       },
       modify(){
-          console.log(this.category);
-          console.log(this.imageUrl);
-          var img = document.getElementById("imgUpload");
-          console.log(img.files[0]);
+          // var img = document.getElementById("imgUpload");
+          // console.log(img.files[0]);
           //console.log(new FileReader.readAsDataURL(img.files[0]));
+                          this.$store
+          .dispatch("student/updateAcademy", {
+            academyId : this.academyId,
+            address : this.address,
+            category : this.category,
+            contents : this.contents,
+            imageUrl : this.imageUrl,
+            name : this.name,
+            phone : this.phone
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              console.log(res.data);
+            } else {
+              this.contents = "학원 정보 수정에 실패했습니다."
+            }
+          })
+          .catch(() => {
+            console.log("학원 정보 수정에 실패했습니다. catch");
+          });
       },
       passAuth(){
         if(this.memberId == ""){

@@ -123,3 +123,11 @@ export const memberAcademy = () => {
     method: "get"
   });
 };
+
+export const updateAcademy = (data) => {
+  return request({
+    url: "academy",
+    method: "put",
+    data
+  });
+};
