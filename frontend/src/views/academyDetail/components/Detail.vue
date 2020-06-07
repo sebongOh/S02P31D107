@@ -12,11 +12,22 @@
 
 <script>
 export default {
-    props:['address', 'category', 'contents', 'phone', 'isPayed'],
+    props:['academyId', 'name', 'address', 'category', 'contents', 'phone', 'imgUrl', 'isPayed'],
     methods:{
         goBoard() {
         var router = this.$router;
-        router.push("/academy-main");
+        router.push({
+        name: "academyMain",
+        params: {
+          academyId: this.academyId,
+          name: this.name,
+          address: this.address,
+          category: this.category,
+          phone: this.phone,
+          contents: this.contents,
+          imgUrl: this.imgUrl
+        }
+      });
         },
     }
 }
