@@ -14,7 +14,9 @@
             <tr><th>카테고리</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="category"></td></tr>
             <tr><th>학원 사진</th></tr>
-            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imageUrl" /></td></tr>
+            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imageUrl" @change="previewImage" /></td></tr>
+            <tr><td><img v-if="imgData == ''" :src="imageUrl" class="img-size" />
+            <img v-if="imgData != ''" :src="imgData" class="img-size" /></td></tr>
             <tr><td>학원 상세설명</td></tr>
             <tr><td colspan="2"><textarea class="input2" v-model="contents" /></td></tr>
             <tr><th>스케줄 추가</th></tr>
@@ -60,6 +62,7 @@ export default {
   data() {
     return {
       imageUrl: "",
+      imgData: "",
       name: "",
       phone: "",
       address: "",
@@ -94,9 +97,8 @@ export default {
           });
       },
       modify(){
-          // var img = document.getElementById("imgUpload");
-          // console.log(img.files[0]);
-          //console.log(new FileReader.readAsDataURL(img.files[0]));
+          // console.log(this.imageUrl);
+          // console.log(this.imgData);
                           this.$store
           .dispatch("student/updateAcademy", {
             academyId : this.academyId,
@@ -169,6 +171,16 @@ export default {
             console.log("aniVibro가 뭐죠 catch");
             this.aniVibro("code", "서버 접속을 실패했습니다.");
           });
+    },
+    previewImage: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imgData = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
     }
   }
 }
@@ -243,5 +255,9 @@ th, td{
 }
 .add-btn2:active {
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.42);
+}
+.img-size{
+  height: 50px;
+  width: auto;
 }
 </style>
