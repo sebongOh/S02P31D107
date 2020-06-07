@@ -55,7 +55,8 @@ export default {
 
 <style lang="scss">
 .footer {
-  background-color: #c99d4e;
+  font-family: "Yeon Sung", cursive;
+  background-color: #a69d8d;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -65,6 +66,7 @@ export default {
   align-items: center;
 
   .icon {
+    margin-top: 5px;
     text-align: center;
     width: 25%;
     height: 100%;
