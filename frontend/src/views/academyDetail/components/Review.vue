@@ -32,6 +32,7 @@ export default {
     margin: 5%;
     border-radius: 20px;
     padding: 5%;
+    border: 1px black solid;
 }
 .card-detail-div{
     background-color: white;
