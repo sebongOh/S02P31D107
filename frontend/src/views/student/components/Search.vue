@@ -2,14 +2,14 @@
   <div>
     <div id="map" class="map"></div>
     <div id="menu_wrap" v-if="markerClick" @click="detail(clickList)">
-      <ui class="item">
+      <ul class="item">
         <span class="markerbg marker_1"></span>
         <div class="info">
           <h4>{{clickList.place_name}}</h4>
           <span class="address">{{clickList.road_address_name}}</span>
           <span class="tel">{{clickList.phone}}</span>
         </div>
-      </ui>
+      </ul>
     </div>
   </div>
 </template>
@@ -168,17 +168,16 @@ export default {
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.1);
   z-index: 1;
-  font-size: 15px;
+  font-size: 13px;
 }
 .info .tel {
   color: #009900;
 }
 .item .info {
-  padding: 0 5px 10px 55px;
+  padding: 0 0 10px 55px;
 }
 .item span {
   display: block;
-  margin-top: 4px;
 }
 .item h4,
 .item .info {
@@ -191,7 +190,7 @@ export default {
   position: absolute;
   width: 36px;
   height: 37px;
-  margin: 10px 0 0 10px;
+  margin: 10px 0 0 0;
   background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
     no-repeat;
 }
@@ -203,7 +202,7 @@ li {
 }
 .item {
   position: relative;
-  border-bottom: 2px solid #888;
+  border-bottom: 1px solid #888;
   overflow: hidden;
   cursor: pointer;
   min-height: 65px;
