@@ -153,3 +153,10 @@ export const getSchedule = (data) => {
     method: "get"
   });
 };
+
+export const checkAcademyMember = (data) => {
+  return request({
+    url: "/member-academy/check-academy/"+data,
+    method: "get"
+  });
+};

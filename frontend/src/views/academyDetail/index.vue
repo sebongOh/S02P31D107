@@ -69,6 +69,20 @@ export default {
             if (res.status == 200) {
               this.contents = res.data.contents;
               this.imgUrl = res.data.imageUrl;
+              this.$store
+              .dispatch("student/checkAcademyMember", {
+                academyId : this.academyId,
+              })
+              .then((res) => {
+                if (res.status == 200) {
+                 this.isPayed = true;
+                } else {
+                  console.log("학원에 가입하지 않은 학생입니다.");
+                }
+              })
+              .catch(() => {
+                console.log("학원 학생인지 확인에 실패했습니다.. catch");
+              });
             } else {
               this.contents = "아직 등록되지 않은 학원입니다."
             }
