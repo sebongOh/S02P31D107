@@ -1,21 +1,26 @@
 <template>
   <div class="app-container">
     <Header />
-    <Pay @changePagenum="changepage" v-if="pagenum == 0" />
-    <PaySucc @changePagenum="changepage" v-if="pagenum == 2" />
+    <Pay
+      :academyName="academyName"
+      :scheduleId="scheduleId"
+      :scheduleName="scheduleName"
+      :price="price"
+      @changePagenum="changepage"
+      v-if="pagenum == 0"
+    />
   </div>
 </template>
 
 <script>
 import Header from "@/views/student/components/Header";
 import Pay from "./components/Pay";
-import PaySucc from "./components/PaySucc";
 import { getToken } from "@/utils/auth";
 export default {
+  props: ["academyName", "scheduleId", "scheduleName", "price"],
   components: {
     Header,
-    Pay,
-    PaySucc
+    Pay
   },
   data: () => {
     return {

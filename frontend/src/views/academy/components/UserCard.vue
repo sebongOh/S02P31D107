@@ -13,10 +13,12 @@
         >
           <div>Hello</div>
           {{ user.role }}
-        </pan-thumb> -->
+        </pan-thumb>-->
       </div>
       <div class="box-center">
-        <div class="user-name text-center">asdasdasdasdasd</div>
+        <div class="user-name text-center">
+          <h1>{{name}}</h1>
+        </div>
       </div>
     </div>
 
@@ -25,23 +27,28 @@
         <div class="user-education user-bio-section">
           <div class="user-bio-section-body">
             <div class="text-muted">
-              <h1>싸피학원</h1>
-              <h4>#컴퓨터 #코딩</h4>
-              <h5>서울특별시 강남구 언주로 508</h5>
+              <h4>{{category}}</h4>
+              <h5>{{address}}</h5>
+              <h5>{{phone}}</h5>
             </div>
           </div>
         </div>
 
         <div class="user-skills user-bio-section">
           <div class="user-bio-section-header">
-            <i class="el-icon-s-order" /><span>Skills</span>
+            <i class="el-icon-s-order" />
+            <span>Skills</span>
           </div>
           <div class="user-bio-section-header">
-            <div style="float:left"><i class="el-icon-s-home" />수강과목</div>
+            <div style="float:left">
+              <i class="el-icon-s-home" />수강과목
+            </div>
             <div style="float:right">컴퓨터</div>
           </div>
           <div class="user-bio-section-header">
-            <div style="float:left"><i class="el-icon-s-home" />수강날짜</div>
+            <div style="float:left">
+              <i class="el-icon-s-home" />수강날짜
+            </div>
             <div style="float:right">월 수</div>
           </div>
         </div>
@@ -52,19 +59,22 @@
 
 <script>
 export default {
-  props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: "",
-          email: "",
-          avatar: "",
-          role: "",
-        };
-      },
-    },
+  props: ["academyId", "name", "address", "phone", "category", "imgUrl"],
+  default: () => {
+    return {
+      email: "",
+      avatar: "",
+      role: ""
+    };
   },
+  mounted() {
+    console.log(this.academyId);
+    console.log(this.name);
+    console.log(this.address);
+    console.log(this.category);
+    console.log(this.phone);
+    console.log(this.imageUrl);
+  }
 };
 </script>
 

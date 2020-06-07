@@ -31,6 +31,7 @@ export default [
     component: () => import("@/views/academy"),
     name: "academyMain",
     children: [],
+    props: true,
   },
   {
     path: "/findPassword",
@@ -57,6 +58,7 @@ export default [
     path: "/payment",
     component: () => import("@/views/payment"),
     name: "payment",
+    props: true,
   },
   {
     path: "/paymenting",

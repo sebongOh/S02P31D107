@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     <el-steps :active="active" finish-status="success" simple style="margin-top: 20px">
       <el-step title="Step 1"></el-step>
       <el-step title="Step 2"></el-step>
@@ -295,6 +295,7 @@ export default {
       academyName: "",
       academyAddress: "",
       academyPhone: "",
+      academyCategory: "",
       passwordSchema: new PV(),
       passwordConfirm: "",
       isIng: {
@@ -329,8 +330,9 @@ export default {
     rowClicked(row) {
       this.academyName = row.place_name;
       this.academyAddress = row.road_address_name;
-      this.phone = row.phone;
+      this.academyPhone = row.phone;
       this.keyword = row.place_name;
+      this.academyCategory = row.category_name;
       this.academyId = row.id;
       this.searchResult = [];
     },
@@ -394,6 +396,7 @@ export default {
         formData.append("academyName", this.academyName);
         formData.append("academyAddress", this.academyAddress);
         formData.append("academyPhone", this.academyPhone);
+        formData.append("academyCategory", this.academyCategory);
         this.$store
           .dispatch("student/acajoin", formData)
           .then(res => {
@@ -588,8 +591,10 @@ export default {
 </script>
 
 <style>
+.app-container {
+  font-family: "Yeon Sung", cursive;
+}
 .image-preview {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 20px;
 }
 img.preview {
