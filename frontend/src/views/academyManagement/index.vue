@@ -1,5 +1,6 @@
 <template>
     <div>
+      <div class="header-footer-div"><Header /></div>
       <div class="app-container" v-if="haveAcademy">
         <h1>학원관리 페이지</h1>
         <el-select v-model="value" placeholder="관리할 학원 선택">
@@ -26,14 +27,10 @@
 <script>
 import AcademyModify from "@/views/academyManagement/components/AcademyModify";
 import AcademyAdd from "@/views/academyManagement/components/AcademyAdd";
-import { mapGetters } from "vuex";
-import { getToken } from "@/utils/auth";
+import Header from "@/components/common/Header";
 
 export default {
-  components: { AcademyModify, AcademyAdd},
-  computed: {
-    ...mapGetters(["email"]),
-  },
+  components: { AcademyModify, AcademyAdd, Header },
   mounted(){
     this.getAcademy();
   },
@@ -120,5 +117,9 @@ export default {
   width: 100%;
   text-align: center;
   margin-top: 50px;
+}
+.header-footer-div{
+  width: 100%;
+  height: 60px;
 }
 </style>

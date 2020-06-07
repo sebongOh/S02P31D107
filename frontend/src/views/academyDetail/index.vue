@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="header-footer-div"><Header /></div>
     <div class="academy-detail" v-if="!writeReview">
         <h2>{{academyName}}</h2>
         <img v-if="academyImg != ''" class="img-div" :src="academyImg" />
@@ -70,6 +71,7 @@
     <button v-if="isAvailable & !isPayed & !writeReview" class="port-btn" @click="goPay()">
       <b>결제하기</b>
     </button>
+    <div class="header-footer-div"><Footer /></div>
   </div>
 </template>
 
@@ -78,9 +80,11 @@ import Review from "@/views/academyDetail/components/Review";
 import Detail from "@/views/academyDetail/components/Detail";
 import ReviewBoard from "@/views/academyDetail/components/ReviewBoard";
 import Course from "@/views/academyDetail/components/Course";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 
 export default {
-    components: { Review, Detail, ReviewBoard, Course },
+    components: { Review, Detail, ReviewBoard, Course, Header, Footer },
     props: ["academyId"],
     mounted(){
         this.getAcademy();
@@ -306,5 +310,9 @@ h2{
   height: 130px;
   border: solid 1px black;
   padding: 5px;
+}
+.header-footer-div{
+  width: 100%;
+  height: 60px;
 }
 </style>

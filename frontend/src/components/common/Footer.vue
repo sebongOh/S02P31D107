@@ -48,6 +48,8 @@ export default {
   methods: {
     click(num) {
       this.$emit("changePage", num);
+      var router = this.$router;
+      router.push("/student-main");
     }
   }
 };
