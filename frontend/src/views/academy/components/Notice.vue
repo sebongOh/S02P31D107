@@ -1,6 +1,6 @@
 <template>
   <div class="user-notice" style="overflow:auto">
-    <el-row style="text-align:right; padding-bottom:5px">
+    <!-- <el-row style="text-align:right; padding-bottom:5px">
       <el-button
         type="warning"
         size="mini"
@@ -8,7 +8,7 @@
         icon="el-icon-edit"
         @click="insertNotice(2)"
       />
-    </el-row>
+    </el-row> -->
     <div
       class="list"
       v-infinite-scroll="load"
@@ -20,7 +20,7 @@
           <span class="username text-muted">{{ notice.username }}</span>
           <span class="description">{{ notice.description }}</span>
         </div>
-        <p>{{ notice.content }}</p>
+        <p v-html="notice.content"></p>
         <ul class="list-inline">
           <li>
             <span class="link-black text-sm" @click="share(notice.id)">
@@ -49,6 +49,7 @@ const avatarPrefix = "?imageView2/1/w/80/h/80";
 const carouselPrefix = "?imageView2/2/h/440";
 
 export default {
+  props:['academyId'],
   data() {
     return {
       activeName: 1,
@@ -145,7 +146,28 @@ export default {
       return this.notices.slice(0, this.endOffset);
     },
   },
+  mounted(){
+    this.getBoard();
+  },
   methods: {
+    getBoard(){
+      this.$store
+        .dispatch("student/getNotice", {academyId : this.academyId})
+        .then(res => {
+          if (res.status == 200) {
+              this.notices = [];
+            for (var data of res.data) {
+              this.notices.push({ id:data.boardId, src:data.member.profileUrl, username:data.member.name, description: data.create_at, content: data.contents });
+            }
+            console.log(this.notices);
+          } else {
+            console.log('게시물을 가져오는데 실패했습니다.');
+          }
+        })
+        .catch(() => {
+          console.log("게시물을 가져오는데 실패했습니다. catch");
+        });
+    },
     share(num) {
       this.$message({
         message: "테스트",

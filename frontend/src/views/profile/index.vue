@@ -65,7 +65,12 @@
         </div>
       </div>
       <div class="btn">
-        <button @click="modify()">수정</button>
+        <div class="modify">
+          <button @click="modify()">수정</button>
+        </div>
+        <div class="retire">
+          <button @click="retire()">탈퇴</button>
+        </div>
       </div>
     </div>
     <Footer />
@@ -234,10 +239,20 @@ export default {
             this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
           } else if (res.status == 200) {
             console.log("현재 비밀번호 인증 성공");
-            //회원 탈퇴
-            //탈퇴 성공하면 로그인 페이지로
-            var router = this.$router;
-            router.push("/");
+            this.$store
+              .dispatch("student/retire")
+              .then(res => {
+                if (res.status == 404) {
+                  console.log("aniVibro가 뭐죠 404");
+                } else if (res.status == 200) {
+                  var router = this.$router;
+                  router.push("/");
+                }
+              })
+              .catch(() => {
+                console.log("aniVibro가 뭐죠 catch");
+                this.aniVibro("code", "서버 접속을 실패했습니다.");
+              });
           }
         })
         .catch(() => {
@@ -322,12 +337,28 @@ export default {
 
   .btn {
     text-align: center;
-    button {
-      width: 80px;
-      height: 40px;
-      background-color: #403a33;
-      color: white;
-      border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    .modify {
+      margin-right: 15px;
+      button {
+        width: 80px;
+        height: 40px;
+        background-color: #403a33;
+        color: white;
+        border-radius: 5px;
+      }
+    }
+    .retire {
+      button {
+        width: 80px;
+        height: 40px;
+        color: #fff;
+        background-color: #f56c6c;
+        border-color: #f56c6c;
+        border-radius: 5px;
+      }
     }
   }
 }

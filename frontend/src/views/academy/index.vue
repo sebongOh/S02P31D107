@@ -18,15 +18,15 @@
           <el-card>
             <el-tabs v-model="activeTab">
               <el-tab-pane label="공지사항" name="notice">
-                <Notice v-if="pageNum == 1" @changePageNum="pagechange" />
+                <Notice v-if="pageNum == 1" @changePageNum="pagechange" :academyId="academyId" />
                 <InsertNotice v-if="pageNum == 2" @changePageNum="pagechange" />
               </el-tab-pane>
               <el-tab-pane label="자료게시판" name="databoard">
-                <Databoard v-if="pageNum == 1" @changePageNum="pagechange" />
+                <Databoard v-if="pageNum == 1" @changePageNum="pagechange" :academyId="academyId" />
                 <InsertDataboard v-if="pageNum == 2" @changePageNum="pagechange" />
               </el-tab-pane>
               <el-tab-pane label="1대1문의" name="qna">
-                <Qna :user="user" />
+                <Qna :user="user" :academyId="academyId" />
               </el-tab-pane>
             </el-tabs>
           </el-card>

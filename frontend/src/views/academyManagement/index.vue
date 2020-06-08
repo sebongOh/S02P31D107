@@ -55,8 +55,10 @@ export default {
   },
   methods: {
     addAcademy() {
-      this.isAdd = true;
+      // this.isAdd = true;
       this.value = "";
+      var router = this.$router;
+      router.push("/academy-board");
     },
     getAcademy() {
       this.$store

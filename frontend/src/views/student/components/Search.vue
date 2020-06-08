@@ -218,6 +218,17 @@ export default {
         this.place_name = places.place_name;
         this.dialogVisible = true;
         this.places = places;
+        var router = this.$router;
+            router.push({
+            name: "academyDetail",
+            params: {
+              academyId:places.id,
+              name:places.place_name,
+              address:places.road_address_name,
+              phone:places.phone,
+              category:places.category_name
+            }
+          });
       };
 
       return el;
