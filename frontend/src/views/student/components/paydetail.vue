@@ -10,7 +10,14 @@
         <div class="text-muted" style="float:left; font-size:20px">
           <b>결제금액</b>
         </div>
-        <div style="float:right; font-size:30px">
+
+        <div v-if="payli.type==0" style="float:right; font-size:30px">
+          <b>{{payli.price}}원</b>
+        </div>
+        <div
+          v-if="payli.type==1"
+          style="float:right; font-size:30px; text-decoration:line-through;"
+        >
           <b>{{payli.price}}원</b>
         </div>
       </el-col>

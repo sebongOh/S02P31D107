@@ -10,7 +10,8 @@
         <el-card>
           <h2>{{paylist.academySchedule.academy.name}}</h2>
           <h3>{{ paylist.itemName }}</h3>
-          <h4>{{paylist.price}}원</h4>
+          <h4 v-if="paylist.type==0">{{paylist.price}}원</h4>
+          <h4 v-if="paylist.type==1" style="text-decoration:line-through">{{paylist.price}}원</h4>
           <span v-if="paylist.type==0" style="color:green">결제완료</span>
           <span v-if="paylist.type==1" style="color:red">결제취소</span>
           <p>
