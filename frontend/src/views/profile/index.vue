@@ -206,10 +206,20 @@ export default {
               this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
             } else if (res.status == 200) {
               console.log("현재 비밀번호 인증 성공");
-              //회원 탈퇴
-              //탈퇴 성공하면 로그인 페이지로
+                    this.$store
+          .dispatch("student/retire")
+          .then((res) => {
+            if (res.status == 404) {
+              console.log("aniVibro가 뭐죠 404");
+            } else if (res.status == 200) {
               var router = this.$router;
               router.push("/");
+            }
+          })
+          .catch(() => {
+            console.log("aniVibro가 뭐죠 catch");
+            this.aniVibro("code", "서버 접속을 실패했습니다.");
+          });
             }
           })
           .catch(() => {
