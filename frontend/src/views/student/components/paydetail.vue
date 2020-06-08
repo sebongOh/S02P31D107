@@ -79,6 +79,13 @@
           style="width:100%;"
           @click="paydelete()"
         >결제취소</el-button>
+        <el-button
+          v-if="payli.type==1"
+          type="danger"
+          round
+          style="width:100%;"
+          disabled="disable"
+        >취소완료</el-button>
       </el-col>
     </el-row>
   </el-card>
