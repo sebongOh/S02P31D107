@@ -7,19 +7,17 @@
       <div class="no-academy" v-if="academys.length==0">
         <span>등록된 학원이 없습니다.</span>
       </div>
-      <table class="list-table" v-if="academys.length>0">
-        <tr
-          class="academy-tr"
-          v-for="academy in academys"
-          :key="academy.academyId"
+      <div class="my-academy-list" v-if="academys.length>0">
+        <div
+          class="academy"
+          v-for="(academy, idx) in academys"
+          :key="idx"
           @click="goBoard(academy)"
         >
-          <td class="left-div">
-            <b>{{academy.name}}</b>
-          </td>
-          <td class="right-div">></td>
-        </tr>
-      </table>
+          <div class="name">{{idx+1}}. {{academy.name}}</div>
+          <div class="arrow">></div>
+        </div>
+      </div>
     </div>
     <div class="title">
       <span>새로운 공지사항</span>
@@ -41,8 +39,9 @@ export default {
       newNotice: ""
     };
   },
-  mounted(){
+  mounted() {
     this.getAcademy();
+    console.log(this.academys);
   },
   methods: {
     getAcademy() {
@@ -106,26 +105,11 @@ export default {
       text-align: center;
       line-height: 200px;
     }
-    .list-table {
-      width: 100%;
-      height: auto;
-    }
-    .academy-tr {
-      width: 100%;
-      height: auto;
-      padding: 5%;
-    }
-    .left-div {
-      width: 75%;
-      height: auto;
-      float: left;
-      text-align: left;
-    }
-    .right-div {
-      width: 15%;
-      height: auto;
-      float: right;
-      text-align: right;
+    .academy {
+      margin-bottom: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
     }
   }
   .new-notice {

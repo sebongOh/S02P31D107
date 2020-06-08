@@ -10,9 +10,6 @@
               placeholder="주변 지역 혹은 건물을 입력해 주세요."
               @keyup.enter="initInput"
             />
-            <!-- <button type="submit">
-              <i class="fas fa-search"></i>
-            </button>-->
           </form>
         </div>
       </div>
@@ -349,6 +346,7 @@ export default {
   width: 100%;
 }
 .option input {
+  background-color: white;
   width: 100%;
   height: 40px;
   transition: width 0.5s ease-in-out, transform 0.5s ease-in-out,

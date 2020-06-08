@@ -1,8 +1,6 @@
 <template>
   <div class="app-container">
-    <el-row>
-      <Header />
-    </el-row>
+    <Header />
     <div v-if="user">
       <el-row :gutter="20">
         <el-col :span="6" :xs="24">
@@ -35,6 +33,7 @@
         </el-col>
       </el-row>
     </div>
+    <!-- <Footer /> -->
   </div>
 </template>
 
@@ -46,6 +45,7 @@ import Databoard from "./components/Databoard";
 import InsertDataboard from "./components/InsertDataboard";
 import Qna from "./components/Qna";
 import Header from "@/views/student/components/Header";
+// import Footer from "./components/Footer";
 import { getToken } from "@/utils/auth";
 
 export default {
@@ -59,6 +59,7 @@ export default {
     InsertDataboard,
     Qna,
     Header
+    // Footer
   },
   data() {
     return {
