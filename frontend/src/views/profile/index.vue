@@ -1,15 +1,18 @@
 <template>
-    <div id="Profile">
+    <div id="font-type">
+      <div class="header-footer-div"><Header /></div>
       <div class="app-container">
             <div class="profile-div" v-if="!retirement">
             <h2>내 정보 수정</h2>
             <table class="profile-table">
             <tr><th>프로필 사진</th></tr>
-            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imgUrl" /></td></tr>
+            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="profileUrl" @change="previewImage" /></td></tr>
+            <tr><td><img v-if="profileFile==''" :src="profileUrl" class="img-size" />
+            <img v-if="profileFile!=''" :src="prifileFile" class="img-size" /></td></tr>
             <tr><th>이름</th></tr>
-            <tr><td><input class="input1" type="text" readonly="readonly" v-model="nameInput"></td></tr>
+            <tr><td><input class="input1" type="text" readonly="readonly" v-model="name"></td></tr>
             <tr><th>이메일</th></tr>
-            <tr><td><input class="input1" type="text" readonly="readonly" v-model="emailInput"></td></tr>
+            <tr><td><input class="input1" type="text" readonly="readonly" v-model="email"></td></tr>
             <tr><th>비밀번호</th></tr>
             <tr><td><input class="input1" type="password" v-model="password" @input="checkPasswordForm"></td></tr>
             <tr v-if="error.password"><td class="red">{{error.password}}</td></tr>
@@ -17,45 +20,13 @@
             <tr><td><input class="input1" type="password" v-model="passwordConfirm" @input="checkSame"></td></tr>
             <tr v-if="error.same"><td class="red">{{error.same}}</td></tr>
             <tr><th>주소</th></tr>
-            <tr><td><input class="input1" type="text" v-model="addressInput"></td></tr>
-            <!-- <tr><td>
-              <el-form-item label="주소" required>
-                <span
-                  @click="showFindAddress = !showFindAddress"
-                  >Find</span
-                >
-                <el-input
-                  name="address"
-                  type="text"
-                  v-model="member.addressObj.address"
-                  v-show="!showFindAddress"
-                  @click="showFindAddress = !showFindAddress"
-                />
-                <br />
-                <el-input
-                  class="w3-input w3-border w3-hover-indigo"
-                  name="detailAddress"
-                  type="text"
-                  v-model="member.detailAddress"
-                  v-show="!showFindAddress"
-                  placeholder="Detail Address"
-                />
-                <VueDaumPostcode
-                  v-if="showFindAddress"
-                  @complete="
-                    (member.addressObj = $event),
-                      (showFindAddress = !showFindAddress)
-                  "
-                  style="height: 450px; overflow: scroll;"
-                ></VueDaumPostcode>
-              </el-form-item>
-            </td></tr> -->
+            <tr><td><input class="input1" type="text" v-model="address"></td></tr>
             <tr><th>폰번호</th></tr>
-            <tr><td><input class="input1" type="text" v-model="phoneInput"></td></tr>
+            <tr><td><input class="input1" type="text" v-model="phone"></td></tr>
             <tr><th>나이</th></tr>
-            <tr><td><input class="input1" type="number" v-model="ageInput"></td></tr>
+            <tr><td><input class="input1" type="number" v-model="age"></td></tr>
             <tr><th>성별&nbsp;&nbsp;
-              <select v-model="genderInput"><option :value="0">남</option><option :value="1">여</option></select></th></tr>
+              <select v-model="gender"><option :value="0">남</option><option :value="1">여</option></select></th></tr>
             <tr><th>현재 비밀번호 확인<span class="red">*필수</span></th></tr>
             <tr><td><input class="input1" type="password" v-model="currentPassword"></td></tr>
             </table>
@@ -68,25 +39,20 @@
               <td><button class="ok-btn" @click="retirement = false"><b>취소</b></button></td></tr>
             </table>
       </div>
-     <div class="footer-domain">
-     <Footer />
-     </div>
+     <div class="header-footer-div"><Footer /></div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { getToken } from "@/utils/auth";
-import Footer from "@/views/profile/components/Footer";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
 import PV from "password-validator";
 
 export default {
   name: "Profile",
   components: {
+    Header,
     Footer,
-  },
-  computed: {
-    ...mapGetters(["name", "email", "address", "phone", "age", "gender", "profileFile", "token"]),
   },
   created(){
     this.passwordSchema
@@ -100,36 +66,49 @@ export default {
       .letters();
   },
   mounted(){
-    this.getInputData()
+    this.getMemberData()
   },
   data() {
     return {
-      nameInput: "",
-      emailInput: "",
+      name: "",
+      email: "",
       password: "",
       passwordConfirm: "",
-      addressInput: "",
-      phoneInput: "",
-      ageInput: 0,
-      genderInput: 0,
+      address: "",
+      phone: "",
+      age: 0,
+      gender: 0,
       currentPassword: "",
       retirement: false,
-      imgUrl: "",
+      profileUrl: "",
+      profileFile: "",
+      type: "",
       error: {},
       passwordSchema: new PV(),
       showFindAddress: false
     }
   },
   methods: {
-    getInputData() {
-      this.nameInput = this.name;
-      this.emailInput = this.email;
-      this.addressInput = this.address;
-      this.phoneInput = this.phone;
-      this.ageInput = this.age;
-      this.genderInput = this.gender;
-      this.imgUrl = this.profileFile;
-      console.log(this.token);
+    getMemberData() {
+      this.$store
+          .dispatch("student/memberInfo")
+          .then((res) => {
+            if (res.status == 404) {
+              console.log("aniVibro가 뭐죠 404");
+            } else if (res.status == 200) {
+              this.name = res.data.name;
+              this.email = res.data.email;
+              this.address = res.data.address;
+              this.phone = res.data.phone;
+              this.age = res.data.age;
+              this.gender = res.data.gender;
+              this.profileUrl = res.data.profileUrl;
+              this.type = res.data.type;
+            }
+          })
+          .catch(() => {
+            console.log("aniVibro가 뭐죠 catch");
+          });
     },
     modify(){
       if(this.currentPassword == ""){
@@ -154,20 +133,52 @@ export default {
                 alert("비밀번호와 비밀번호확인이 일치하지 않습니다!");
                 return;
               }
-              let formData = new FormData();
-              formData.append("email", this.emailInput);
-              formData.append("name", this.nameInput);
-              formData.append("password", this.currentPassword);
-              formData.append("address", this.addressInput);
-              formData.append("phone", this.phoneInput);
-              formData.append("age", this.ageInput);
-              formData.append("gender", this.genderInput);
-              formData.append("profileFile", this.profileFiles);//나중에 imgUrl 로 넘길 변수 변경
+              if(this.password == ""){
+                this.password = this.currentPassword;
+                this.passwordConfirm = this.currentPassword;
+              }
+              // let formData = new FormData();
+              // formData.enctype='multipart/form-data'; 
+              // formData.methods='put';
+              // formData.append("email", this.email);
+              // formData.append("name", this.name);
+              // formData.append("password", this.password);
+              // formData.append("address", this.address);
+              // formData.append("phone", this.phone);
+              // formData.append("age", this.age);
+              // formData.append("gender", this.gender);
+              // formData.append("profileUrl", this.profileUrl);
+              // formData.append("profileFile", this.profileUrl);
+              // formData.append("type", this.type);
+              // for (var key of formData.keys()) {
+              //   console.log(key);
+              // }
+              // for (var value of formData.values()) {
+              //   console.log(value);
+              // }
               this.$store
-              .dispatch("student/updateProfile", formData)
+              .dispatch("student/updateProfile", {
+                email : this.email,
+                name : this.name,
+                password : this.password,
+                address : this.address,
+                phone : this.phone,
+                age : this.age,
+                gender : this.gender,
+                profileUrl : this.profileUrl,
+                type : this.type
+              })
               .then((res) => {
-                console.log(res.data);
-                console.log("수정완료");
+                this.name = res.data.name;
+                this.email = res.data.email;
+                this.address = res.data.address;
+                this.phone = res.data.phone;
+                this.age = res.data.age;
+                this.gender = res.data.gender;
+                this.profileUrl = res.data.profileUrl;
+                this.password = "";
+                this.passwordConfirm = "",
+                this.currentPassword = ""
               })
               .catch((err) => {
                 console.log(err);
@@ -225,12 +236,25 @@ export default {
       }else{
         this.error.same = false;
       }
+    },
+    previewImage: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.profileFile = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
     }
   }
 }
 </script>
 
 <style>
+.font-type{
+  font-family: "Yeon Sung", cursive;
+}
 .profile-div {
   text-align: center;
 }
@@ -297,6 +321,10 @@ td {
   background-color: coral;
   border: solid 3px chocolate;
 }
+.img-size{
+  height: 50px;
+  width: auto;
+}
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -320,8 +348,8 @@ td {
   height: 178px;
   display: block;
 }
-.footer-domain {
-  width: auto;
-  height: 80px;
+.header-footer-div{
+  width: 100%;
+  height: 60px;
 }
 </style>

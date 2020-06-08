@@ -5,7 +5,7 @@ const getters = {
     phone: (state) => state.student.phone,
     age: (state) => state.student.age,
     gender: (state) => state.student.gender,
-    child: (state) => state.student.child,
+    profileFile: (state) => state.student.profileFile,
     token: (state) => state.student.token
 };
 

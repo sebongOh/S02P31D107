@@ -1,65 +1,56 @@
 <template>
-    <div>
-      <div class="app-container">
-        <h1>학원관리 페이지</h1>
-        <el-select v-model="value" placeholder="관리할 학원 선택">
-            <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"></el-option>
-        </el-select>
-        <!-- 학원 추가용 + 버튼 -->
-        <button class="add-btn" @click="addAcademy()">+</button>
-        <AcademyAdd v-if="isAdd & value==''"/>
-        <!-- 학원이 선택되어 있다면 해당 학원 안에 수정/삭제 기능 -->
-        <AcademyModify v-if="value!=''" :academyId="value"/>
-      </div>
-        <div class="footer-domain">
-            <Footer/>
-        </div>
+  <div class="font-type">
+    <div class="header-footer-div">
+      <Header />
     </div>
+    <div class="app-container" v-if="haveAcademy">
+      <h1>학원관리 페이지</h1>
+      <el-select v-model="value" placeholder="관리할 학원 선택">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <button class="add-btn" @click="addAcademy()">+</button>
+      <AcademyAdd v-if="isAdd & value==''" />
+      <AcademyModify v-if="value!=''" :academyId="value" />
+    </div>
+    <div v-if="!haveAcademy" class="no-have-academy">
+      현재 권한을 가지고 계시는 학원이 없습니다.
+      <br />권한 요청 승인을 기다려주세요!
+      <br />문의 : learnacademy02@gmail.com
+    </div>
+    <br />
+    <br />
+    <el-row>
+      <el-col :span="24">
+        <el-button type="warning" style="width:100%" @click="logout()">
+          <b>로그아웃</b>
+        </el-button>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
 import AcademyModify from "@/views/academyManagement/components/AcademyModify";
 import AcademyAdd from "@/views/academyManagement/components/AcademyAdd";
-import Footer from "@/views/academyManagement/components/Footer";
-import { mapGetters } from "vuex";
-import { getToken } from "@/utils/auth";
+import Header from "@/components/common/Header";
+import { removeToken } from "@/utils/auth";
 
 export default {
-  components: { AcademyModify, AcademyAdd, Footer },
-  computed: {
-    ...mapGetters(["email"]),
+  components: { AcademyModify, AcademyAdd, Header },
+  mounted() {
+    this.getAcademy();
   },
   data() {
     return {
-      ///academy-management-authority/member 해서 받아온 값들 중 academyId 를 value 에 들어가도록 하고 name 을 label 에 들어가도록 한다
-      options: [
-        {
-          value: "9472674",
-          label: "홀릭미술학원 본원",
-        },
-        {
-          value: "10139665",
-          label: "구미제과제빵학원",
-        },
-        {
-          value: "9749818",
-          label: "르네상스미술학원",
-        },
-        {
-          value: "9318985",
-          label: "이레실용음악학원",
-        },
-        {
-          value: "17710983",
-          label: "구미미용학원",
-        },
-      ],
+      haveAcademy: true,
+      options: [],
       value: "",
-      isAdd: false,
+      isAdd: false
     };
   },
   methods: {
@@ -67,15 +58,44 @@ export default {
       this.isAdd = true;
       this.value = "";
     },
-  },
+    getAcademy() {
+      this.$store
+        .dispatch("student/memberAcademy")
+        .then(res => {
+          if (res.status == 200) {
+            if (res.data == "") {
+              this.haveAcademy = false;
+            }
+            this.options = [];
+            for (var data of res.data) {
+              this.options.push({ value: data.academyId, label: data.name });
+            }
+          } else {
+            this.haveAcademy = false;
+          }
+        })
+        .catch(() => {
+          this.haveAcademy = false;
+          console.log("에러 catch");
+        });
+    },
+    logout() {
+      removeToken();
+      var router = this.$router;
+      router.push("/");
+    }
+  }
 };
 </script>
 
 <style>
-.app-container{
+.font-type {
+  font-family: "Yeon Sung", cursive;
+}
+.app-container {
   padding: 2%;
 }
-.add-btn{
+.add-btn {
   margin: 10px;
   width: 90px;
   height: 35px;
@@ -89,8 +109,13 @@ export default {
 .add-btn:active {
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.42);
 }
-.footer-domain {
-  width: auto;
-  height: 80px;
+.no-have-academy {
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+}
+.header-footer-div {
+  width: 100%;
+  height: 60px;
 }
 </style>

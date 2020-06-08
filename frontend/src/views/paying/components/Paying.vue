@@ -2,43 +2,18 @@
   <div>
     <el-card>
       <div class="succText">
-        <img src="@/assets/images/pay.png" width="50%" height="50%" />
+        <img src="@/assets/images/pay.png" width="50%" height="40%" />
+        <h1>
+          <i class="el-icon-loading" />
+        </h1>
         <h1>결제진행중</h1>
       </div>
       <hr />
-
-      <div class="succInfo">
-        <div class="succInfoCol">
-          <div style="float:left">결제번호 :</div>
-          <div style="float:right">12312412512</div>
-        </div>
-        <br /><br />
-        <div class="succInfoCol">
-          <div style="float:left">결제시각 :</div>
-          <div style="float:right">2020.06.02</div>
-        </div>
-        <br /><br />
-        <div class="succInfoCol">
-          <div style="float:left">학원 :</div>
-          <div style="float:right">싸피학원</div>
-        </div>
-        <br /><br />
-        <div class="succInfoCol">
-          <div style="float:left">수강과목 :</div>
-          <div style="float:right">싸피2기</div>
-        </div>
-        <br /><br />
-        <div class="succInfoCol">
-          <div style="float:left">가격 :</div>
-          <div style="float:right">200,000원</div>
-        </div>
-        <br />
-      </div>
-
-      <hr />
       <el-row>
         <el-col :span="24">
-          <el-button type="warning" style="width:100%"><b>홈으로</b></el-button>
+          <el-button type="warning" style="width:100%">
+            <b>홈으로</b>
+          </el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -50,10 +25,10 @@ export default {
   data() {
     return {
       payment: {},
-      loading: false,
+      loading: false
     };
   },
-  methods: {},
+  methods: {}
 };
 </script>
 

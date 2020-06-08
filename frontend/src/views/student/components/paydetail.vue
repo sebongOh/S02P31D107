@@ -2,7 +2,7 @@
   <el-card style="border:1px solid grey; margin-top:10%">
     <div slot="header" style="text-align:center;">
       <span style="font-size:20px">
-        <b>주문 /결제</b>
+        <b>결제 상세정보</b>
       </span>
     </div>
     <el-row style="margin-bottom:10%">
@@ -10,106 +10,108 @@
         <div class="text-muted" style="float:left; font-size:20px">
           <b>결제금액</b>
         </div>
-        <div style="float:right; font-size:30px">
-          <b>{{price}}원</b>
+
+        <div v-if="payli.type==0" style="float:right; font-size:30px">
+          <b>{{payli.price}}원</b>
+        </div>
+        <div
+          v-if="payli.type==1"
+          style="float:right; font-size:30px; text-decoration:line-through;"
+        >
+          <b>{{payli.price}}원</b>
         </div>
       </el-col>
     </el-row>
-    <div class="user-profile" style="background-color:#FDDF1B">
-      <div class="box-center">
-        <span style="font-size:25px">
-          <b>카카오머니</b>
-        </span>
-        <div style="padding-top:20%">
-          <div style="float:left">현재잔액</div>
-          <div style="float:right">0원</div>
-        </div>
-        <div>
-          <div style="float:left">자동충전</div>
-          <div style="float:right">+{{price}}원</div>
-        </div>
-      </div>
-    </div>
 
     <div class="user-bio">
       <hr />
       <div class="user-education user-bio-section">
         <div class="user-bio-section-header">
           <div style="float:left">
+            <i class="el-icon-s-order" />결제번호
+          </div>
+          <div style="float:right">{{payli.tid}}</div>
+        </div>
+        <div class="user-bio-section-header">
+          <div style="float:left">
+            <i class="el-icon-s-order" />결제일시
+          </div>
+          <div style="float:right">{{payli.approvedAt}}</div>
+        </div>
+        <div class="user-bio-section-header">
+          <div style="float:left">
             <i class="el-icon-s-home" />학원
           </div>
-          <div style="float:right">{{academyName}}</div>
+          <div style="float:right">{{payli.academySchedule.academy.name}}</div>
         </div>
         <div class="user-bio-section-header">
           <div style="float:left">
             <i class="el-icon-s-order" />수강과목
           </div>
-          <div style="float:right">{{scheduleName}}</div>
-        </div>
-        <div class="user-bio-section-header">
-          <div style="float:left">
-            <i class="el-icon-s-order" />기간
-          </div>
-          <div style="float:right">1개월</div>
+          <div style="float:right">{{payli.itemName}}</div>
         </div>
         <div class="user-bio-section-header">
           <div style="float:left">
             <i class="el-icon-s-order" />구매자
           </div>
-          <div style="float:right">{{memberName}}</div>
+          <div style="float:right">{{payli.member.name}}</div>
+        </div>
+        <div class="user-bio-section-header">
+          <div style="float:left">
+            <i class="el-icon-s-order" />결제상태
+          </div>
+          <div v-if="payli.type==0" style="float:right; color:green;">결제완료</div>
+          <div v-if="payli.type==1" style="float:right; color:red;">결제취소</div>
         </div>
       </div>
     </div>
     <hr />
     <el-row>
-      <el-col :span="24">
-        <el-button type="warning" style="width:100%" @click="pay">
-          <b>결제하기</b>
-        </el-button>
+      <el-col :span="6">
+        <el-button type="warning" round style="width:100%;" @click="back()" icon="el-icon-back
+"></el-button>
+      </el-col>
+      <el-col :span="18">
+        <el-button
+          v-if="payli.type==0"
+          type="danger"
+          round
+          style="width:100%;"
+          @click="paydelete()"
+        >결제취소</el-button>
+        <el-button
+          v-if="payli.type==1"
+          type="danger"
+          round
+          style="width:100%;"
+          disabled="disable"
+        >취소완료</el-button>
       </el-col>
     </el-row>
   </el-card>
 </template>
 
 <script>
-import { Store } from "vuex";
-
 export default {
-  props: ["academyName", "scheduleId", "scheduleName", "price"],
-  data: () => {
-    return {
-      memberId: "",
-      memberName: "",
-      token: "",
-      month: 1
-    };
+  props: ["payli"],
+  data() {
+    return {};
   },
   mounted() {
-    this.getMemberData();
+    console.log(this.payli.type);
   },
   methods: {
-    getMemberData() {
-      this.$store
-        .dispatch("student/memberInfo")
-        .then(res => {
-          if (res.status == 404) {
-            console.log("aniVibro가 뭐죠 404");
-          } else if (res.status == 200) {
-            this.memberId = res.data.memberId;
-            this.memberName = res.data.name;
-          }
-        })
-        .catch(() => {});
+    back() {
+      this.$emit("changePagenum", 0);
     },
-    pay() {
+    paydelete() {
       this.$store
-        .dispatch("student/pay", {
-          scheduleId: this.scheduleId
+        .dispatch("student/paydelete", {
+          tid: this.payli.tid,
+          cancel_amount: this.payli.price
         })
         .then(res => {
-          console.log(res);
-          window.location.href = res.data;
-          this.$emit("changePagenum", 2);
+          this.$emit("changePagenum", 0);
         })
         .catch(err => {
           console.log(err);
@@ -119,7 +121,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped >
 .el-icon-chat-round {
   font-size: 20px;
 }

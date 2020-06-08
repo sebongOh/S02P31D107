@@ -99,13 +99,86 @@ export const writeReview = (data) => {
   return request({
     url: "review",
     method: "post",
-    data
+    data,
   });
 };
 
 export const findAcademy = (data) => {
   return request({
-    url: "academy/"+data,
-    method: "get"
+    url: "academy/" + data,
+    method: "get",
+  });
+};
+
+export const memberInfo = () => {
+  return request({
+    url: "member",
+    method: "get",
+  });
+};
+
+export const memberAcademy = () => {
+  return request({
+    url: "/academy-management-authority/member",
+    method: "get",
+  });
+};
+
+export const updateAcademy = (data) => {
+  return request({
+    url: "academy",
+    method: "put",
+    data,
+  });
+};
+
+export const addSchedule = (data) => {
+  return request({
+    url: "academy-schedule",
+    method: "post",
+    data,
+  });
+};
+
+export const deleteSchedule = (data) => {
+  return request({
+    url: "academy-schedule/" + data,
+    method: "delete",
+  });
+};
+
+export const getSchedule = (data) => {
+  return request({
+    url: "academy-schedule/academy/" + data,
+    method: "get",
+  });
+};
+
+export const checkAcademyMember = (data) => {
+  return request({
+    url: "/member-academy/check-academy/" + data,
+    method: "get",
+  });
+};
+
+export const paydelete = (data) => {
+  return request({
+    url: "pay/cancel",
+    method: "post",
+    data,
+  });
+};
+
+export const paylist = () => {
+  return request({
+    url: "pay/member",
+    method: "get",
+  });
+};
+
+export const getMemberAcademy = () => {
+  return request({
+    url: "/member-academy/member",
+    method: "get",
   });
 };

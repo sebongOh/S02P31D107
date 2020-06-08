@@ -6,7 +6,14 @@
     <div v-if="user">
       <el-row :gutter="20">
         <el-col :span="6" :xs="24">
-          <user-card :user="user" />
+          <UserCard
+            :academyId="academyId"
+            :name="name"
+            :address="address"
+            :category="category"
+            :phone="phone"
+            :imgUrl="imgUrl"
+          />
         </el-col>
 
         <el-col :span="18" :xs="24">
@@ -18,10 +25,7 @@
               </el-tab-pane>
               <el-tab-pane label="자료게시판" name="databoard">
                 <Databoard v-if="pageNum == 1" @changePageNum="pagechange" />
-                <InsertDataboard
-                  v-if="pageNum == 2"
-                  @changePageNum="pagechange"
-                />
+                <InsertDataboard v-if="pageNum == 2" @changePageNum="pagechange" />
               </el-tab-pane>
               <el-tab-pane label="1대1문의" name="qna">
                 <Qna :user="user" />
@@ -42,9 +46,11 @@ import Databoard from "./components/Databoard";
 import InsertDataboard from "./components/InsertDataboard";
 import Qna from "./components/Qna";
 import Header from "@/views/student/components/Header";
+import { getToken } from "@/utils/auth";
 
 export default {
   name: "Profile",
+  props: ["academyId", "name", "address", "phone", "category", "imgUrl"],
   components: {
     UserCard,
     InsertNotice,
@@ -52,13 +58,13 @@ export default {
     Databoard,
     InsertDataboard,
     Qna,
-    Header,
+    Header
   },
   data() {
     return {
       pageNum: 1,
       user: {},
-      activeTab: "notice",
+      activeTab: "notice"
     };
   },
   created() {
@@ -68,18 +74,13 @@ export default {
     pagechange(num) {
       this.pageNum = num;
     },
-    getUser() {
-      this.user = {
-        name: this.name,
-        email: "admin@test.com",
-        avatar: this.avatar,
-      };
-    },
-  },
+    getUser() {}
+  }
 };
 </script>
 <style lang="scss">
 .app-container {
   padding: 60px 0;
+  font-family: "Yeon Sung", cursive;
 }
 </style>

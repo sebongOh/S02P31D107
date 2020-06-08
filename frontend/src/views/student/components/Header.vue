@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h1>배울학</h1>
+    <img src="@/assets/icon/logo2.png" class="logo" />
   </div>
 </template>
 
@@ -10,11 +10,18 @@ export default {};
 
 <style>
 .header {
-  background-color: #c99d4e;
+  /* background-color: #c99d4e; */
+  background-color: #a69d8d;
   position: fixed;
   top: 0;
   width: 100%;
   height: 60px;
   z-index: 100;
+  text-align: center;
+}
+.logo {
+  width: auto;
+  height: 50px;
+  margin: 5px;
 }
 </style>

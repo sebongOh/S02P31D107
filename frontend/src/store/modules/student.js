@@ -9,7 +9,17 @@ import { readReview, writeReview } from "@/api/student";
 import { pay } from "@/api/student";
 import { paySuccess } from "@/api/student";
 import { findAcademy } from "@/api/student";
-const axios = require('axios');
+import { memberInfo } from "@/api/student";
+import { memberAcademy } from "@/api/student";
+import { updateAcademy } from "@/api/student";
+import { addSchedule, deleteSchedule } from "@/api/student";
+import { getSchedule } from "@/api/student";
+import { checkAcademyMember } from "@/api/student";
+import { getMemberAcademy } from "@/api/student";
+import { paylist } from "@/api/student";
+import { paydelete } from "@/api/student";
+
+const axios = require("axios");
 
 const state = {
   token: getToken(),
@@ -46,6 +56,9 @@ const mutations = {
   },
   SET_CHILD: (state, child) => {
     state.child = child;
+  },
+  SET_PROFILEFILE: (state, profileFile) => {
+    state.profileFile = profileFile;
   },
 };
 
@@ -103,6 +116,28 @@ const actions = {
     });
   },
 
+  paydelete({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      paydelete(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  paylist({ commit }) {
+    return new Promise((resolve, reject) => {
+      paylist()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
   acajoin({ commit }, formData) {
     return new Promise((resolve, reject) => {
       acajoin(formData)
@@ -178,7 +213,7 @@ const actions = {
   },
   retire({ commit }, data) {
     return new Promise((resolve, reject) => {
-      retire(data) //헤더에 액세스 토큰 넣어서 보내야함
+      retire(data)
         .then((res) => {
           resolve(res);
         })
@@ -198,9 +233,9 @@ const actions = {
         });
     });
   },
-  writeReview({ commit }, formData) {
+  writeReview({ commit }, data) {
     return new Promise((resolve, reject) => {
-      writeReview(formData)
+      writeReview(data)
         .then((res) => {
           resolve(res);
         })
@@ -213,13 +248,97 @@ const actions = {
     return new Promise((resolve, reject) => {
       findAcademy(data.academyId)
         .then((res) => {
-          // console.log("res");
-          // console.log(res);
           resolve(res);
         })
         .catch((err) => {
-          // console.log("err");
-          // console.log(err);
+          reject(err);
+        });
+    });
+  },
+  memberInfo({ commit }) {
+    return new Promise((resolve, reject) => {
+      memberInfo()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  memberAcademy({ commit }) {
+    return new Promise((resolve, reject) => {
+      memberAcademy()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  updateAcademy({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      updateAcademy(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  addSchedule({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      addSchedule(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  deleteSchedule({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      deleteSchedule(data.academyScheduleId)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  getSchedule({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      getSchedule(data.academyId)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  checkAcademyMember({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      checkAcademyMember(data.academyId)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  getMemberAcademy({ commit }) {
+    return new Promise((resolve, reject) => {
+      getMemberAcademy()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
           reject(err);
         });
     });

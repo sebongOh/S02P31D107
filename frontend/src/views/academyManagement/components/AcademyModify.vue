@@ -12,13 +12,20 @@
             <tr><th>주소</th></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="address"></td></tr>
             <tr><th>카테고리</th></tr>
-            <tr><th>학원 사진</th></tr>
-            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imgUrl" /></td></tr>
             <tr><td><input class="input1" type="text" readonly="readonly" v-model="category"></td></tr>
+            <tr><th>학원 사진</th></tr>
+            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="imageUrl" @change="previewImage" /></td></tr>
+            <tr><td><img v-if="imgData == ''" :src="imageUrl" class="img-size" />
+            <img v-if="imgData != ''" :src="imgData" class="img-size" /></td></tr>
             <tr><td>학원 상세설명</td></tr>
-            <tr><td colspan="2"><textarea class="input2" /></td></tr>
+            <tr><td colspan="2"><textarea class="input2" v-model="contents" /></td></tr>
             <tr><th>스케줄 추가</th></tr>
-            <tr v-for="index in count" :key="index"><td><Schedule /></td></tr>
+            <tr v-for="d in datas" :key="d.academyScheduleId"><td><Schedule
+            :academyId="academyId"
+            :academyScheduleId="d.academyScheduleId"
+            :name="d.name"
+            :price="d.price" /></td></tr>
+            <tr v-for="index in count" :key="index"><td><Schedule :academyId="academyId" /></td></tr>
             <tr><td><button class="add-btn2" @click="count++">+</button></td></tr>
             </table>
             <button @click="auth=true">학원 권한 변경</button>
@@ -48,22 +55,29 @@ import Schedule from "@/views/academyManagement/components/Schedule";
 
 export default {
   components: { Schedule },
-  props: ["academyId"],//academy/{academyId} 를 통해 학원 상세 정보를 받아서 대입
+  props: ["academyId"],
   mounted(){
     this.getAcademy();
+  },
+  watch:{
+    academyId(academyId){
+      this.getAcademy();
+    }
   },
   data() {
     return {
       imageUrl: "",
+      imgData: "",
       name: "",
       phone: "",
       address: "",
       category: "",
-      memberId: "",
       password: "",
+      contents: "",
       auth: false,
       retirement: false,
-      count: 0
+      count: 0,
+      datas: []
     }
   },
   methods:{
@@ -73,22 +87,72 @@ export default {
             academyId: this.academyId
           })
           .then((res) => {
-            if (res.status == 404) {
-              console.log("aniVibro가 뭐죠 404");
-            } else if (res.status == 200) {
-              console.log(res);
+            if (res.status == 200) {
+              this.imageUrl = res.data.imageUrl;
+              this.name = res.data.name;
+              this.phone = res.data.phone;
+              this.address = res.data.address;
+              this.category = res.data.category;
+              this.contents = res.data.contents.replace(/<br>/gi, '\n');
+              this.$store
+          .dispatch("student/getSchedule", {
+            academyId: this.academyId
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              for(var data of res.data){
+                  this.datas.push({academyScheduleId: data.academyScheduleId, name:data.name, price:data.price});
+              }
+            }else{
+                console.log("스케줄을 가져오는데 문제가 생겼습니다.");
             }
           })
           .catch(() => {
-            console.log("aniVibro가 뭐죠 catch");
+            console.log("스케줄을 가져오는데 문제가 생겼습니다. catch");
+          });
+            }else{
+              console.log("학원 상세 데이터를 가져오는데 문제가 발생했습니다.");
+            }
+          })
+          .catch(() => {
+            console.log("학원 상세 데이터를 가져오는데 문제가 발생했습니다. catch");
           });
       },
       modify(){
-          console.log(this.category);
-          console.log(this.imageUrl);
-          var img = document.getElementById("imgUpload");
-          console.log(img.files[0]);
-          //console.log(new FileReader.readAsDataURL(img.files[0]));
+          // console.log(this.imageUrl);
+          // console.log(this.imgData);
+          // let formData = new FormData();
+          // formData.enctype='multipart/form-data'; 
+          // formData.methods='put';
+          // formData.append("academyId", this.academyId);
+          // formData.append("address", this.address);
+          // formData.append("category", this.category);
+          // formData.append("contents", this.contents);
+          // formData.append("imageUrl", this.imageUrl);
+          // formData.append("name", this.name);
+          // formData.append("phone", this.phone);
+                          this.$store
+          .dispatch("student/updateAcademy",
+          {
+            academyId : this.academyId,
+            address : this.address,
+            category : this.category,
+            contents : this.contents,
+            imageUrl : this.imageUrl,
+            name : this.name,
+            phone : this.phone
+          }
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              console.log("학원 정보 수정이 완료되었습니다.");
+            } else {
+              this.contents = "학원 정보 수정에 실패했습니다."
+            }
+          })
+          .catch(() => {
+            console.log("학원 정보 수정에 실패했습니다. catch");
+          });
       },
       passAuth(){
         if(this.memberId == ""){
@@ -141,6 +205,16 @@ export default {
             console.log("aniVibro가 뭐죠 catch");
             this.aniVibro("code", "서버 접속을 실패했습니다.");
           });
+    },
+    previewImage: function(event) {
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = e => {
+          this.imgData = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
     }
   }
 }
@@ -215,5 +289,9 @@ th, td{
 }
 .add-btn2:active {
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.42);
+}
+.img-size{
+  height: 50px;
+  width: auto;
 }
 </style>

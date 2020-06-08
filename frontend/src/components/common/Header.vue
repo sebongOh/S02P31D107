@@ -1,28 +1,27 @@
 <template>
-    <div class="header-default">
-
-        <button class="menu" v-if="!isBack"></button>
-        <button v-if="isBack" class="back">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-
-        <h4 class="title">
-            {{headerTitle}}
-        </h4>
-
-        <button v-if="rightText" class="right-text" :class="{disabled:isDisabled}" :disabled="isDisabled">
-            {{rightText}}
-        </button>
-
-        <button class="btn-search" v-if="isSearch">
-            <i class="fas fa-search"></i>
-        </button>
-    </div>
+  <div class="header">
+    <img src="@/assets/icon/logo2.png" class="logo" />
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "header",
-        props : ['headerTitle', 'isBack', 'isSearch', 'rightText', 'isDisabled'],
-    }
+export default {};
 </script>
+
+<style>
+.header {
+  /* background-color: #c99d4e; */
+  background-color: #a69d8d;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 100;
+  text-align: center;
+}
+.logo {
+  width: auto;
+  height: 50px;
+  margin: 5px;
+}
+</style>

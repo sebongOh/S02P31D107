@@ -2,7 +2,7 @@
   <el-card style="border:1px solid grey; margin-top:10%">
     <div slot="header" style="text-align:center;">
       <span style="font-size:20px">
-        <b>주문 /결제</b>
+        <b>결제 상세정보</b>
       </span>
     </div>
     <el-row style="margin-bottom:10%">
@@ -15,21 +15,6 @@
         </div>
       </el-col>
     </el-row>
-    <div class="user-profile" style="background-color:#FDDF1B">
-      <div class="box-center">
-        <span style="font-size:25px">
-          <b>카카오머니</b>
-        </span>
-        <div style="padding-top:20%">
-          <div style="float:left">현재잔액</div>
-          <div style="float:right">0원</div>
-        </div>
-        <div>
-          <div style="float:left">자동충전</div>
-          <div style="float:right">+{{price}}원</div>
-        </div>
-      </div>
-    </div>
 
     <div class="user-bio">
       <hr />
@@ -63,26 +48,16 @@
     <hr />
     <el-row>
       <el-col :span="24">
-        <el-button type="warning" style="width:100%" @click="pay">
-          <b>결제하기</b>
-        </el-button>
+        <el-button type="danger" round style="width:100%;" @click="pay">결제취소</el-button>
       </el-col>
     </el-row>
   </el-card>
 </template>
 
 <script>
-import { Store } from "vuex";
-
 export default {
-  props: ["academyName", "scheduleId", "scheduleName", "price"],
-  data: () => {
-    return {
-      memberId: "",
-      memberName: "",
-      token: "",
-      month: 1
-    };
+  data() {
+    return {};
   },
   mounted() {
     this.getMemberData();
@@ -100,26 +75,12 @@ export default {
           }
         })
         .catch(() => {});
-    },
-    pay() {
-      this.$store
-        .dispatch("student/pay", {
-          scheduleId: this.scheduleId
-        })
-        .then(res => {
-          console.log(res);
-          window.location.href = res.data;
-          this.$emit("changePagenum", 2);
-        })
-        .catch(err => {
-          console.log(err);
-        });
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" scoped >
 .el-icon-chat-round {
   font-size: 20px;
 }

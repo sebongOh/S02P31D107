@@ -25,12 +25,14 @@ export default [
     component: () => import("@/views/student"),
     name: "studentMain",
     children: [],
+    props: true,
   },
   {
     path: "/academy-main",
     component: () => import("@/views/academy"),
     name: "academyMain",
     children: [],
+    props: true,
   },
   {
     path: "/findPassword",
@@ -51,11 +53,19 @@ export default [
     path: "/academy-detail",
     component: () => import("@/views/academyDetail"),
     name: "academyDetail",
+    props: true,
   },
   {
     path: "/payment",
     component: () => import("@/views/payment"),
     name: "payment",
+    props: true,
+  },
+  {
+    path: "/paylist",
+    component: () => import("@/views/paylist"),
+    name: "paylist",
+    props: true,
   },
   {
     path: "/paymenting",
