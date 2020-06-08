@@ -2,10 +2,10 @@
 
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 @import './common';
-@import url("https://cdn.jsdelivr.net/gh/moonspam/NanumBarunGothic@1.0/nanumbarungothicsubset.css");
+@import url('https://cdn.jsdelivr.net/gh/moonspam/NanumBarunGothic@1.0/nanumbarungothicsubset.css');
 
 * {
-    font-family: 'NanumBarunGothic', sans-serif;
+    font-family: 'Yeon Sung', cursive;
     word-break: keep-all;
     padding: 0;
     margin: 0;
@@ -22,7 +22,6 @@ body {
     font-size: 14px;
     overflow-x: hidden;
 }
-
 
 /*html {margin: 0; padding: 0; height: 100%;}*/
 
@@ -53,28 +52,28 @@ span {
 }
 
 input {
-    background:transparent;
+    background: transparent;
     font-size: 1em;
     height: 50px;
     line-height: 1em;
     border: 1px solid $grey;
-    padding:0 20px;
+    padding: 0 20px;
     box-sizing: border-box;
-    transition: .2s;
-    outline:none;
+    transition: 0.2s;
+    outline: none;
     &::placeholder {
         color: #333;
-        opacity: .5;
+        opacity: 0.5;
         font-weight: $f600;
     }
     &:-ms-input-placeholder {
         color: #333;
-        opacity: .5;
+        opacity: 0.5;
         font-weight: $f600;
     }
     &:-ms-input-placeholder {
         color: #333;
-        opacity: .5;
+        opacity: 0.5;
         font-weight: $f600;
     }
     &:-webkit-autofill {
@@ -90,7 +89,7 @@ input {
         outline: 0;
     }
     &:hover {
-        border:2px solid #000;
+        border: 2px solid #000;
     }
 }
 
@@ -114,9 +113,9 @@ select:-webkit-autofill {
 }
 
 input {
-    &[type=button],
-    &[type=submit],
-    &[type=radio] {
+    &[type='button'],
+    &[type='submit'],
+    &[type='radio'] {
         -webkit-appearance: none;
     }
 }
@@ -178,7 +177,6 @@ textarea {
     display: block;
 }
 
-
 /*GAP*/
 
 .div {
@@ -186,7 +184,6 @@ textarea {
     float: left;
     height: 1px;
 }
-
 
 /*FONT*/
 
@@ -228,13 +225,11 @@ p {
     font-size: 1.2em;
 }
 
-
 /*18px*/
 
 .font-m {
     font-size: 1.067em;
 }
-
 
 /*16px*/
 
@@ -242,20 +237,17 @@ p {
     font-size: 0.933em;
 }
 
-
 /*14px*/
 
 .font-xs {
     font-size: 0.867em;
 }
 
-
 /*13px*/
 
 .font-xxs {
     font-size: 0.8em;
 }
-
 
 /*12px*/
 
@@ -283,8 +275,8 @@ p {
     font-weight: 600;
 }
 
-.t_transform{
-    transform: rotate(.1deg);
+.t_transform {
+    transform: rotate(0.1deg);
 }
 
 .t_center {
@@ -302,7 +294,6 @@ p {
 .italic {
     font-style: italic;
 }
-
 
 /* COL */
 
@@ -412,7 +403,6 @@ p {
     overflow: hidden;
 }
 
-
 /* FONT COLOR*/
 
 .cWhite {
@@ -443,7 +433,6 @@ p {
     color: red;
 }
 
-
 /* BG COLOR */
 
 .bBlack {
@@ -457,7 +446,6 @@ p {
 .bWhite--light1 {
     background-color: #efefef;
 }
-
 
 /*position*/
 
@@ -489,15 +477,11 @@ p {
     right: 0;
 }
 
-
 /************/
-
 
 /***button***/
 
-
 /************/
-
 
 /*button default*/
 
@@ -510,26 +494,23 @@ p {
             -webkit-box-shadow: none;
         }
     }
-    &.disabled{
-        background:#ccc;
+    &.disabled {
+        background: #a69d8d;
     }
     font-weight: 500;
     font-size: 1em;
     color: #fff;
-    text-align:center;
-    cursor:pointer;
+    text-align: center;
+    cursor: pointer;
     height: 60px;
     line-height: 58px;
     border-radius: 3px;
-    box-shadow: 8px 8px 15px rgba(0,
-            0,
-            0,
-            0.35);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.35);
 }
 
 .btn--back {
     width: $c100;
-    background-color: #000;
+    background-color: #403a33;
     border-radius: 3px;
     font-weight: $f600;
     box-shadow: none;
@@ -549,7 +530,7 @@ p {
     left: 20px;
     bottom: 17px;
     cursor: pointer;
-    transform: rotate(.1deg);
+    transform: rotate(0.1deg);
     &.disabled {
         background: $grey;
         cursor: default;
@@ -559,11 +540,11 @@ p {
 .add-item-btn {
     @include wrap;
     display: block;
-    padding:15px 0;
+    padding: 15px 0;
     font-weight: $f600;
     text-align: left;
-    transform: rotate(.1deg);
-    color:$ssafy;
+    transform: rotate(0.1deg);
+    color: $ssafy;
 }
 
 .btns-bottom {
@@ -574,7 +555,7 @@ p {
     cursor: pointer;
     button {
         height: 50px;
-        color:#fff;
+        color: #fff;
         text-align: center;
         line-height: 50px;
         font-weight: $f600;
@@ -582,31 +563,31 @@ p {
         @include wrap;
         &:first-of-type {
             box-sizing: border-box;
-            color:#000;
-            border:1px solid #000;
+            color: #000;
+            border: 1px solid #000;
             background: #fff;
-            margin-bottom:10px;
+            margin-bottom: 10px;
         }
         &.half {
             width: 50%;
-            float:left;
-            background:#fff;
-            color:#000;
-            margin-bottom:0;
-            border:1px solid #000;
+            float: left;
+            background: #fff;
+            color: #000;
+            margin-bottom: 0;
+            border: 1px solid #000;
             border-radius: 3px 0 0 3px;
             &:last-of-type {
                 border-radius: 0 3px 3px 0;
             }
             &.highlight {
                 background: #000;
-                color:#fff;
+                color: #fff;
                 font-weight: $f400;
             }
             &.disabled {
                 background: $grey;
                 cursor: default;
-                border-color:$grey;
+                border-color: $grey;
             }
         }
         &.disabled {
@@ -617,7 +598,7 @@ p {
 }
 
 .btn--back-round--red {
-    background-color: #F44337;
+    background-color: #f44337;
     &:hover {
         background-color: #d92f23;
     }
@@ -644,7 +625,7 @@ p {
 }
 
 .btn--text {
-    font:{
+    font: {
         weight: $f600;
     }
 }
@@ -654,7 +635,7 @@ p {
     @include wrap;
     box-sizing: border-box;
     min-height: 100vh;
-    >div {
+    > div {
         padding-top: 80px;
         &.tab_wrap {
             padding-top: 50px;
@@ -668,18 +649,18 @@ p {
         @include wrap;
         margin-bottom: 25px;
         > a {
-            float:left;
-            border:1px solid $grey;
+            float: left;
+            border: 1px solid $grey;
             display: inline-block;
             box-sizing: border-box;
             border-left: none;
             text-align: center;
             font-weight: $f600;
             font-size: $font-size__5;
-            color:rgba(0, 0, 0, .5);
+            color: rgba(0, 0, 0, 0.5);
             height: 50px;
             line-height: 50px;
-            transition: .2s;
+            transition: 0.2s;
             background: #eee;
             cursor: pointer;
             &:first-of-type {
@@ -689,16 +670,17 @@ p {
                 border-right: none;
             }
             &:hover {
-                color:#000;
+                color: #000;
                 background: #fff;
             }
-            &.router-link-exact-active, &.active {
-                color:#000;
+            &.router-link-exact-active,
+            &.active {
+                color: #000;
                 background: #fff;
                 border-bottom: 2px solid #000;
             }
             span {
-                color:$ssafy;
+                color: $ssafy;
             }
         }
         &.tab2 {
@@ -711,7 +693,6 @@ p {
                 width: 33.333%;
             }
         }
-
     }
 }
 
@@ -727,7 +708,7 @@ p {
         float: left;
         color: #333;
         line-height: 1em;
-        transform: rotate(.1deg);
+        transform: rotate(0.1deg);
         font: {
             size: 1em;
             weight: $f600;
@@ -772,8 +753,6 @@ p {
     }
 }
 
-
-
 .profile-image {
     @include background-img;
     height: 40px;
@@ -794,8 +773,8 @@ p {
     @include wrap;
     position: relative;
     margin-bottom: 10px;
-    input[type="text"],
-    input[type="password"] {
+    input[type='text'],
+    input[type='password'] {
         @include wrap;
         height: 50px;
         line-height: 1em;
@@ -804,31 +783,32 @@ p {
         color: #000;
         border: 1px solid #000;
         border-radius: 3px;
-        &:hover, &:focus {
-            border:2px solid #000
+        &:hover,
+        &:focus {
+            border: 2px solid #000;
         }
         &.error {
             border-radius: 0;
-            border:none;
+            border: none;
             border-bottom: 1px solid $red;
         }
         &.complete {
             border-radius: 0;
-            border:none;
+            border: none;
             border-bottom: 1px solid $ssafy;
         }
         &.disabled {
             background: #eee;
-            color:#333;
+            color: #333;
             font-weight: $f600;
-            &:hover, &:focus {
-                border:1px solid #000;
+            &:hover,
+            &:focus {
+                border: 1px solid #000;
             }
-
         }
     }
-    input[type="password"] {
-        padding-right:50px;
+    input[type='password'] {
+        padding-right: 50px;
     }
     label {
         position: absolute;
@@ -839,11 +819,9 @@ p {
         font-size: $font-size__5;
     }
 
-
     h4 {
         @include ellipsis;
     }
-
 
     .error-text {
         @include wrap;
@@ -854,19 +832,18 @@ p {
     .eyes-icon {
         position: absolute;
         font-size: 1em;
-        right:10px;
-        top:15px;
+        right: 10px;
+        top: 15px;
         .fa-eye {
-            font-size:20px;
-            width:auto;
-            color:rgba(0, 0, 0, .3);
+            font-size: 20px;
+            width: auto;
+            color: rgba(0, 0, 0, 0.3);
         }
         &.active {
             .fa-eye {
-                color:$ssafy;
+                color: $ssafy;
             }
         }
-
     }
 }
 
@@ -874,14 +851,14 @@ p {
     @include wrap;
     margin-bottom: 15px;
     label {
-        font:{
+        font: {
             size: $font-size__4;
             weight: $f600;
         }
         margin-bottom: 10px;
         display: block;
     }
-    input[type="text"] {
+    input[type='text'] {
         @include wrap;
         &.error {
             border-color: $red;
@@ -906,36 +883,33 @@ p {
     h4 {
         @include ellipsis;
         line-height: 1em;
-        float:left;
+        float: left;
     }
 
     button {
         font-size: $font-size__5;
-        color:$ssafy;
+        color: $ssafy;
         font-weight: $f600;
-        transform: rotate(.1deg);
-        float:right;
+        transform: rotate(0.1deg);
+        float: right;
         line-height: 1em;
         margin-top: 3px;
     }
 }
 
-
 // 체크박스
-[type="checkbox"]:checked,
-[type="checkbox"]:not(:checked),
-[type="radio"]:checked,
-[type="radio"]:not(:checked){
+[type='checkbox']:checked,
+[type='checkbox']:not(:checked),
+[type='radio']:checked,
+[type='radio']:not(:checked) {
     position: absolute;
     left: -9999px;
 }
 
-
-
-[type="checkbox"]:checked+span,
-[type="checkbox"]:not(:checked)+span,
-[type="radio"]:checked+span,
-[type="radio"]:not(:checked)+span{
+[type='checkbox']:checked + span,
+[type='checkbox']:not(:checked) + span,
+[type='radio']:checked + span,
+[type='radio']:not(:checked) + span {
     position: relative;
     padding-left: 38px;
     cursor: pointer;
@@ -945,15 +919,15 @@ p {
     line-height: 30px;
 }
 
-[type="checkbox"]:checked+span,
-[type="radio"]:checked+span{
-    color:#000
+[type='checkbox']:checked + span,
+[type='radio']:checked + span {
+    color: #000;
 }
 
-[type="checkbox"]:checked+span:before,
-[type="checkbox"]:not(:checked)+span:before,
-[type="radio"]:checked+span:before,
-[type="radio"]:not(:checked)+span:before{
+[type='checkbox']:checked + span:before,
+[type='checkbox']:not(:checked) + span:before,
+[type='radio']:checked + span:before,
+[type='radio']:not(:checked) + span:before {
     content: '';
     position: absolute;
     left: 0;
@@ -965,16 +939,16 @@ p {
     border-radius: 100%;
 }
 
-[type="checkbox"]:checked+span:before,
-[type="radio"]:checked+span:before{
+[type='checkbox']:checked + span:before,
+[type='radio']:checked + span:before {
     background: $ssafy;
-    border:1px solid $ssafy;
+    border: 1px solid $ssafy;
 }
 
-[type="checkbox"]:not(:checked)+span:after,
-[type="checkbox"]:checked+span:after,
-[type="radio"]:not(:checked)+span:after,
-[type="radio"]:checked+span:after{
+[type='checkbox']:not(:checked) + span:after,
+[type='checkbox']:checked + span:after,
+[type='radio']:not(:checked) + span:after,
+[type='radio']:checked + span:after {
     content: '';
     width: 14px;
     height: 15px;
@@ -988,33 +962,31 @@ p {
     transition: all 0.2s ease;
 }
 
-[type="checkbox"]:not(:checked)+span:after,
-[type="radio"]:not(:checked)+span:after{
+[type='checkbox']:not(:checked) + span:after,
+[type='radio']:not(:checked) + span:after {
     background-image: url('../../assets/images/check_b.png');
 }
 
-
 /*사이드바*/
 .side-menu {
-    .side-menu-overlay{
+    .side-menu-overlay {
         position: fixed;
         left: 0;
         top: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0, 0, 0, .8);
-        transition:.2s;
+        background: rgba(0, 0, 0, 0.8);
+        transition: 0.2s;
         display: none;
     }
     &.open {
-        .side-menu-overlay{
+        .side-menu-overlay {
             display: block;
         }
         .side-menu-box {
-            left:0;
+            left: 0;
             z-index: 9;
         }
-
     }
     .side-menu-box {
         position: fixed;
@@ -1022,15 +994,15 @@ p {
         height: 100%;
         background: #fff;
         left: -70vw;
-        transition: .2s;
+        transition: 0.2s;
     }
 
     .top-info {
         position: relative;
         .notification-btn {
             position: absolute;
-            right:20px;
-            top:20px;
+            right: 20px;
+            top: 20px;
             text-align: right;
             float: right;
             z-index: 9;
@@ -1040,13 +1012,13 @@ p {
                     font-size: 20px;
                     width: auto;
                     &.disabled {
-                        color:#ddd;
+                        color: #ddd;
                     }
                 }
             }
             .count {
                 position: absolute;
-                color:#fff;
+                color: #fff;
                 background: $ssafy;
                 width: 23px;
                 height: 23px;
@@ -1055,13 +1027,13 @@ p {
                 font-size: 9px;
                 box-sizing: border-box;
                 padding-top: 6px;
-                left:-17px;
+                left: -17px;
             }
         }
     }
     .user-info {
         @include wrap;
-        padding : 20px 0 30px;
+        padding: 20px 0 30px;
         .profile-img {
             @include background-img;
             width: 60px;
@@ -1069,33 +1041,33 @@ p {
             border-radius: $c100;
         }
         strong {
-            font:{
+            font: {
                 size: 1.143em;
                 weight: $f600;
             }
-            color:#000;
+            color: #000;
             margin: 15px 0 5px 0;
             display: block;
         }
         .id {
             margin-bottom: 15px;
             font-size: $font-size__5;
-            color:#707070
+            color: #707070;
         }
         .followStatic {
             div {
                 float: left;
                 font-size: $font-size__5;
                 a {
-                    color:#000;
+                    color: #000;
                 }
                 &.following {
                     margin-right: 20px;
                 }
             }
             .static {
-                float:right;
-                color:#000;
+                float: right;
+                color: #000;
                 font-size: $font-size__5;
                 font-weight: $f600;
             }
@@ -1105,7 +1077,8 @@ p {
         border-top: 1px solid $grey;
         border-bottom: 1px solid $grey;
     }
-    .feeds, .friend-feed {
+    .feeds,
+    .friend-feed {
         padding: 25px 0;
     }
     ul {
@@ -1116,13 +1089,13 @@ p {
                 padding: 5px 0;
                 display: block;
                 font-size: $font-size__3;
-                color:#000;
+                color: #000;
                 font-weight: $f600;
                 span {
                     display: block;
                 }
                 &.disabled {
-                    color:rgba(0, 0, 0, .2)
+                    color: rgba(0, 0, 0, 0.2);
                 }
             }
             &:last-child {
@@ -1133,41 +1106,41 @@ p {
     .setting {
         position: absolute;
         bottom: 20px;
-        padding:0 20px;
-        left:0;
+        padding: 0 20px;
+        left: 0;
         @include wrap;
         box-sizing: border-box;
         .fa-cog {
             width: auto;
-            color:#000;
+            color: #000;
             font-size: 20px;
             &.disabled {
-                color:rgba(0, 0, 0, .2);
+                color: rgba(0, 0, 0, 0.2);
             }
         }
         .language {
-            float:right;
+            float: right;
             font-weight: $f600;
             font-size: $font-size__5;
-            color:#000;
+            color: #000;
             margin-top: 4px;
         }
         .creator {
-            float:right;
+            float: right;
             font-weight: $f600;
             font-size: $font-size__5;
-            color:#000;
+            color: #000;
             margin-top: 4px;
             margin-left: 10px;
         }
         .logout-btn {
-            float:right;
+            float: right;
             font-weight: $f600;
             font-size: $font-size__5;
-            color:#000;
+            color: #000;
             margin-top: 4px;
             margin-left: 10px;
-            transform: rotate(.1deg);
+            transform: rotate(0.1deg);
         }
     }
 }
@@ -1199,7 +1172,6 @@ p {
         }
     }
 }
-
 
 /*메인*/
 
@@ -1239,19 +1211,19 @@ p {
 .dialog-popup {
     position: fixed;
     box-sizing: border-box;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
     background: #fff;
     z-index: 99;
     padding-top: 80px;
-    color:#000;
+    color: #000;
     font-weight: $f600;
     h1 {
         font-weight: $f600;
         span {
-            color:$red;
+            color: $red;
         }
     }
 }
@@ -1263,7 +1235,7 @@ p {
     height: 100vh;
     background: #f4f4f4;
     left: 0;
-    top:0;
+    top: 0;
     display: none;
     z-index: 99;
     &.open {
@@ -1275,11 +1247,11 @@ p {
         input {
             position: absolute;
             height: 50px;
-            border:none;
+            border: none;
             width: calc(100% - 100px);
-            top:0;
-            left:50px;
-            padding:0;
+            top: 0;
+            left: 50px;
+            padding: 0;
             background: #fff;
         }
         button {
@@ -1287,9 +1259,9 @@ p {
                 font-size: 1.37em;
                 width: auto;
                 position: absolute;
-                padding:15px 10px;
+                padding: 15px 10px;
                 right: 0;
-                top:0;
+                top: 0;
             }
         }
     }
@@ -1302,9 +1274,8 @@ p {
         .feed-list {
             @include wrap;
             li {
-                border:none;
+                border: none;
             }
-
         }
     }
     .search-result-list {
@@ -1313,27 +1284,26 @@ p {
         overflow: auto;
     }
     .search-category {
-        padding:20px 10px 10px;
+        padding: 20px 10px 10px;
         box-sizing: border-box;
         h5 {
-            color:#787878;
-            float:left;
+            color: #787878;
+            float: left;
             font-weight: $f600;
         }
         button {
-            float:right;
+            float: right;
             font-weight: $f600;
-            color:$red;
+            color: $red;
             font-size: $font-size__5;
         }
-
     }
     .no-search-list {
         @include wrap;
         box-sizing: border-box;
-        padding:10px 10px 35px;
+        padding: 10px 10px 35px;
         font-weight: $f600;
-        transform: rotate(.1deg);
+        transform: rotate(0.1deg);
     }
     ul.search-result-ul {
         @include wrap;
@@ -1343,20 +1313,21 @@ p {
             border-bottom: 1px solid #eee;
             box-sizing: border-box;
             .user-list-item {
-                padding:15px 10px;
+                padding: 15px 10px;
                 box-sizing: border-box;
-                margin:0;
+                margin: 0;
                 .profile-image.small {
-                    width: 40px; height: 40px;
+                    width: 40px;
+                    height: 40px;
                 }
             }
         }
         &.keywords {
             li {
                 font-size: 1em;
-                color:#000;
+                color: #000;
                 font-weight: $f600;
-                padding:15px 10px;
+                padding: 15px 10px;
             }
         }
     }
@@ -1366,49 +1337,48 @@ p {
     h4 {
         font-weight: $f600;
         margin-bottom: 30px;
-        transform: rotate(.1deg);
+        transform: rotate(0.1deg);
     }
     button {
         font-size: $font-size__5;
-        transform: rotate(.1deg);
+        transform: rotate(0.1deg);
         font-weight: $f600;
-        color:$ssafy;
+        color: $ssafy;
     }
 }
 
 // 토스트
 .toasted-container .toasted .action {
-    color:$ssafy!important;
+    color: $ssafy !important;
     font-weight: $f600;
-    transform: rotate(.1deg);
+    transform: rotate(0.1deg);
 }
 
 @media (min-width: 1200px) {
-
     .wrapB {
         max-width: 580px;
         width: 100%;
-        margin:0 auto;
-        padding:0 30px;
+        margin: 0 auto;
+        padding: 0 30px;
     }
     .wrapC {
         max-width: 580px;
         width: 100%;
-        margin:0 auto;
+        margin: 0 auto;
     }
 
     .container {
         width: 580px;
         float: none;
-        margin:0 auto;
+        margin: 0 auto;
     }
 
     .header {
-        width:580px;
+        width: 580px;
         left: calc(50% - 290px);
         .header-with-search {
             border: none;
-            padding:10px 30px;
+            padding: 10px 30px;
             .btn--search {
                 display: none;
             }
@@ -1417,16 +1387,16 @@ p {
             }
         }
         .header-back-btn {
-            border:none;
+            border: none;
         }
         .side-menu {
             width: calc(50% - 290px);
-            left:0;
-            border-right:1px solid #eee;
+            left: 0;
+            border-right: 1px solid #eee;
             position: fixed;
             > div.side-menu-box {
                 width: 300px;
-                float:right;
+                float: right;
                 position: relative;
                 height: 100vh;
                 left: 0;
@@ -1434,17 +1404,17 @@ p {
                     display: none;
                 }
                 .feeds {
-                    border:none;
+                    border: none;
                 }
             }
         }
         .search-component.isPc {
             display: block;
             width: calc(50% - 290px);
-            right:0;
+            right: 0;
             left: auto;
             background: #fff;
-            border-left:1px solid #eee;
+            border-left: 1px solid #eee;
             > div {
                 width: 300px;
                 float: left;
@@ -1452,7 +1422,9 @@ p {
                 height: 100vh;
                 .search-top {
                     .header-back-btn {
-                        h4, button, img {
+                        h4,
+                        button,
+                        img {
                             display: none;
                         }
                     }
@@ -1466,10 +1438,6 @@ p {
                     }
                 }
             }
-
         }
     }
-
-
 }
-
