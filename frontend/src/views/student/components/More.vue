@@ -1,6 +1,9 @@
 <template>
   <div>
     <button class="profile-btn" @click="goMypage()">프로필 수정</button><br>
+    <router-link to="/student-profile">
+      <div>마이페이지 이동</div>
+    </router-link>
     <button class="logout-btn" @click="logout()">로그아웃</button>
   </div>
 </template>
@@ -16,8 +19,7 @@ export default {
     },
     logout(){
       removeToken();
-      var router = this.$router;
-      router.push("/");
+      this.$router.push("/");
     }
   }
 };
