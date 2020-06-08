@@ -25,6 +25,7 @@ export default [
     component: () => import("@/views/student"),
     name: "studentMain",
     children: [],
+    props: true,
   },
   {
     path: "/academy-main",

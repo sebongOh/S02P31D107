@@ -160,3 +160,10 @@ export const checkAcademyMember = (data) => {
     method: "get",
   });
 };
+
+export const getMemberAcademy = () => {
+  return request({
+    url: "/member-academy/member",
+    method: "get",
+  });
+};
