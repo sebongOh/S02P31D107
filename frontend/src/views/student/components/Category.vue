@@ -193,7 +193,8 @@ export default {
   data() {
     return {
       options: {
-        radius: 0
+        radius: 0,
+        selected: []
       },
       marks: {
         0: "1km",
@@ -209,6 +210,8 @@ export default {
   },
   methods: {
     setCategory() {
+      this.options.selected = this.selected;
+      // console.log("카테고리", this.options.selected);
       this.$emit("setCategory", this.options);
     },
     select(category, subject) {
@@ -270,6 +273,7 @@ export default {
       .subject--name {
         display: flex;
         .name {
+          cursor: pointer;
           margin-right: 10px;
         }
       }
@@ -292,6 +296,7 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 30px;
+    cursor: pointer;
 
     button {
       font-family: "Yeon Sung", cursive;
