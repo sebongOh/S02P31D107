@@ -231,7 +231,8 @@
       <!--------------------------------- 버튼--------------------------------------->
       <div style="text-align:center">
         <el-button v-if="active === 0" style="margin-top: 12px;" @click="next">Next step</el-button>
-        <el-button v-if="active === 1" style="margin-top: 12px;" @click="join">Submit</el-button>
+        <el-button v-if="active === 1" style="margin-top: 12px;" @click="login">로그인 화면으로</el-button>
+        <el-button v-if="active === 1" style="margin-top: 12px;" @click="join">가입하기</el-button>
         <el-button v-if="active === 2" style="margin-top: 12px;" @click="go">OK</el-button>
       </div>
       <!--------------------------------- 버튼--------------------------------------->
@@ -373,6 +374,9 @@ export default {
     },
     next() {
       if (this.active++ > 2) this.active = 0;
+    },
+    login() {
+      this.$router.push("/");
     },
     join() {
       this.member.address =
@@ -591,7 +595,7 @@ export default {
 </script>
 
 <style>
-.app-container {
+* {
   font-family: "Yeon Sung", cursive;
 }
 .image-preview {

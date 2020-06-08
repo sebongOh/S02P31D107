@@ -9,7 +9,7 @@ export default {
 };
 </script>
 <style>
-#app {
-  font-family: "Yeon Sung", cursive;
+* {
+  font-family: "Yeon Sung", cursive !important;
 }
 </style>

@@ -1,45 +1,79 @@
 <template>
-    <div id="font-type">
-      <div class="header-footer-div"><Header /></div>
-      <div class="app-container">
-            <div class="profile-div" v-if="!retirement">
-            <h2>내 정보 수정</h2>
-            <table class="profile-table">
-            <tr><th>프로필 사진</th></tr>
-            <tr><td><input id="imgUpload" type="file" accept="image/*" v-bind="profileUrl" @change="previewImage" /></td></tr>
-            <tr><td><img v-if="profileFile==''" :src="profileUrl" class="img-size" />
-            <img v-if="profileFile!=''" :src="prifileFile" class="img-size" /></td></tr>
-            <tr><th>이름</th></tr>
-            <tr><td><input class="input1" type="text" readonly="readonly" v-model="name"></td></tr>
-            <tr><th>이메일</th></tr>
-            <tr><td><input class="input1" type="text" readonly="readonly" v-model="email"></td></tr>
-            <tr><th>비밀번호</th></tr>
-            <tr><td><input class="input1" type="password" v-model="password" @input="checkPasswordForm"></td></tr>
-            <tr v-if="error.password"><td class="red">{{error.password}}</td></tr>
-            <tr><th>비밀번호 확인</th></tr>
-            <tr><td><input class="input1" type="password" v-model="passwordConfirm" @input="checkSame"></td></tr>
-            <tr v-if="error.same"><td class="red">{{error.same}}</td></tr>
-            <tr><th>주소</th></tr>
-            <tr><td><input class="input1" type="text" v-model="address"></td></tr>
-            <tr><th>폰번호</th></tr>
-            <tr><td><input class="input1" type="text" v-model="phone"></td></tr>
-            <tr><th>나이</th></tr>
-            <tr><td><input class="input1" type="number" v-model="age"></td></tr>
-            <tr><th>성별&nbsp;&nbsp;
-              <select v-model="gender"><option :value="0">남</option><option :value="1">여</option></select></th></tr>
-            <tr><th>현재 비밀번호 확인<span class="red">*필수</span></th></tr>
-            <tr><td><input class="input1" type="password" v-model="currentPassword"></td></tr>
-            </table>
-            <button class="modify-btn" @click="modify()"><b>수정</b></button>
-            <div class="btn1"><button class="retire-btn" @click="retirement = true">회원탈퇴</button></div>
-            </div>
-            <table class="retirement-table" v-if="retirement">
-              <tr><th colspan="2"><h2>정말 탈퇴하시겠습니까?</h2></th></tr>
-              <tr><td class="btn2"><button class="ok-btn" @click="retire()"><b>네</b></button></td>
-              <td><button class="ok-btn" @click="retirement = false"><b>취소</b></button></td></tr>
-            </table>
+  <div id="app-container">
+    <Header />
+    <div class="profile">
+      <div class="title">
+        <span>내 정보 수정</span>
       </div>
-     <div class="header-footer-div"><Footer /></div>
+      <div class="profile--data">
+        <div class="small--title">프로필 사진</div>
+        <div class="form--data profile-img">
+          <img v-if="profileFile==''" :src="profileUrl" class="img-size" />
+          <img v-if="profileFile!=''" :src="prifileFile" class="img-size" />
+          <input
+            id="imgUpload"
+            type="file"
+            accept="image/*"
+            v-bind="profileUrl"
+            @change="previewImage"
+          />
+        </div>
+        <div class="small--title">이름</div>
+        <div class="form--data">
+          <input type="text" readonly="readonly" v-model="name" />
+        </div>
+        <div class="small--title">이메일</div>
+        <div class="form--data">
+          <input type="text" readonly="readonly" v-model="email" />
+        </div>
+        <div class="small--title">
+          비밀번호
+          <span v-if="error.password">{{error.password}}</span>
+        </div>
+        <div class="form--data">
+          <input type="password" v-model="password" @input="checkPasswordForm" />
+        </div>
+        <div class="small--title">
+          비밀번호 확인
+          <span v-if="error.same">{{error.same}}</span>
+        </div>
+        <div class="form--data">
+          <input type="password" v-model="passwordConfirm" @input="checkSame" />
+        </div>
+        <div class="small--title">주소</div>
+        <div class="form--data">
+          <input type="text" v-model="address" />
+        </div>
+        <div class="small--title">폰번호</div>
+        <div class="form--data">
+          <input type="text" v-model="phone" />
+        </div>
+
+        <div class="small--title">성별</div>
+        <div class="form--data">
+          <select v-model="gender">
+            <option :value="0">남</option>
+            <option :value="1">여</option>
+          </select>
+        </div>
+        <div class="small--title">
+          현재 비밀번호 확인
+          <span>*필수</span>
+        </div>
+        <div class="form--data">
+          <input type="password" v-model="currentPassword" />
+        </div>
+      </div>
+      <div class="btn">
+        <div class="modify">
+          <button @click="modify()">수정</button>
+        </div>
+        <div class="retire">
+          <button @click="retire()">탈퇴</button>
+        </div>
+      </div>
+    </div>
+    <Footer />
   </div>
 </template>
 
@@ -52,9 +86,9 @@ export default {
   name: "Profile",
   components: {
     Header,
-    Footer,
+    Footer
   },
-  created(){
+  created() {
     this.passwordSchema
       .is()
       .min(8)
@@ -65,8 +99,8 @@ export default {
       .has()
       .letters();
   },
-  mounted(){
-    this.getMemberData()
+  mounted() {
+    this.getMemberData();
   },
   data() {
     return {
@@ -86,89 +120,89 @@ export default {
       error: {},
       passwordSchema: new PV(),
       showFindAddress: false
-    }
+    };
   },
   methods: {
     getMemberData() {
       this.$store
-          .dispatch("student/memberInfo")
-          .then((res) => {
-            if (res.status == 404) {
-              console.log("aniVibro가 뭐죠 404");
-            } else if (res.status == 200) {
-              this.name = res.data.name;
-              this.email = res.data.email;
-              this.address = res.data.address;
-              this.phone = res.data.phone;
-              this.age = res.data.age;
-              this.gender = res.data.gender;
-              this.profileUrl = res.data.profileUrl;
-              this.type = res.data.type;
-            }
-          })
-          .catch(() => {
-            console.log("aniVibro가 뭐죠 catch");
-          });
+        .dispatch("student/memberInfo")
+        .then(res => {
+          if (res.status == 404) {
+            console.log("aniVibro가 뭐죠 404");
+          } else if (res.status == 200) {
+            this.name = res.data.name;
+            this.email = res.data.email;
+            this.address = res.data.address;
+            this.phone = res.data.phone;
+            this.age = res.data.age;
+            this.gender = res.data.gender;
+            this.profileUrl = res.data.profileUrl;
+            this.type = res.data.type;
+          }
+        })
+        .catch(() => {
+          console.log("aniVibro가 뭐죠 catch");
+        });
     },
-    modify(){
-      if(this.currentPassword == ""){
+    modify() {
+      if (this.currentPassword == "") {
         alert("현재 비밀번호는 반드시 입력해야 합니다!");
         return;
       }
       this.$store
-          .dispatch("student/passwordCheck", {
-            email: this.email,
-            password: this.currentPassword,
-          })
-          .then((res) => {
-            if (res.status == 404) {
-              console.log("aniVibro가 뭐죠 404");
-              this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
-            } else if (res.status == 200) {
-              console.log("현재 비밀번호 인증 성공");
-              if(this.error.password){
-                alert("비밀번호 형식이 알맞지 않습니다!");
-                return;
-              }else if(this.error.same){
-                alert("비밀번호와 비밀번호확인이 일치하지 않습니다!");
-                return;
-              }
-              if(this.password == ""){
-                this.password = this.currentPassword;
-                this.passwordConfirm = this.currentPassword;
-              }
-              // let formData = new FormData();
-              // formData.enctype='multipart/form-data'; 
-              // formData.methods='put';
-              // formData.append("email", this.email);
-              // formData.append("name", this.name);
-              // formData.append("password", this.password);
-              // formData.append("address", this.address);
-              // formData.append("phone", this.phone);
-              // formData.append("age", this.age);
-              // formData.append("gender", this.gender);
-              // formData.append("profileUrl", this.profileUrl);
-              // formData.append("profileFile", this.profileUrl);
-              // formData.append("type", this.type);
-              // for (var key of formData.keys()) {
-              //   console.log(key);
-              // }
-              // for (var value of formData.values()) {
-              //   console.log(value);
-              // }
-              this.$store
+        .dispatch("student/passwordCheck", {
+          email: this.email,
+          password: this.currentPassword
+        })
+        .then(res => {
+          if (res.status == 404) {
+            console.log("aniVibro가 뭐죠 404");
+            this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
+          } else if (res.status == 200) {
+            console.log("현재 비밀번호 인증 성공");
+            if (this.error.password) {
+              alert("비밀번호 형식이 알맞지 않습니다!");
+              return;
+            } else if (this.error.same) {
+              alert("비밀번호와 비밀번호확인이 일치하지 않습니다!");
+              return;
+            }
+            if (this.password == "") {
+              this.password = this.currentPassword;
+              this.passwordConfirm = this.currentPassword;
+            }
+            // let formData = new FormData();
+            // formData.enctype='multipart/form-data';
+            // formData.methods='put';
+            // formData.append("email", this.email);
+            // formData.append("name", this.name);
+            // formData.append("password", this.password);
+            // formData.append("address", this.address);
+            // formData.append("phone", this.phone);
+            // formData.append("age", this.age);
+            // formData.append("gender", this.gender);
+            // formData.append("profileUrl", this.profileUrl);
+            // formData.append("profileFile", this.profileUrl);
+            // formData.append("type", this.type);
+            // for (var key of formData.keys()) {
+            //   console.log(key);
+            // }
+            // for (var value of formData.values()) {
+            //   console.log(value);
+            // }
+            this.$store
               .dispatch("student/updateProfile", {
-                email : this.email,
-                name : this.name,
-                password : this.password,
-                address : this.address,
-                phone : this.phone,
-                age : this.age,
-                gender : this.gender,
-                profileUrl : this.profileUrl,
-                type : this.type
+                email: this.email,
+                name: this.name,
+                password: this.password,
+                address: this.address,
+                phone: this.phone,
+                age: this.age,
+                gender: this.gender,
+                profileUrl: this.profileUrl,
+                type: this.type
               })
-              .then((res) => {
+              .then(res => {
                 this.name = res.data.name;
                 this.email = res.data.email;
                 this.address = res.data.address;
@@ -177,73 +211,72 @@ export default {
                 this.gender = res.data.gender;
                 this.profileUrl = res.data.profileUrl;
                 this.password = "";
-                this.passwordConfirm = "",
-                this.currentPassword = ""
+                (this.passwordConfirm = ""), (this.currentPassword = "");
               })
-              .catch((err) => {
+              .catch(err => {
                 console.log(err);
               });
-            }
-          })
-          .catch(() => {
-            console.log("aniVibro가 뭐죠 catch");
-            this.aniVibro("code", "서버 접속을 실패했습니다.");
-          });
+          }
+        })
+        .catch(() => {
+          console.log("aniVibro가 뭐죠 catch");
+          this.aniVibro("code", "서버 접속을 실패했습니다.");
+        });
     },
-    retire(){
-      if(this.currentPassword == ""){
+    retire() {
+      if (this.currentPassword == "") {
         alert("현재 비밀번호는 반드시 입력해야 합니다!");
         return;
       }
       this.$store
-          .dispatch("student/passwordCheck", {
-            email: this.email,
-            password: this.currentPassword,
-          })
-          .then((res) => {
-            if (res.status == 404) {
-              console.log("aniVibro가 뭐죠 404");
-              this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
-            } else if (res.status == 200) {
-              console.log("현재 비밀번호 인증 성공");
-                    this.$store
-          .dispatch("student/retire")
-          .then((res) => {
-            if (res.status == 404) {
-              console.log("aniVibro가 뭐죠 404");
-            } else if (res.status == 200) {
-              var router = this.$router;
-              router.push("/");
-            }
-          })
-          .catch(() => {
-            console.log("aniVibro가 뭐죠 catch");
-            this.aniVibro("code", "서버 접속을 실패했습니다.");
-          });
-            }
-          })
-          .catch(() => {
-            console.log("aniVibro가 뭐죠 catch");
-            this.aniVibro("code", "서버 접속을 실패했습니다.");
-          });
+        .dispatch("student/passwordCheck", {
+          email: this.email,
+          password: this.currentPassword
+        })
+        .then(res => {
+          if (res.status == 404) {
+            console.log("aniVibro가 뭐죠 404");
+            this.aniVibro("code", "현재 비밀번호 인증에 실패하였습니다.");
+          } else if (res.status == 200) {
+            console.log("현재 비밀번호 인증 성공");
+            this.$store
+              .dispatch("student/retire")
+              .then(res => {
+                if (res.status == 404) {
+                  console.log("aniVibro가 뭐죠 404");
+                } else if (res.status == 200) {
+                  var router = this.$router;
+                  router.push("/");
+                }
+              })
+              .catch(() => {
+                console.log("aniVibro가 뭐죠 catch");
+                this.aniVibro("code", "서버 접속을 실패했습니다.");
+              });
+          }
+        })
+        .catch(() => {
+          console.log("aniVibro가 뭐죠 catch");
+          this.aniVibro("code", "서버 접속을 실패했습니다.");
+        });
     },
-    checkPasswordForm(e){
+    checkPasswordForm(e) {
       var ps = e.target.value;
-      if(ps != this.passwordConfirm){
+      if (ps != this.passwordConfirm) {
         this.error.same = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
-      }else{
+      } else {
         this.error.same = null;
       }
-      if (ps.length > 0 && !this.passwordSchema.validate(ps)){
+      if (ps.length > 0 && !this.passwordSchema.validate(ps)) {
         this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
-      }else{
+      } else {
         this.error.password = false;
       }
     },
-    checkSame(e){
-      if(e.target.value != this.password){
+    checkSame(e) {
+      if (e.target.value != this.password) {
         this.error.same = "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
-      }else{
+      } else {
         this.error.same = false;
       }
     },
@@ -258,108 +291,75 @@ export default {
       }
     }
   }
-}
+};
 </script>
 
-<style>
-.font-type{
-  font-family: "Yeon Sung", cursive;
-}
-.profile-div {
-  text-align: center;
-}
-.profile-table {
-  width: 90%;
-  margin: 5%;
-  height: auto;
-  text-align: left;
-  background-color: #f2f6fc;
-  padding: 10px;
-}
-th,
-td {
-  padding: 3px;
-}
-.btn1 {
-  width: 90%;
-  height: auto;
-  margin: 5%;
-  text-align: right;
-}
-.btn2 {
-  width: 50%;
-}
-.input1 {
-  border-radius: 3px;
-  border: solid 1px gray;
-  width: 99%;
-  height: 30px;
-  margin-right: 1%;
-}
-.red {
-  color: red;
-  font-size: 10px;
-  vertical-align: top;
-}
-.modify-btn {
-  width: 50%;
-  height: 50px;
-  font-size: 18px;
-  background-color: green;
-  border-radius: 5px;
-  border: 3px solid darkgreen;
-}
-.retire-btn {
-  width: 80px;
-  height: 30px;
-  background-color: red;
-  color: white;
-  border-radius: 5px;
-  border: 3px solid brown;
-}
-.retirement-table{
-  width:90%;
-  margin: 5%;
-  height: auto;
-  text-align: center;
-  padding: 10px;
-}
-.ok-btn {
-  width: 50%;
-  height: 40px;
-  border-radius: 5px;
-  background-color: coral;
-  border: solid 3px chocolate;
-}
-.img-size{
-  height: 50px;
-  width: auto;
-}
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-.header-footer-div{
-  width: 100%;
-  height: 60px;
+<style lang="scss">
+.profile {
+  padding: 60px 10px;
+
+  .title {
+    margin-top: 15px;
+    text-align: center;
+    span {
+      font-size: 28px;
+    }
+  }
+  .profile-img {
+    background-color: #d9cab0;
+  }
+  .profile--data {
+    padding: 10px;
+    background-color: #d9cab0;
+    border-radius: 10px;
+    margin: 15px 0;
+    img {
+      width: 50px;
+    }
+
+    .small--title {
+      margin: 10px 0 5px 0;
+      span {
+        font-size: 0.8em;
+        color: red;
+      }
+    }
+    .form--data {
+      input {
+        width: 90%;
+        height: 25px;
+        border: 0px;
+        border-radius: 5px;
+        background-color: white;
+      }
+    }
+  }
+
+  .btn {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    .modify {
+      margin-right: 15px;
+      button {
+        width: 80px;
+        height: 40px;
+        background-color: #403a33;
+        color: white;
+        border-radius: 5px;
+      }
+    }
+    .retire {
+      button {
+        width: 80px;
+        height: 40px;
+        color: #fff;
+        background-color: #f56c6c;
+        border-color: #f56c6c;
+        border-radius: 5px;
+      }
+    }
+  }
 }
 </style>
