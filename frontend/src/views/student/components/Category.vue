@@ -1,94 +1,200 @@
 <template>
   <div class="category">
+    <div class="title">
+      <span>반경 선택</span>
+    </div>
     <div class="radius">
-      <h4>검색 반경</h4>
       <div class="radius-select">
         <el-slider v-model="options.radius" :marks="marks" :step="20"></el-slider>
       </div>
     </div>
-    <div class="subject">
-      <h4>분야 선택</h4>
-      <div class="subject-kinds" v-for="(subject, idx) in subjects" :key="idx">
-        <div class="subject-category">
-          <span>{{idx}}</span>
+    <div class="title">
+      <span>분야 선택</span>
+    </div>
+    <div class="subjects">
+      <!-- 입시 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>입시</span>
         </div>
-        <div class="subjects-name">
-          <div
-            class="subject-name"
-            v-for="sub in subject"
-            :key="sub"
-            @click="clickCategory(idx, sub)"
-          >
-            <span>#{{sub}}</span>
+        <div class="subject--name">
+          <div class="name" @click="select('입시', '입시학원')">
+            <span>#입시학원</span>
+          </div>
+        </div>
+      </div>
+      <!-- 단과 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>단과</span>
+        </div>
+        <div class="subject--name">
+          <div class="name" @click="select('단과', '수학')">
+            <span>#수학</span>
+          </div>
+          <div class="name" @click="select('단과', '영어')">
+            <span>#영어</span>
+          </div>
+          <div class="name" @click="select('단과', '논술')">
+            <span>#논술</span>
+          </div>
+          <div class="name" @click="select('단과', '기타')">
+            <span>#기타</span>
+          </div>
+        </div>
+      </div>
+      <!-- 외국어 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>외국어</span>
+        </div>
+        <div class="subject--name">
+          <div class="name" @click="select('외국어', '영어')">
+            <span>#영어</span>
+          </div>
+          <div class="name" @click="select('외국어', '중국어')">
+            <span>#중국어</span>
+          </div>
+          <div class="name" @click="select('외국어', '일본어')">
+            <span>#일본어</span>
+          </div>
+          <div class="name" @click="select('외국어', '기타')">
+            <span>#기타</span>
+          </div>
+        </div>
+      </div>
+      <!-- 공무원 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>공무원</span>
+        </div>
+        <div class="subject--name">
+          <div class="name" @click="select('공무원', '임용고시')">
+            <span>#임용고시</span>
+          </div>
+          <div class="name" @click="select('공무원', '기타')">
+            <span>#기타</span>
+          </div>
+        </div>
+      </div>
+      <!-- 컴퓨터 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>컴퓨터</span>
+        </div>
+        <div class="subject--name">
+          <div class="name" @click="select('컴퓨터', '게임')">
+            <span>#게임</span>
+          </div>
+          <div class="name" @click="select('컴퓨터', '알고리즘')">
+            <span>#알고리즘</span>
+          </div>
+          <div class="name" @click="select('컴퓨터', '기타')">
+            <span>#기타</span>
+          </div>
+        </div>
+      </div>
+      <!-- 체육 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>체육</span>
+        </div>
+        <div class="subject--name">
+          <div class="name" @click="select('체육', '검도')">
+            <span>#검도</span>
+          </div>
+          <div class="name" @click="select('체육', '유도')">
+            <span>#유도</span>
+          </div>
+          <div class="name" @click="select('체육', '수영')">
+            <span>#수영</span>
+          </div>
+          <div class="name" @click="select('체육', '태권도')">
+            <span>#태권도</span>
+          </div>
+          <div class="name" @click="select('체육', '기타')">
+            <span>#기타</span>
+          </div>
+        </div>
+      </div>
+      <!-- 음악 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>음악</span>
+        </div>
+        <div class="subject--name">
+          <div class="name" @click="select('음악', '피아노')">
+            <span>#피아노</span>
+          </div>
+          <div class="name" @click="select('음악', '실용음악')">
+            <span>#실용음악</span>
+          </div>
+          <div class="name" @click="select('음악', '기타')">
+            <span>#기타</span>
+          </div>
+        </div>
+      </div>
+      <!-- 미술 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>미술</span>
+        </div>
+        <div class="subject--name">
+          <div class="name" @click="select('미술', '만화')">
+            <span>#만화</span>
+          </div>
+          <div class="name" @click="select('미술', '입시미술')">
+            <span>#입시미술</span>
+          </div>
+          <div class="name" @click="select('미술', '기타')">
+            <span>#기타</span>
+          </div>
+        </div>
+      </div>
+      <!-- 기타 -->
+      <div class="subject">
+        <div class="subject--category">
+          <span>기타</span>
+        </div>
+        <div class="subject--name">
+          <div class="name" @click="select('기타', '간호')">
+            <span>#간호</span>
+          </div>
+          <div class="name" @click="select('기타', '요리')">
+            <span>#요리</span>
+          </div>
+          <div class="name" @click="select('기타', '편입')">
+            <span>#편입</span>
+          </div>
+          <div class="name" @click="select('기타', '웅변/스피치')">
+            <span>#웅변/스피치</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="tag">
-      <h4>태그 검색</h4>
+    <div class="selected-subjects">
+      <div
+        class="selected-subject"
+        v-for="(sub, idx) in selected"
+        :key="idx"
+        @click="deleteSub(sub)"
+      >
+        <span>{{sub}}</span>
+      </div>
     </div>
     <div class="submit">
-      <el-button type="warning" @click="setCategory">검색</el-button>
+      <button @click="setCategory">검색</button>
     </div>
   </div>
 </template>
 
 <script>
-//단과
-const subject1 = ["국어", "수학", "사회", "과학", "영어", "논술", "기타"];
-//입시
-const subject2 = ["국어", "수학", "사회", "과학", "영어", "논술", "기타"];
-//편입
-//외국어
-const subject3 = ["영어", "중국어", "일본어"];
-//공무원
-const subject4 = ["임용고시"];
-//컴퓨터
-const subject5 = ["자격증", "게임", "코딩", "로봇", "알고리즘"];
-//체육
-const subject6 = [
-  "태권도",
-  "검도",
-  "합기도",
-  "유도",
-  "수영",
-  "농구",
-  "축구",
-  "유아체육"
-];
-//음약
-const subject7 = [
-  "피아노",
-  "실용음악",
-  "바이올린",
-  "국악",
-  "작곡",
-  "보컬",
-  "성악"
-];
-//미술
-const subject8 = ["입시미술", "서예", "만화", "도예", "공예", "캘리그라피"];
-//독서실
-const subject9 = ["1인실", "다인실"];
-//간호
-//요리
-const subject10 = ["한식", "중식", "일식", "제과"];
-//기타
-const subject11 = [
-  "한자",
-  "바둑",
-  "웅변/스피치",
-  "연극/연기",
-  "공인중개사",
-  "편입"
-];
-const checked = new Set();
 export default {
   data() {
     return {
       options: {
         radius: 0,
-        checked: ""
+        selected: []
       },
       marks: {
         0: "1km",
@@ -98,30 +204,30 @@ export default {
         80: "5km",
         100: "6km"
       },
-      subjects: {
-        단과: subject1,
-        입시: subject2,
-        외국어: subject3,
-        공무원: subject4,
-        컴퓨터: subject5,
-        체육: subject6,
-        음악: subject7,
-        미술: subject8,
-        독서실: subject9,
-        요리: subject10,
-        기타: subject11
-      },
-      checkboxGroup: []
+      set: new Set(),
+      selected: []
     };
   },
   methods: {
     setCategory() {
-      this.options.checked = checked;
+      this.options.selected = this.selected;
+      // console.log("카테고리", this.options.selected);
       this.$emit("setCategory", this.options);
     },
-    clickCategory(idx, sub) {
-      checked.add(idx);
-      checked.add(sub);
+    select(category, subject) {
+      let str = `${category} - #${subject}`;
+      if (this.set.has(str)) {
+        this.set.delete(str);
+      } else {
+        this.set.add(str);
+      }
+      this.selected = [];
+      for (let item of this.set) this.selected.push(item);
+    },
+    deleteSub(subject) {
+      this.set.delete(subject);
+      this.selected = [];
+      for (let item of this.set) this.selected.push(item);
     }
   }
 };
@@ -129,23 +235,76 @@ export default {
 
 <style lang="scss">
 .category {
-  padding: 0 30px;
-  .range-select {
-    width: 80%;
+  padding: 10px 30px;
+  .title {
+    margin: 10px 0px;
+    span {
+      font-size: 23px;
+    }
   }
 
-  .subject-kinds {
-    .subject-category {
-      width: 70px;
+  .radius {
+    margin-bottom: 50px;
+    .el-slider__bar {
+      background-color: #403a33 !important;
     }
+    .el-slider__button {
+      border: 2px solid #403a33 !important;
+    }
+  }
 
-    .subjects-name {
-      display: flex;
-      flex-wrap: wrap;
-      .subject-name {
-        margin-right: 10px;
-        cursor: pointer;
+  .subjects {
+    padding: 10px;
+    background-color: #f2e6ce;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    .subject {
+      .subject--category {
+        span {
+          font-size: 18px;
+          font-weight: 600;
+        }
       }
+      display: flex;
+      margin-bottom: 10px;
+      .subject--category {
+        width: 70px !important;
+      }
+      .subject--name {
+        display: flex;
+        .name {
+          cursor: pointer;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
+  .selected-subjects {
+    margin-bottom: 30px;
+    .selected-subject {
+      float: left;
+      margin: 0 5px 5px 0;
+      padding: 10px;
+      background-color: #d9cab0;
+      border-radius: 10px;
+    }
+  }
+
+  .submit {
+    clear: both;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    cursor: pointer;
+
+    button {
+      font-family: "Yeon Sung", cursive;
+      width: 80px;
+      height: 40px;
+      background-color: #403a33;
+      color: white;
+      border-radius: 5px;
     }
   }
 }
