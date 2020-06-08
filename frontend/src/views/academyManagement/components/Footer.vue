@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <div class="icon" @click="click(1)">
+    <div class="icon" @click="click(0)">
       <div class="icon--box">
         <span>
           <i class="fas fa-home"></i>
@@ -10,7 +10,7 @@
         <span>홈</span>
       </div>
     </div>
-    <div class="icon" @click="click(2)">
+    <div class="icon" @click="click(1)">
       <div class="icon--box">
         <span>
           <i class="fas fa-user"></i>
@@ -20,17 +20,18 @@
         <span>My 학원</span>
       </div>
     </div>
-    <div class="icon" @click="click(3)">
+    <div class="icon" @click="click(2)">
       <div class="icon--box">
         <span>
-          <i class="fas fa-search"></i>
+          <i class="fas fa-user"></i>
         </span>
       </div>
       <div class="icon--name">
-        <span>학원 검색</span>
+        <span>게시판</span>
       </div>
     </div>
-    <div class="icon" @click="click(4)">
+
+    <div class="icon" @click="click(3)">
       <div class="icon--box">
         <span>
           <i class="fas fa-ellipsis-h"></i>
