@@ -10,11 +10,11 @@
     </div>
     <div class="my--profile">
       <div class="profile--img">
-        <img src="@/assets/images/pay.png" alt />
+        <img :src="user.profileUrl" alt />
       </div>
       <div class="profile--data">
-        <div class="name">박정호</div>
-        <div class="email">qkrjh0904@gmail.com</div>
+        <div class="name">{{user.name}}</div>
+        <div class="email">{{user.email}}</div>
       </div>
       <div class="logout">
         <button @click="logout()">로그아웃</button>
@@ -42,12 +42,36 @@ export default {
   components: { paylist, paydetail },
   data() {
     return {
+      user: {
+        name: "",
+        address: "",
+        profileUrl: ""
+      },
       payli: {},
       pagenum: 0,
       payHistory: ""
     };
   },
+  mounted() {
+    this.getMemberData();
+  },
   methods: {
+    getMemberData() {
+      this.$store
+        .dispatch("student/memberInfo")
+        .then(res => {
+          if (res.status == 404) {
+            console.log("aniVibro가 뭐죠 404");
+          } else if (res.status == 200) {
+            this.user.name = res.data.name;
+            this.user.email = res.data.email;
+            this.user.profileUrl = res.data.profileUrl;
+          }
+        })
+        .catch(() => {
+          console.log("aniVibro가 뭐죠 catch");
+        });
+    },
     paylist(paylist) {
       this.payli = paylist;
     },
