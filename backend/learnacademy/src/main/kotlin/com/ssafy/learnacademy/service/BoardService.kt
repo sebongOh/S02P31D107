@@ -11,6 +11,14 @@ class BoardService(var boardRepository: BoardRepository){
         return boardRepository.findAll()
     }
 
+    fun findNoticeAllByAcademyId(academyId: Long) : List<Board>?{
+        return boardRepository.findNoticeAllByAcademyId(academyId)
+    }
+
+    fun findReferenceAllByAcademyId(academyId: Long) : List<Board>?{
+        return boardRepository.findReferenceAllByAcademyId(academyId)
+    }
+
     fun findById(boardId : Long) : Board? {
         return boardRepository.findById(boardId).get()
     }
