@@ -20,28 +20,30 @@ import javax.xml.ws.Response
 @RestController
 @RequestMapping("/pay")
 @CrossOrigin(origins = ["*"], maxAge = 3600)
-class PayController(var payService: PayService, var memberService: MemberService, var academyScheduleService: AcademyScheduleService, var academyService: AcademyService) {
+class PayController(var payService: PayService,
+                    var memberService: MemberService,
+                    var academyScheduleService: AcademyScheduleService,
+                    var academyService: AcademyService) {
 
     final var HOST : String = "https://kapi.kakao.com/"
 
     var kakaoPayReady: KakaoPayReady? = null
     var kakaoPayOrder : KakaoPayOrder? = null
     var kakaoPayCancel : KakaoPayCancel? = null
-    final val webUrl : String = "http://192.168.35.48:8080/"
+    final val webUrl : String = "http://192.168.35.110:8080/"
 
     @PostMapping("/ready")
     @ApiOperation(value = "카카오페이 결제준비", notes = "카카오페이 결제를준비합니다")
     fun kakaoPayReady(@RequestBody payReadyRequest : PayReadyRequest, request : HttpServletRequest) : ResponseEntity<String>{
-        var headers = HttpHeaders()
-        var restTemplate = RestTemplate()
+        val headers: HttpHeaders = HttpHeaders()
+        val restTemplate = RestTemplate()
 
         headers.add("Authorization","KakaoAK "+"b6c1c0d9dcaeedd5745508c7b9d7e133")
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
         headers.add("Content-type", MediaType.APPLICATION_FORM_URLENCODED_VALUE+";charset=utf-8")
 
-
         val schedule : AcademySchedule? = academyScheduleService.findById(payReadyRequest.scheduleId!!)
-        val member : Member? = memberService.findById(payReadyRequest.memberId!!)
+        val member : Member? = memberService.getMember()
 
         println("###############  요청정보  #####################")
         println("가격 : "+schedule?.price)
@@ -80,12 +82,13 @@ class PayController(var payService: PayService, var memberService: MemberService
     @PostMapping("/paySuccess")
     @ApiOperation(value="카카오페이 결제완료", notes = "카카오페이 결제완료")
     fun kakaoPayInfo(@RequestBody payRequest: PayRequest) : ResponseEntity<Pay>{
+        val member : Member? = memberService.getMember()
         var restTemplate = RestTemplate()
         var headers = HttpHeaders()
         var kakaoPayApproval: KakaoPayApproval? =null
         println("############## 결제 요청정보  ###################")
         println("스케쥴번호 : "+payRequest.scheduleId)
-        println("멤버번호 : "+payRequest.memberId)
+        println("멤버번호 : "+member?.memberId)
         println("토큰정보 : "+payRequest.pg_token)
         println("###############################################")
 
@@ -94,7 +97,7 @@ class PayController(var payService: PayService, var memberService: MemberService
         headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8")
 
         var academyName : String? = academyScheduleService.findById(payRequest.scheduleId!!)?.academy?.name
-        var memberName : String? = memberService.findById(payRequest.memberId!!)?.name
+        var memberName : String? = member?.name
         var params: MultiValueMap<String, String> = LinkedMultiValueMap()
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReady?.tid);
@@ -112,7 +115,7 @@ class PayController(var payService: PayService, var memberService: MemberService
         try {
             kakaoPayApproval = restTemplate.postForObject(URI(HOST + "v1/payment/approve"), body,
                     KakaoPayApproval::class.java)
-            val pay: Pay = createPay(kakaoPayApproval, payRequest.scheduleId!!, payRequest.memberId!!)
+            val pay: Pay = createPay(kakaoPayApproval, payRequest.scheduleId!!, member)
             insertPay(pay, 0)
             return ResponseEntity<Pay>(pay, HttpStatus.OK)
         } catch (e: Exception) {
@@ -121,10 +124,11 @@ class PayController(var payService: PayService, var memberService: MemberService
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
-    fun createPay(kakaoPayApproval: KakaoPayApproval?, academyScheduleId: Long, memberId: Long) : Pay{
+    fun createPay(kakaoPayApproval: KakaoPayApproval?, academyScheduleId: Long, member: Member?) : Pay{
 
         val pay = Pay()
-        pay.member = memberService.findById(memberId)
+        pay.type = 0
+        pay.member = member
         pay.academySchedule = academyScheduleService.findById(academyScheduleId)
         pay.itemName = kakaoPayApproval?.item_name
         pay.price = kakaoPayApproval?.amount?.total
@@ -217,10 +221,10 @@ class PayController(var payService: PayService, var memberService: MemberService
     }
 
 
-    @GetMapping("/{memberId}/member")
+    @GetMapping("/member")
     @ApiOperation(value = "멤버결제내역 검색", notes = "멤버결제내역을 검색합니다")
-    fun findByMember(@PathVariable memberId : Long) : ResponseEntity<List<Pay>>?{
-        val member : Member? = memberService.findById(memberId)
+    fun findByMember() : ResponseEntity<List<Pay>>?{
+        val member : Member? = memberService.getMember()
         val pay : List<Pay>? = payService.findByMember(member) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(pay)
     }

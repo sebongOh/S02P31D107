@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PayRepository : JpaRepository<Pay, Long>{
-    fun findByMember(member : Member?) : List<Pay>?
+    fun findByMemberOrderByApprovedAtDesc(member : Member?) : List<Pay>?
     fun findByAcademySchedule(academySchedule : AcademySchedule) : List<Pay>?
     fun findByTid(tid : String) : Pay?
 

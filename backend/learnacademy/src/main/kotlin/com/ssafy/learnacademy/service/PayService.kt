@@ -30,7 +30,7 @@ class PayService (var payRepository: PayRepository){
     }
 
     fun findByMember(member : Member?) : List<Pay>?{
-        return payRepository.findByMember(member)
+        return payRepository.findByMemberOrderByApprovedAtDesc(member)
     }
 
     fun findBySchedule(schedule : AcademySchedule) : List<Pay>?{
