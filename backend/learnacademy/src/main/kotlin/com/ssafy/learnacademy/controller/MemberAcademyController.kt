@@ -31,6 +31,18 @@ class MemberAcademyController (
         return ResponseEntity.ok().body(academyList)
     }
 
+    @GetMapping("/check-academy/{academyId}")
+    fun checkMemberAcademy(@PathVariable("academyId") academyId: Long): ResponseEntity<Any>? {
+        val member: Member = memberService.getMember() ?: return ResponseEntity.notFound().build()
+        val academyList : MutableList<Academy> = memberAcademyService.findByMemberId(member.memberId ?: 0)
+        for (a: Academy in academyList) {
+            if (a.academyId == academyId) {
+                return ResponseEntity.ok().build()
+            }
+        }
+        return ResponseEntity.noContent().build()
+    }
+
     // 학원 아이디로 조회 (학원에 등록된 원생들 조회)
     @GetMapping("/academy/{academyId}")
     fun getMemberAcademyByAcademyId(@PathVariable("academyId") academyId: Long): ResponseEntity<MutableList<Member>>? {

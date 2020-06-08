@@ -29,6 +29,13 @@ class AcademyScheduleController (var academyScheduleService: AcademyScheduleServ
        val academySchedule : AcademySchedule? = academyScheduleService.findById(academyScheduleId) ?: return ResponseEntity.noContent().build()
         return ResponseEntity.ok().body(academySchedule)
     }
+    @GetMapping("/academy/{academyId}")
+    @ApiOperation(value = "학원 스케쥴 검색", notes = "학원 아이디로 학원 스케쥴을 검색합니다")
+    fun getAcademyScheduleByAcademyId(@PathVariable("academyId") academyId : Long) : ResponseEntity<MutableList<AcademySchedule>>?{
+
+        val academyScheduleList : MutableList<AcademySchedule> = academyScheduleService.findByAcademyId(academyId) ?: return ResponseEntity.noContent().build()
+        return ResponseEntity.ok().body(academyScheduleList)
+    }
 
     @PostMapping
     @ApiOperation(value="학원 스케쥴 등록", notes = "학원스케쥴을 등록합니다")

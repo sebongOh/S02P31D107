@@ -17,6 +17,10 @@ class AcademyScheduleService (var academyScheduleRepository: AcademyScheduleRepo
         return academyScheduleRepository.findById(academyScheduleId).get()
     }
 
+    fun findByAcademyId(academyId: Long): MutableList<AcademySchedule> {
+        return academyScheduleRepository.findByAcademyId(academyId)
+    }
+
     fun insertAcademySchedule(academySchedule: AcademySchedule) : AcademySchedule?{
         return academyScheduleRepository.save(academySchedule)
     }
