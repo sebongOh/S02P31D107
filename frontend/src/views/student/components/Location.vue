@@ -488,6 +488,13 @@ export default {
     }
     .el-dialog__body {
       padding: 10px 20px 20px 20px;
+      button {
+        font-family: "Yeon Sung", cursive;
+      }
+      .el-button--primary {
+        background-color: #403a33;
+        border-color: #403a33;
+      }
     }
   }
 }
