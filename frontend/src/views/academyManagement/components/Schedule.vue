@@ -32,7 +32,7 @@ export default {
     }
   },
   mounted(){
-    if(this.academyId != ''){
+    if(this.academyScheduleId != null){
       this.end = true;
     }
   },

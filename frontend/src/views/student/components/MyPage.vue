@@ -7,7 +7,7 @@
       <div class="no-academy" v-if="academys.length==0">
         <span>등록된 학원이 없습니다.</span>
       </div>
-      <table class="list-table">
+      <table class="list-table" v-if="academys.length>0">
         <tr
           class="academy-tr"
           v-for="academy in academys"
@@ -40,6 +40,9 @@ export default {
       academys: [],
       newNotice: ""
     };
+  },
+  mounted(){
+    this.getAcademy();
   },
   methods: {
     getAcademy() {
@@ -116,11 +119,13 @@ export default {
       width: 75%;
       height: auto;
       float: left;
+      text-align: left;
     }
     .right-div {
       width: 15%;
       height: auto;
       float: right;
+      text-align: right;
     }
   }
   .new-notice {

@@ -13,8 +13,8 @@
         <img src="@/assets/images/pay.png" alt />
       </div>
       <div class="profile--data">
-        <div class="name">박정호</div>
-        <div class="email">qkrjh0904@gmail.com</div>
+        <div class="name">{{name}}</div>
+        <div class="email">{{email}}</div>
       </div>
       <div class="logout">
         <button @click="logout()">로그아웃</button>
@@ -37,10 +37,30 @@ import { removeToken } from "@/utils/auth";
 export default {
   data() {
     return {
-      payHistory: ""
+      payHistory: "",
+      name: "",
+      email: ""
     };
   },
+  mounted(){
+    this.getMember();
+  },
   methods: {
+    getMember(){
+      this.$store
+          .dispatch("student/memberInfo")
+          .then((res) => {
+            if (res.status == 200) {
+              this.name = res.data.name;
+              this.email = res.data.email;
+            }else{
+              console.log("프로필 데이터를 불러오는데 실패했습니다.")
+            }
+          })
+          .catch(() => {
+            console.log("프로필 데이터를 불러오는데 실패했습니다.catch");
+          });
+    },
     logout() {
       removeToken();
       this.$router.push("/");
