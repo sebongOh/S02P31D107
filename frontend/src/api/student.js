@@ -189,3 +189,33 @@ export const getMemberAcademy = () => {
     method: "get",
   });
 };
+
+export const addNotice = (data) => {
+  return request({
+    url: "/board/notice",
+    method: "post",
+    data
+  });
+};
+
+export const addReference = (data) => {
+  return request({
+    url: "/board/reference",
+    method: "post",
+    data
+  });
+};
+
+export const getNotice = (data) => {
+  return request({
+    url: "/board/academy/"+data+"/notice",
+    method: "get"
+  });
+};
+
+export const getReference = (data) => {
+  return request({
+    url: "/board/academy/"+data+"/reference",
+    method: "get"
+  });
+};

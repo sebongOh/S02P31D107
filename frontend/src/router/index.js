@@ -51,6 +51,12 @@ export default [
     props: true,
   },
   {
+    path: "/academy-board",
+    component: () => import("@/views/academyBoard"),
+    name: "academyBoard",
+    props: true,
+  },
+  {
     path: "/academy-detail",
     component: () => import("@/views/academyDetail"),
     name: "academyDetail",
