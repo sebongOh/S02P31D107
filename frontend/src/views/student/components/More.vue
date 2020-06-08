@@ -10,11 +10,11 @@
     </div>
     <div class="my--profile">
       <div class="profile--img">
-        <img src="@/assets/images/pay.png" alt />
+        <img :src="user.profileUrl" alt />
       </div>
       <div class="profile--data">
-        <div class="name">박정호</div>
-        <div class="email">qkrjh0904@gmail.com</div>
+        <div class="name">{{user.name}}</div>
+        <div class="email">{{user.email}}</div>
       </div>
       <div class="logout">
         <button @click="logout()">로그아웃</button>
@@ -24,23 +24,60 @@
       <span>내 결제 정보</span>
     </div>
     <div class="pay--history">
-      <div class="no-pay-history" v-if="payHistory.length==0">
+      <paylist v-if="pagenum==0" @changePagenum="changenum" @datareturn="paylist" />
+      <paydetail v-if="pagenum==1" @changePagenum="changenum" :payli="payli" />
+      <!-- <div class="no-pay-history" v-if="payHistory.length==0">
         <span>결제 내역이 없습니다.</span>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
 
 <script>
 import { removeToken } from "@/utils/auth";
+import paylist from "./paylist";
+import paydetail from "./paydetail";
 
 export default {
+  components: { paylist, paydetail },
   data() {
     return {
+      user: {
+        name: "",
+        address: "",
+        profileUrl: ""
+      },
+      payli: {},
+      pagenum: 0,
       payHistory: ""
     };
   },
+  mounted() {
+    this.getMemberData();
+  },
   methods: {
+    getMemberData() {
+      this.$store
+        .dispatch("student/memberInfo")
+        .then(res => {
+          if (res.status == 404) {
+            console.log("aniVibro가 뭐죠 404");
+          } else if (res.status == 200) {
+            this.user.name = res.data.name;
+            this.user.email = res.data.email;
+            this.user.profileUrl = res.data.profileUrl;
+          }
+        })
+        .catch(() => {
+          console.log("aniVibro가 뭐죠 catch");
+        });
+    },
+    paylist(paylist) {
+      this.payli = paylist;
+    },
+    changenum(num) {
+      this.pagenum = num;
+    },
     logout() {
       removeToken();
       this.$router.push("/");
@@ -94,6 +131,7 @@ export default {
   }
   .pay--history {
     padding: 10px;
+    padding-top: 20px;
     background-color: #f2e6ce;
     border-radius: 10px;
     min-height: 330px;
