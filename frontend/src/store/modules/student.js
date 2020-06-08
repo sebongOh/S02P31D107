@@ -213,7 +213,7 @@ const actions = {
   },
   retire({ commit }, data) {
     return new Promise((resolve, reject) => {
-      retire(data) //헤더에 액세스 토큰 넣어서 보내야함
+      retire(data)
         .then((res) => {
           resolve(res);
         })

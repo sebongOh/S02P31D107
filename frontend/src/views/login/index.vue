@@ -162,3 +162,8 @@ export default {
 };
 </script>
 
+<style>
+.user{
+  font-family: "Yeon Sung", cursive !important;
+}
+</style>

@@ -39,9 +39,8 @@ export default {
       isDelete: false
     };
   },
-  mounted() {
-    console.log(this.academyScheduleId);
-    if (this.academyScheduleId != null) {
+  mounted(){
+    if(this.academyScheduleId != null){
       this.end = true;
     }
   },
