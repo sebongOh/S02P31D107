@@ -5,7 +5,7 @@
     <MyPage v-if="page==2" />
     <Location v-if="page==3" @setLocation="setLocation" />
     <Category v-if="page==5" @setCategory="setCategory" />
-    <Search v-if="page==6" :options="mapOptions" />
+    <Search v-if="page==6" @prevPage="prevPage" :options="mapOptions" />
     <More v-if="page==4" />
     <Footer @changePage="changePage" />
   </div>
@@ -41,8 +41,8 @@ export default {
       mapOptions: {
         place: "",
         options: {
-          radius: 100,
-          checked: ""
+          radius: 1000,
+          selected: []
         }
       }
     };
@@ -60,7 +60,7 @@ export default {
     },
     setLocation(place) {
       this.page = 5;
-      console.log(place);
+      // console.log(place);
       this.mapOptions.place = place;
     },
     setCategory(options) {
@@ -77,8 +77,12 @@ export default {
       } else {
         this.mapOptions.options.radius = 6000;
       }
-      this.mapOptions.checked = options.checked;
+      // console.log("인덱스", options.selected);
+      this.mapOptions.options.selected = options.selected;
       this.page = 6;
+    },
+    prevPage(page) {
+      this.page = page;
     }
   }
 };
