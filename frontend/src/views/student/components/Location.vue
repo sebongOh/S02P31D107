@@ -323,7 +323,7 @@ export default {
 .map_wrap {
   position: relative;
   width: 100%;
-  height: 450px;
+  height: 350px;
 }
 .map_wrap #map {
   position: fixed;
@@ -488,6 +488,13 @@ export default {
     }
     .el-dialog__body {
       padding: 10px 20px 20px 20px;
+      button {
+        font-family: "Yeon Sung", cursive;
+      }
+      .el-button--primary {
+        background-color: #403a33;
+        border-color: #403a33;
+      }
     }
   }
 }
