@@ -48,6 +48,7 @@ export default [
     path: "/academy-management",
     component: () => import("@/views/academyManagement"),
     name: "academyManagement",
+    props: true,
   },
   {
     path: "/academy-board",

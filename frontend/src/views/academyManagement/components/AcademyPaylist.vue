@@ -1,5 +1,8 @@
 <template>
   <div class="block">
+    <el-select v-model="value" placeholder="조회할 학원 선택" style="padding-bottom:30px">
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+    </el-select>
     <el-timeline>
       <el-timeline-item
         v-for="paylist in slicePaylist"
@@ -23,7 +26,7 @@
         </el-card>
       </el-timeline-item>
     </el-timeline>
-    <el-row>
+    <el-row v-if="value!=''">
       <el-col :span="24" style="text-align:center">
         <el-button type="warning" icon="el-icon-back" circle @click="previous"></el-button>
         <span style="padding:10px">
@@ -37,18 +40,60 @@
 
 <script>
 export default {
+  props: ["academyId"],
   data() {
     return {
+      options: [],
+      value: "",
       dataPerpage: 2,
       curPageNum: 1,
-      academySchedule: [{}],
-      paylists: []
+      paylists: [],
+      haveAcademy: true
     };
   },
+  watch: {
+    value: function() {
+      console.log(this.value);
+      this.getPaylist(this.value);
+    }
+  },
   mounted() {
-    this.init();
+    this.getAcademy();
   },
   methods: {
+    getPaylist(academyId) {
+      this.$store
+        .dispatch("student/academyPaylist", academyId)
+        .then(res => {
+          for (let i = 0; i < res.data.length; i++) {
+            this.paylists.push(res.data[i]);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getAcademy() {
+      this.$store
+        .dispatch("student/memberAcademy")
+        .then(res => {
+          if (res.status == 200) {
+            if (res.data == "") {
+              this.haveAcademy = false;
+            }
+            this.options = [];
+            for (var data of res.data) {
+              this.options.push({ value: data.academyId, label: data.name });
+            }
+          } else {
+            this.haveAcademy = false;
+          }
+        })
+        .catch(() => {
+          this.haveAcademy = false;
+          console.log("에러 catch");
+        });
+    },
     init() {
       this.$store
         .dispatch("student/paylist")
@@ -56,6 +101,7 @@ export default {
           for (let i = 0; i < res.data.length; i++) {
             this.paylists.push(res.data[i]);
           }
+          console.log(this.paylists[0]);
         })
         .catch(err => {
           console.log(err);

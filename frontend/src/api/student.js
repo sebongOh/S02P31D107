@@ -72,6 +72,13 @@ export const updateProfile = (data) => {
   });
 };
 
+export const academyPaylist = (data) => {
+  return request({
+    url: "pay/" + data + "/academy",
+    method: "get",
+  });
+};
+
 export const passwordCheck = (data) => {
   return request({
     url: "member/checkPassword",

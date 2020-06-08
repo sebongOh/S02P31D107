@@ -18,6 +18,7 @@ import { checkAcademyMember } from "@/api/student";
 import { getMemberAcademy } from "@/api/student";
 import { paylist } from "@/api/student";
 import { paydelete } from "@/api/student";
+import { academyPaylist } from "@/api/student";
 import { addNotice, addReference } from "@/api/student";
 import { getNotice, getReference } from "@/api/student";
 
@@ -260,6 +261,17 @@ const actions = {
   memberInfo({ commit }) {
     return new Promise((resolve, reject) => {
       memberInfo()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  academyPaylist({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      academyPaylist(data)
         .then((res) => {
           resolve(res);
         })
