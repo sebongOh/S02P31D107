@@ -20,6 +20,11 @@
             <tr><td>학원 상세설명</td></tr>
             <tr><td colspan="2"><textarea class="input2" v-model="contents" /></td></tr>
             <tr><th>스케줄 추가</th></tr>
+            <tr v-for="d in datas" :key="d.academyScheduleId"><td><Schedule
+            :academyId="academyId"
+            :academyScheduleId="d.academyScheduleId"
+            :name="d.name"
+            :price="d.price" /></td></tr>
             <tr v-for="index in count" :key="index"><td><Schedule :academyId="academyId" /></td></tr>
             <tr><td><button class="add-btn2" @click="count++">+</button></td></tr>
             </table>
@@ -71,7 +76,8 @@ export default {
       contents: "",
       auth: false,
       retirement: false,
-      count: 0
+      count: 0,
+      datas: []
     }
   },
   methods:{
@@ -88,6 +94,22 @@ export default {
               this.address = res.data.address;
               this.category = res.data.category;
               this.contents = res.data.contents.replace(/<br>/gi, '\n');
+              this.$store
+          .dispatch("student/getSchedule", {
+            academyId: this.academyId
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              for(var data of res.data){
+                  this.datas.push({academyScheduleId: data.academyScheduleId, name:data.name, price:data.price});
+              }
+            }else{
+                console.log("스케줄을 가져오는데 문제가 생겼습니다.");
+            }
+          })
+          .catch(() => {
+            console.log("스케줄을 가져오는데 문제가 생겼습니다. catch");
+          });
             }else{
               console.log("학원 상세 데이터를 가져오는데 문제가 발생했습니다.");
             }

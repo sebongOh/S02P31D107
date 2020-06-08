@@ -9,20 +9,6 @@
         <td>가격</td>
         <td><input class="input1" type="number" v-model="price" /></td>
       </tr>
-      <!-- <tr>
-        <td>시작일</td>
-        <td><input class="input1" type="date" /></td>
-      </tr>
-      <tr>
-        <td>종료일</td>
-        <td><input class="input1" type="date" /></td>
-      </tr>
-      <tr>
-        <td colspan="2">스케줄 상세정보</td>
-      </tr>
-      <tr>
-        <td colspan="2"><textarea class="input2" /></td>
-      </tr> -->
       <tr>
         <td colspan="2"><button @click="pushSchedule()">스케줄 등록</button></td>
       </tr>
@@ -38,14 +24,16 @@
 
 <script>
 export default {
-  props: ["academyId"],
+  props: ["academyId", "academyScheduleId", "name", "price"],
   data(){
     return{
-      name: "",
-      price: 0,
-      academyScheduleId: 0,
       end : false,
       isDelete : false
+    }
+  },
+  mounted(){
+    if(this.academyId != ''){
+      this.end = true;
     }
   },
   methods:{
