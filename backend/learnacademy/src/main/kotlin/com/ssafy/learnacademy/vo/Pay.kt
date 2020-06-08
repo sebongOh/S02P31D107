@@ -29,5 +29,7 @@ class Pay (
 
         var approvedAt : String? =null,
 
+        var canceled_at : String? = null,
+
         var type : Byte? = null
 )

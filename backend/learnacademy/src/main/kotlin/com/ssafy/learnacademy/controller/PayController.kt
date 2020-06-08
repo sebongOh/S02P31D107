@@ -115,8 +115,8 @@ class PayController(var payService: PayService,
         try {
             kakaoPayApproval = restTemplate.postForObject(URI(HOST + "v1/payment/approve"), body,
                     KakaoPayApproval::class.java)
-            val pay: Pay = createPay(kakaoPayApproval, payRequest.scheduleId!!, member)
-            insertPay(pay, 0)
+            var pay: Pay? = createPay(kakaoPayApproval, payRequest.scheduleId!!, member)
+            pay = insertPay(pay!!, 0)
             return ResponseEntity<Pay>(pay, HttpStatus.OK)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -139,15 +139,15 @@ class PayController(var payService: PayService,
     }
 
 
-    fun insertPay(pay : Pay, type : Byte) : ResponseEntity<Pay>?{
+    fun insertPay(pay : Pay, type : Byte) : Pay?{
         pay.type = type
-        val insertPay : Pay? = payService.insertPay(pay) ?: return ResponseEntity.noContent().build()
-        return ResponseEntity.ok().body(insertPay)
+        val insertPay : Pay? = payService.insertPay(pay)
+        return insertPay
     }
 
     @PostMapping("/cancel")
     @ApiOperation(value="카카오페이 결제취소", notes = "카카오페이 결제취소하기")
-    fun kakaoPayCancel(@RequestBody payCancelRequest : PayCancelRequest, request: HttpRequest) : ResponseEntity<KakaoPayCancel>{
+    fun kakaoPayCancel(@RequestBody payCancelRequest : PayCancelRequest, request: HttpServletRequest) : ResponseEntity<Pay>{
 
         var headers = HttpHeaders()
         var restTemplate = RestTemplate()
@@ -156,6 +156,9 @@ class PayController(var payService: PayService,
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE)
         headers.add("Content-type", MediaType.APPLICATION_FORM_URLENCODED_VALUE+";charset=utf-8")
 
+        payCancelRequest.cid = "TC0ONETIME"
+        payCancelRequest.cancel_tax_free_amount = 0
+
         println("###############  취소 요청정보  #################")
         println("cid : "+payCancelRequest.cid)
         println("tid : "+payCancelRequest.tid)
@@ -163,12 +166,12 @@ class PayController(var payService: PayService,
         println("취소 비과세금액 : "+ payCancelRequest.cancel_tax_free_amount)
         println("###############################################")
 
-
         var params: MultiValueMap<String, String> = LinkedMultiValueMap()
         params.add("cid",payCancelRequest.cid)
         params.add("tid",payCancelRequest.tid)
         params.add("cancel_amount",payCancelRequest.cancel_amount.toString())
         params.add("cancel_tax_free_amount",payCancelRequest.cancel_tax_free_amount.toString())
+
         var body : HttpEntity<MultiValueMap<String,String>> = HttpEntity<MultiValueMap<String,String>>(params,headers)
         println("################   취소정보  ###################")
         println(body.headers.toString())
@@ -177,8 +180,9 @@ class PayController(var payService: PayService,
         try {
             kakaoPayCancel = restTemplate.postForObject(URI("https://kapi.kakao.com/v1/payment/cancel"), body, KakaoPayCancel::class.java)
             var pay : Pay? = payService.findByTid(payCancelRequest.tid!!) ?: return ResponseEntity.noContent().build()
-            insertPay(pay!!, 1)
-            return ResponseEntity<KakaoPayCancel>(kakaoPayCancel, HttpStatus.OK)
+            pay?.canceled_at = kakaoPayCancel?.canceled_at.toString()
+            pay = insertPay(pay!!, 1)
+            return ResponseEntity<Pay>(pay, HttpStatus.OK)
         } catch (e: Exception) {
             e.printStackTrace()
         }
