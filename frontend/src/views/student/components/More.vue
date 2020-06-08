@@ -1,5 +1,8 @@
 <template>
   <div>
+    <router-link to="/student-profile">
+      <div>마이페이지 이동</div>
+    </router-link>
     <button class="logout-btn" @click="logout()">로그아웃</button>
   </div>
 </template>
@@ -8,18 +11,17 @@
 import { removeToken } from "@/utils/auth";
 
 export default {
-  methods:{
-    logout(){
+  methods: {
+    logout() {
       removeToken();
-      var router = this.$router;
-      router.push("/");
+      this.$router.push("/");
     }
   }
 };
 </script>
 
 <style>
-.logout-btn{
+.logout-btn {
   width: 100px;
   height: 40px;
   background-color: red;
