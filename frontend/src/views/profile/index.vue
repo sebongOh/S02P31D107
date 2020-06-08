@@ -64,7 +64,7 @@
           <input type="password" v-model="currentPassword" />
         </div>
       </div>
-      <div class="btn">
+      <div class="btns">
         <div class="modify">
           <button @click="modify()">수정</button>
         </div>
@@ -335,7 +335,7 @@ export default {
     }
   }
 
-  .btn {
+  .btns {
     text-align: center;
     display: flex;
     justify-content: center;
