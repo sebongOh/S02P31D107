@@ -4,10 +4,22 @@
       <span>내 학원 가기</span>
     </div>
     <div class="my-academy">
-      <div class="no-academy" v-if="myAcademy.length==0">
+      <div class="no-academy" v-if="academys.length==0">
         <span>등록된 학원이 없습니다.</span>
       </div>
-      <div class="academy" v-for="(academy, idx) in myAcademy" :key="idx">{{idx+1}}. {{academy}}</div>
+      <table class="list-table">
+        <tr
+          class="academy-tr"
+          v-for="academy in academys"
+          :key="academy.academyId"
+          @click="goBoard(academy)"
+        >
+          <td class="left-div">
+            <b>{{academy.name}}</b>
+          </td>
+          <td class="right-div">></td>
+        </tr>
+      </table>
     </div>
     <div class="title">
       <span>새로운 공지사항</span>
@@ -25,9 +37,49 @@
 export default {
   data() {
     return {
-      myAcademy: "",
+      academys: [],
       newNotice: ""
     };
+  },
+  methods: {
+    getAcademy() {
+      this.$store
+        .dispatch("student/getMemberAcademy")
+        .then(res => {
+          if (res.status == 200) {
+            for (var data of res.data) {
+              this.academys.push({
+                academyId: data.academyId,
+                name: data.name,
+                address: data.address,
+                category: data.category,
+                phone: data.phone,
+                contents: data.contents,
+                imgUrl: data.imageUrl
+              });
+            }
+          } else {
+            console.log("수강 학원을 가져오는데 문제가 생겼습니다.");
+          }
+        })
+        .catch(() => {
+          console.log("수강 학원을 가져오는데 문제가 생겼습니다. catch");
+        });
+    },
+    goBoard(academy) {
+      this.$router.push({
+        name: "academyMain",
+        params: {
+          academyId: academy.academyId,
+          name: academy.name,
+          address: academy.address,
+          category: academy.category,
+          phone: academy.phone,
+          contents: academy.contents,
+          imgUrl: academy.imgUrl
+        }
+      });
+    }
   }
 };
 </script>
@@ -50,6 +102,25 @@ export default {
     .no-academy {
       text-align: center;
       line-height: 200px;
+    }
+    .list-table {
+      width: 100%;
+      height: auto;
+    }
+    .academy-tr {
+      width: 100%;
+      height: auto;
+      padding: 5%;
+    }
+    .left-div {
+      width: 75%;
+      height: auto;
+      float: left;
+    }
+    .right-div {
+      width: 15%;
+      height: auto;
+      float: right;
     }
   }
   .new-notice {
