@@ -19,7 +19,7 @@ class JwtTokenProvider(
 ){
     @Value("Spring.jwt.secret")
     private var secretKey: String? = null
-    private val tokenValidMilisecond = 1000L * 60 * 60 //1시간 후 만료
+    private val tokenValidMilisecond = 1000L * 60 * 60 * 3 // 3시간 후 만료
 
     @PostConstruct
     protected fun init() {

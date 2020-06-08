@@ -96,7 +96,7 @@ class MemberController(
     @ApiOperation(value = "회원 수정", notes = "회원 정보를 수정합니다. 이때 json 형식이 아닌 form-data형식으로, multipart id를 profileFile로 보내주세요. " +
             "\n비밀번호는 정부 수정 시 재입력해서 수정폼에 들어오도록 해주세요.")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    fun updateMember(member: Member): ResponseEntity<Member> {
+    fun updateMember(@RequestBody member: Member): ResponseEntity<Member> {
         val findMember: Member? = memberService.getMember()
         member.memberId = findMember?.memberId
         if (member.profileFile != null) {
