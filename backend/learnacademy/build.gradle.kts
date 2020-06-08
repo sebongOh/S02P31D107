@@ -46,8 +46,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("mysql:mysql-connector-java")
-	testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+	}
 }
 
 dependencyManagement {
@@ -65,10 +66,6 @@ tasks.withType<KotlinCompile> {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
 	}
-}
-
-tasks.test {
-	useJUnitPlatform()
 }
 
 allOpen {
