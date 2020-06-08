@@ -1,7 +1,8 @@
 <template>
-  <div class="app-container">
+  <div class="board">
     <Header />
     <AcademyEdit v-if="pageNum ==1" />
+    <AcademyBoard v-if="pageNum==2" />
     <AcademyMore v-if="pageNum==3" />
     <Footer @changePage="changeNum" />
   </div>
@@ -13,8 +14,9 @@ import { removeToken } from "@/utils/auth";
 import Footer from "./components/Footer";
 import AcademyEdit from "./components/AcademyEdit";
 import AcademyMore from "./components/AcademyMore";
+import AcademyBoard from "./components/AcademyBoard";
 export default {
-  components: { Header, Footer, AcademyEdit, AcademyMore },
+  components: { Header, Footer, AcademyEdit, AcademyMore, AcademyBoard },
   mounted() {
     this.getAcademy();
   },
@@ -62,7 +64,7 @@ export default {
 </script>
 
 <style>
-.app-container {
+.board {
   font-family: "Yeon Sung", cursive;
   padding: 60px 0;
 }
