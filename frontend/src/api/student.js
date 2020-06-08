@@ -161,6 +161,21 @@ export const checkAcademyMember = (data) => {
   });
 };
 
+export const paydelete = (data) => {
+  return request({
+    url: "pay/cancel",
+    method: "post",
+    data,
+  });
+};
+
+export const paylist = () => {
+  return request({
+    url: "pay/member",
+    method: "get",
+  });
+};
+
 export const getMemberAcademy = () => {
   return request({
     url: "/member-academy/member",

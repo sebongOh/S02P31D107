@@ -16,8 +16,10 @@ import { addSchedule, deleteSchedule } from "@/api/student";
 import { getSchedule } from "@/api/student";
 import { checkAcademyMember } from "@/api/student";
 import { getMemberAcademy } from "@/api/student";
+import { paylist } from "@/api/student";
+import { paydelete } from "@/api/student";
 
-const axios = require('axios');
+const axios = require("axios");
 
 const state = {
   token: getToken(),
@@ -57,7 +59,7 @@ const mutations = {
   },
   SET_PROFILEFILE: (state, profileFile) => {
     state.profileFile = profileFile;
-  }
+  },
 };
 
 const actions = {
@@ -114,6 +116,28 @@ const actions = {
     });
   },
 
+  paydelete({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      paydelete(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  paylist({ commit }) {
+    return new Promise((resolve, reject) => {
+      paylist()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
   acajoin({ commit }, formData) {
     return new Promise((resolve, reject) => {
       acajoin(formData)
@@ -189,7 +213,7 @@ const actions = {
   },
   retire({ commit }, data) {
     return new Promise((resolve, reject) => {
-      retire(data) //헤더에 액세스 토큰 넣어서 보내야함
+      retire(data)
         .then((res) => {
           resolve(res);
         })
