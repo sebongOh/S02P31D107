@@ -56,7 +56,6 @@ export default {
           for (let i = 0; i < res.data.length; i++) {
             this.paylists.push(res.data[i]);
           }
-          console.log(this.paylists[0]);
         })
         .catch(err => {
           console.log(err);
