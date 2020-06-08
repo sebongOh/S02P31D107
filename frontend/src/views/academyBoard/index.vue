@@ -69,6 +69,7 @@ export default {
   },
   methods: {
       getAcademy() {
+          this.options = [];
       this.$store
         .dispatch("student/memberAcademy")
         .then(res => {

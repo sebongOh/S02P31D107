@@ -198,3 +198,17 @@ export const addReference = (data) => {
     data
   });
 };
+
+export const getNotice = (data) => {
+  return request({
+    url: "/board/academy/"+data+"/notice",
+    method: "get"
+  });
+};
+
+export const getReference = (data) => {
+  return request({
+    url: "/board/academy/"+data+"/reference",
+    method: "get"
+  });
+};

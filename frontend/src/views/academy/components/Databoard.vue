@@ -1,6 +1,6 @@
 <template>
   <div class="block" style="overflow:auto">
-    <el-row style="text-align:right; padding-bottom:5px">
+    <!-- <el-row style="text-align:right; padding-bottom:5px">
       <el-button
         type="warning"
         size="mini"
@@ -8,7 +8,7 @@
         icon="el-icon-edit"
         @click="insertBoard(2)"
       />
-    </el-row>
+    </el-row> -->
     <el-timeline>
       <el-timeline-item
         v-for="(item, index) of sliceTimeline"
@@ -18,7 +18,7 @@
       >
         <el-card>
           <h4>{{ item.title }}</h4>
-          <p>{{ item.content }}</p>
+          <p v-html="item.content"></p>
           <span class="link-black text-sm" @click="deleteDataboard(index)">
             <i class="el-icon-delete-solid" />
             Delete
@@ -50,6 +50,7 @@
 
 <script>
 export default {
+  props:['academyId'],
   data() {
     return {
       dataPerpage: 3,
@@ -113,7 +114,28 @@ export default {
       return this.timeline.slice(this.startOffset, this.endOffset);
     },
   },
+  mounted(){
+    this.getBoard();
+  },
   methods: {
+    getBoard(){
+      this.$store
+        .dispatch("student/getReference", {academyId : this.academyId})
+        .then(res => {
+          if (res.status == 200) {
+              this.timeline = [];
+            for (var data of res.data) {
+              this.timeline.push({ timestamp:data.create_at, title: data.title, contents: data.contents });
+            }
+            console.log(this.timeline);
+          } else {
+            console.log('게시물을 가져오는데 실패했습니다.');
+          }
+        })
+        .catch(() => {
+          console.log("게시물을 가져오는데 실패했습니다. catch");
+        });
+    },
     deleteDataboard(num) {
       this.$message({
         message: num + "해당 글을 삭제했습니다",
