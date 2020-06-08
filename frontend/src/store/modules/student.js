@@ -18,6 +18,7 @@ import { checkAcademyMember } from "@/api/student";
 import { getMemberAcademy } from "@/api/student";
 import { paylist } from "@/api/student";
 import { paydelete } from "@/api/student";
+import { addNotice, addReference } from "@/api/student";
 
 const axios = require("axios");
 
@@ -335,6 +336,28 @@ const actions = {
   getMemberAcademy({ commit }) {
     return new Promise((resolve, reject) => {
       getMemberAcademy()
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  addNotice({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      addNotice(data)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  addReference({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      addReference(data)
         .then((res) => {
           resolve(res);
         })

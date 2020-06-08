@@ -182,3 +182,19 @@ export const getMemberAcademy = () => {
     method: "get",
   });
 };
+
+export const addNotice = (data) => {
+  return request({
+    url: "/board/notice",
+    method: "post",
+    data
+  });
+};
+
+export const addReference = (data) => {
+  return request({
+    url: "/board/reference",
+    method: "post",
+    data
+  });
+};
