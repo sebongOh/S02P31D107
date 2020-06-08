@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button class="profile-btn" @click="goMypage()">프로필 수정</button><br>
     <router-link to="/student-profile">
       <div>마이페이지 이동</div>
     </router-link>
@@ -11,8 +12,12 @@
 import { removeToken } from "@/utils/auth";
 
 export default {
-  methods: {
-    logout() {
+  methods:{
+    goMypage(){
+      console.log("클릭");
+      this.$router.push("/student-profile");
+    },
+    logout(){
       removeToken();
       this.$router.push("/");
     }
@@ -21,7 +26,16 @@ export default {
 </script>
 
 <style>
-.logout-btn {
+.profile-btn{
+  width: 100px;
+  height: 40px;
+  background-color: #90EE90;
+  color: white;
+  border-radius: 5px;
+  border: 3px solid #32CD32;
+  margin: 10px;
+}
+.logout-btn{
   width: 100px;
   height: 40px;
   background-color: red;
