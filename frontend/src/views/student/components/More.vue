@@ -24,23 +24,36 @@
       <span>내 결제 정보</span>
     </div>
     <div class="pay--history">
-      <div class="no-pay-history" v-if="payHistory.length==0">
+      <paylist v-if="pagenum==0" @changePagenum="changenum" @datareturn="paylist" />
+      <paydetail v-if="pagenum==1" @changePagenum="changenum" :payli="payli" />
+      <!-- <div class="no-pay-history" v-if="payHistory.length==0">
         <span>결제 내역이 없습니다.</span>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
 
 <script>
 import { removeToken } from "@/utils/auth";
+import paylist from "./paylist";
+import paydetail from "./paydetail";
 
 export default {
+  components: { paylist, paydetail },
   data() {
     return {
+      payli: {},
+      pagenum: 0,
       payHistory: ""
     };
   },
   methods: {
+    paylist(paylist) {
+      this.payli = paylist;
+    },
+    changenum(num) {
+      this.pagenum = num;
+    },
     logout() {
       removeToken();
       this.$router.push("/");
@@ -94,6 +107,7 @@ export default {
   }
   .pay--history {
     padding: 10px;
+    padding-top: 20px;
     background-color: #f2e6ce;
     border-radius: 10px;
     min-height: 330px;

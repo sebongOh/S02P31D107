@@ -1,6 +1,5 @@
 <template>
   <div class="block">
-    <h2>내 결제내역</h2>
     <el-timeline>
       <el-timeline-item
         v-for="(item, index) of sliceTimeline"
