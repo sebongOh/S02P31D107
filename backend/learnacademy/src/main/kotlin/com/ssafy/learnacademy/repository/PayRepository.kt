@@ -14,7 +14,7 @@ interface PayRepository : JpaRepository<Pay, Long>{
     fun findByAcademySchedule(academySchedule : AcademySchedule) : List<Pay>?
     fun findByTid(tid : String) : Pay?
 
-    @Query("select p from Pay p where p.academySchedule.academyScheduleId = (select a.academyScheduleId from AcademySchedule a where a.academy.academyId = :academy_id)")
+    @Query("select p from Pay p where p.academySchedule.academyScheduleId IN (select a.academyScheduleId from AcademySchedule a where a.academy.academyId = :academy_id)")
     fun findByAcademyId(@Param("academy_id") academyId: Long) : List<Pay>?
 
     @Query("select p from Pay p where p.academySchedule.academyScheduleId=:academy_schedule_id and p.member.memberId = :member_id")
