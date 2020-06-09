@@ -1,6 +1,7 @@
 <template>
   <div class="board">
     <Header />
+    <AcademyHome v-if="pageNum==0" />
     <AcademyEdit v-if="pageNum ==1" />
     <AcademyBoard v-if="pageNum==2" />
     <AcademyMore v-if="pageNum==3" />
@@ -15,8 +16,16 @@ import Footer from "./components/Footer";
 import AcademyEdit from "./components/AcademyEdit";
 import AcademyMore from "./components/AcademyMore";
 import AcademyBoard from "./components/AcademyBoard";
+import AcademyHome from "./components/AcademyHome";
 export default {
-  components: { Header, Footer, AcademyEdit, AcademyMore, AcademyBoard },
+  components: {
+    Header,
+    Footer,
+    AcademyEdit,
+    AcademyMore,
+    AcademyBoard,
+    AcademyHome
+  },
   mounted() {
     this.getAcademy();
   },

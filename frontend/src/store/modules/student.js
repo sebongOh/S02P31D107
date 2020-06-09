@@ -21,6 +21,7 @@ import { paydelete } from "@/api/student";
 import { academyPaylist } from "@/api/student";
 import { addNotice, addReference } from "@/api/student";
 import { getNotice, getReference } from "@/api/student";
+import { selectAcademy } from "@/api/student";
 
 const axios = require("axios");
 
@@ -382,6 +383,17 @@ const actions = {
   getNotice({ commit }, data) {
     return new Promise((resolve, reject) => {
       getNotice(data.academyId)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  },
+  selectAcademy({ commit }, academyId) {
+    return new Promise((resolve, reject) => {
+      selectAcademy(academyId)
         .then((res) => {
           resolve(res);
         })

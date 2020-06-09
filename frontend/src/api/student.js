@@ -72,6 +72,13 @@ export const updateProfile = (data) => {
   });
 };
 
+export const selectAcademy = (academyId) => {
+  return request({
+    url: "academy/" + academyId,
+    method: "get",
+  });
+};
+
 export const academyPaylist = (data) => {
   return request({
     url: "pay/" + data + "/academy",
@@ -194,7 +201,7 @@ export const addNotice = (data) => {
   return request({
     url: "/board/notice",
     method: "post",
-    data
+    data,
   });
 };
 
@@ -202,20 +209,20 @@ export const addReference = (data) => {
   return request({
     url: "/board/reference",
     method: "post",
-    data
+    data,
   });
 };
 
 export const getNotice = (data) => {
   return request({
-    url: "/board/academy/"+data+"/notice",
-    method: "get"
+    url: "/board/academy/" + data + "/notice",
+    method: "get",
   });
 };
 
 export const getReference = (data) => {
   return request({
-    url: "/board/academy/"+data+"/reference",
-    method: "get"
+    url: "/board/academy/" + data + "/reference",
+    method: "get",
   });
 };
