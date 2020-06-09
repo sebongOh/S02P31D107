@@ -21,6 +21,9 @@ class Board (
     @Column(nullable = false)
     var type : Byte,
 
+    @Column(nullable = false)
+    var create_at : String? = null,
+
     @ManyToOne
     @JoinColumn(name="member_id")
     var member: Member? = null,

@@ -19,6 +19,10 @@ class BoardService(var boardRepository: BoardRepository){
         return boardRepository.findReferenceAllByAcademyId(academyId)
     }
 
+    fun findInquiryAllByAcademyId(academyId: Long): List<Board>? {
+        return boardRepository.findInquiryAllByAcademyId(academyId)
+    }
+
     fun findById(boardId : Long) : Board? {
         return boardRepository.findById(boardId).get()
     }
@@ -34,4 +38,5 @@ class BoardService(var boardRepository: BoardRepository){
     fun deleteBoard(board: Board){
         return boardRepository.delete(board)
     }
+
 }

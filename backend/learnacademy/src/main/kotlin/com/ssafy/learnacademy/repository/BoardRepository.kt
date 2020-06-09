@@ -13,4 +13,7 @@ interface BoardRepository : JpaRepository<Board, Long> {
 
     @Query("SELECT b FROM Board b INNER JOIN Academy a ON b.academy.academyId = a.academyId WHERE a.academyId = ?1 AND b.type = 1")
     fun findReferenceAllByAcademyId(academyId: Long): List<Board>?
+
+    @Query("SELECT b FROM Board b INNER JOIN Academy a ON b.academy.academyId = a.academyId WHERE a.academyId = ?1 AND b.type = 2")
+    fun findInquiryAllByAcademyId(academyId: Long): List<Board>?
 }
